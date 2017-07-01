@@ -89,6 +89,7 @@ public class CourseController {
 		OcpuResult ocpuResult;
 		//判断用户输入是否符合要求
 		Course course = courseService.get(courseId);
+		System.out.println(course.getCourseName());
 		Judge judge = new Judge();
 		judge.setExamId(courseId);
 		List<Judge> judgeList = judgeService.getAll(judge);
