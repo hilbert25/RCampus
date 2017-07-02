@@ -74,4 +74,9 @@ public abstract interface BaseService<T> {
 	 */
 	public abstract Page<T> findByPager(Pageable<T> pageable);
 	
+	/**统计条目数量
+	 * @return
+	 */
+	public abstract long count(Pageable<T> pageable);
+	
 }
