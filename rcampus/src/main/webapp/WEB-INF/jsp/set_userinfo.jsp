@@ -9,6 +9,8 @@
 <script type="text/javascript">window.NREUM||(NREUM={}),__nr_require=function(e,n,t){function r(t){if(!n[t]){var o=n[t]={exports:{}};e[t][0].call(o.exports,function(n){var o=e[t][1][n];return r(o||n)},o,o.exports)}return n[t].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<t.length;o++)r(t[o]);return r}({1:[function(e,n,t){function r(){}function o(e,n,t){return function(){return i(e,[c.now()].concat(u(arguments)),n?null:this,t),n?void 0:this}}var i=e("handle"),a=e(2),u=e(3),f=e("ee").get("tracer"),c=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(e,n){s[n]=o(d+n,!0,"api")}),s.addPageAction=o(d+"addPageAction",!0),s.setCurrentRouteName=o(d+"routeName",!0),n.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,n){var t={},r=this,o="function"==typeof n;return i(l+"tracer",[c.now(),e,t],r),function(){if(f.emit((o?"":"no-")+"fn-start",[c.now(),r,o],t),o)try{return n.apply(this,arguments)}finally{f.emit("fn-end",[c.now()],t)}}}};a("setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,n){m[n]=o(l+n)}),newrelic.noticeError=function(e){"string"==typeof e&&(e=new Error(e)),i("err",[e,c.now()])}},{}],2:[function(e,n,t){function r(e,n){var t=[],r="",i=0;for(r in e)o.call(e,r)&&(t[i]=n(r,e[r]),i+=1);return t}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],3:[function(e,n,t){function r(e,n,t){n||(n=0),"undefined"==typeof t&&(t=e?e.length:0);for(var r=-1,o=t-n||0,i=Array(o<0?0:o);++r<o;)i[r]=e[n+r];return i}n.exports=r},{}],4:[function(e,n,t){n.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,n,t){function r(){}function o(e){function n(e){return e&&e instanceof r?e:e?f(e,u,i):i()}function t(t,r,o,i){if(!d.aborted||i){e&&e(t,r,o);for(var a=n(o),u=m(t),f=u.length,c=0;c<f;c++)u[c].apply(a,r);var p=s[y[t]];return p&&p.push([b,t,r,a]),a}}function l(e,n){v[e]=m(e).concat(n)}function m(e){return v[e]||[]}function w(e){return p[e]=p[e]||o(t)}function g(e,n){c(e,function(e,t){n=n||"feature",y[t]=n,n in s||(s[n]=[])})}var v={},y={},b={on:l,emit:t,get:w,listeners:m,context:n,buffer:g,abort:a,aborted:!1};return b}function i(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var u="nr@context",f=e("gos"),c=e(2),s={},p={},d=n.exports=o();d.backlog=s},{}],gos:[function(e,n,t){function r(e,n,t){if(o.call(e,n))return e[n];var r=t();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,n,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return e[n]=r,r}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],handle:[function(e,n,t){function r(e,n,t,r){o.buffer([e],r),o.emit(e,n,t)}var o=e("ee").get("handle");n.exports=r,r.ee=o},{}],id:[function(e,n,t){function r(e){var n=typeof e;return!e||"object"!==n&&"function"!==n?-1:e===window?0:a(e,i,function(){return o++})}var o=1,i="nr@id",a=e("gos");n.exports=r},{}],loader:[function(e,n,t){function r(){if(!x++){var e=h.info=NREUM.info,n=d.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&n))return s.abort();c(y,function(n,t){e[n]||(e[n]=t)}),f("mark",["onload",a()+h.offset],null,"api");var t=d.createElement("script");t.src="https://"+e.agent,n.parentNode.insertBefore(t,n)}}function o(){"complete"===d.readyState&&i()}function i(){f("mark",["domContent",a()+h.offset],null,"api")}function a(){return E.exists&&performance.now?Math.round(performance.now()):(u=Math.max((new Date).getTime(),u))-h.offset}var u=(new Date).getTime(),f=e("handle"),c=e(2),s=e("ee"),p=window,d=p.document,l="addEventListener",m="attachEvent",w=p.XMLHttpRequest,g=w&&w.prototype;NREUM.o={ST:setTimeout,SI:p.setImmediate,CT:clearTimeout,XHR:w,REQ:p.Request,EV:p.Event,PR:p.Promise,MO:p.MutationObserver};var v=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1039.min.js"},b=w&&g&&g[l]&&!/CriOS/.test(navigator.userAgent),h=n.exports={offset:u,now:a,origin:v,features:{},xhrWrappable:b};e(1),d[l]?(d[l]("DOMContentLoaded",i,!1),p[l]("load",r,!1)):(d[m]("onreadystatechange",o),p[m]("onload",r)),f("mark",["firstbyte",u],null,"api");var x=0,E=e(4)},{}]},{},["loader"]);</script>
 <title>Edit Profile</title>
 <meta name="description" content="Edit profile of" />
+<link rel="canonical"
+	href="https://www.datacamp.com/profile/account_settings" />
 <link rel="author" href="https://plus.google.com/u/0/+Datacamp/" />
 <meta property="og:image"
 	content="https://www.datacamp.com/datacamp.png" />
@@ -71,63 +73,7 @@
   a.appendChild(r);
 })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 </script>
-<style type="text/css">
-ul {
-	border: 0;
-	margin: 0;
-	padding: 0;
-}
 
-#pagination-flickr li {
-	border: 0;
-	margin: 0;
-	padding: 0;
-	font-size: 16px;
-	list-style: none;
-}
-
-#pagination-flickr a {
-	border: solid 1px #DDDDDD;
-	margin-right: 2px;
-}
-
-#pagination-flickr .previous-off,#pagination-flickr .next-off {
-	color: #666666;
-	display: block;
-	float: left;
-	font-weight: bold;
-	padding: 0px 0px;
-}
-
-#pagination-flickr .next a,#pagination-flickr .previous a {
-	/*font-weight: bold;
-	border: solid 1px #FFFFFF;*/
-	color: #666666;
-	display: block;
-	float: left;
-	font-weight: bold;
-	padding: 0px 0px;
-}
-
-#pagination-flickr .active {
-	color: #ff0084;
-	display: block;
-	float: left;
-	padding: 0px 0px;
-}
-
-#pagination-flickr a:link,#pagination-flickr a:visited {
-	color: #33aacc;
-	display: block;
-	float: left;
-	padding: 3px 6px;
-	text-decoration: none;
-}
-
-#pagination-flickr a:hover {
-	border: solid 1px #666666;
-}
-</style>
 </head>
 <body class="">
 	<ul class="offscreen-nav">
@@ -139,167 +85,233 @@ ul {
 		<li class="offscreen-nav-li"><a class="slack-link"
 			id="slack-link-mobile" target="_blank" title="Join Slack"
 			href="/slack/join"> Join Slack <img height="17"
-				src="../../rcampus/page/assets/img/slack-logo-mark-28502b3886496c3ca29eac97fd33615170181e0f0790563c622529210a1df941.svg"
+				src="https://cdn.datacamp.com/main-app/assets/home_logged_in/slack-logo-mark-28502b3886496c3ca29eac97fd33615170181e0f0790563c622529210a1df941.svg"
 				alt="Slack logo mark" />
 		</a></li>
 		<li class="offscreen-nav-li"><a href="/groups/mine">Groups</a></li>
 		<li class="offscreen-nav-li"><a href="/community/">Community</a></li>
 		<li class="offscreen-nav-li"><a
 			href="/rcampus/user/toSetUserInfo?userId=${user.userId }"> My
-				Account&nbsp;<small>(${user.email})</small>
+				Account&nbsp;<small>${user.email}</small>
 		</a></li>
 		<li class="offscreen-nav-li"><a rel="nofollow"
 			data-method="delete" href="/users/sign_out">Logout</a></li>
 	</ul>
 
-	<div id="flash_messages"></div>
-	<div id="js-promo-coupon"></div>
-	<section class="bg bg-navigation">
-		<div class="container">
-			<nav class="navbar clearfix">
-				<div class="navbar--title">
-					<a class="clearfix no-link-style" data-dc-track=""
-						data-dc-referrer="main" href="/"></a>
-					<div class="logo"></div>
-					<div class="logo-title">DataCamp</div>
-				</div>
-
-
-
-				<a class="navbar__slack hidden-xs hidden-sm" id="slack-link"
-					target="_blank" title="Join Slack" href="/slack/join"> <img
-					height="20"
-					src="../../rcampus/page/assets/img/slack-logo-mark-28502b3886496c3ca29eac97fd33615170181e0f0790563c622529210a1df941.svg"
-					alt="Slack logo mark" />
-				</a>
-				<ul class="nav hidden-xs hidden-sm">
-					<li class="dropdown"><a class="dropdown--trigger with-arrow"
-						data-toggle="dropdown" href=""> ${user.email} </a>
-						<div class="dropdown--body white">
-							<div class="navbar--user">
-								<img alt="" width="50" height="50"
-									src="../../rcampus/page/assets/img/placeholder-c6e992ae2135cef49afd126fcd3bda30d1fa33284a9acafa45d6c8272f360005.png" />
-								<h5>${user.email}</h5>
-								<p>${user.email}</p>
-							</div>
-							<a class="btn btn-primary m0 fw" data-dc-track=""
-								data-dc-referrer="main" href="/pricing">Upgrade Account</a>
-							<div class="navbar--user-links">
-								<a href="/profile/xjtuhht">My Profile</a> <span class="spacer"></span>
-								<a rel="nofollow" data-method="delete" href="/users/sign_out">Logout</a>
-							</div>
-						</div></li>
-
-					<li class="dropdown notification-dropdown"><a
-						class="dropdown-trigger" data-toggle="dropdown" href=""> <i
-							class="fa fa-bell-o js-notifications-open"></i>
-					</a>
-						<div id='notificationsDropdownList'
-							class="dropdown--body white notifications-dropdown__body">
-						</div></li>
-
-					<li><a data-dc-track="" data-dc-referrer="main"
-						href="/community/">Community</a></li>
-					<li><a data-dc-track="" data-dc-referrer="main"
-						href="/groups/business">Business</a></li>
-					<li><a data-dc-track="" data-dc-referrer="main"
-						href="/pricing">Pricing</a></li>
-					<li><a data-dc-track="" data-dc-referrer="main" href="/tracks">Tracks</a></li>
-					<li><a data-dc-track="" data-dc-referrer="main"
-						href="/courses">Courses</a></li>
-					<li><a class="hidden-md" data-dc-track=""
-						data-dc-referrer="main" href="/">Dashboard</a></li>
-
-				</ul>
-				<div class="nav--resp-menu-toggle hidden-lg hidden-md">
-					<a class="no-link-style" href=""><i class="fa fa-bars fa-2x"></i></a>
-				</div>
-			</nav>
-
-		</div>
-	</section>
-
-	<div class="profile-page">
-		<div class="container">
-
-			<div class="clearfix">
-				<a class="edit-link pull-right"
-					href="/rcampus/user/toSetUserInfo?userId=${user.userId}">Edit
-					Account Settings</a>
-			</div>
-
-
-			<div class="white-box clearfix" style="min-height: 800px;">
-				<img class="image-rounded image-centered" alt=""
-					style="width: 150px; height: 150px;" src=${user.photo } />
-
-				<!-- Upsell -->
-
-				<!-- End Upsell -->
-
-				<div class="text-center">
-					<h1 class='profile-page__username-text'>${user.userName }</h1>
-
-					<div class="stats">
-						<span><b>100</b> XP Earned</span> <span><b>0</b> Courses
-							Completed</span> <span><b>1</b> Exercises Aced</span>
+	<div class="site-wrap">
+		<c:choose>
+			<c:when test="${status==true}">
+				<div id="flash_messages">
+					<div class="flash flash-success">
+						<strong>Profile updated successfully.</strong>
+						<div class="close"></div>
 					</div>
 				</div>
+			</c:when>
+		</c:choose>
 
-				<div class="col-md-offset-1 col-md-10 profile-content">
-					<h4>${user.userName}的课程</h4>
-					<hr>
-					<ul class="no-style">
-						<li><c:forEach items="${progressList}" var="progress"
-								varStatus="loop">
-								<h5 class="mb0">
-									<!-- <a href="rcampus/user/getCourseById">${courseList[loop.count-1].courseName}</a> -->
-								</h5>
-								<p class="m0 text-tertiary">
-									<a href="rcampus/user/getCourseById">${courseList[loop.count-1].courseName}</a>
-									${progress.point}/100分
-								</p>
-								<div class="row">
-									<div class="col-sm-8">
-										<div class="progress-bar">
-											<div class="inner" style="width: ${progress.point}%;"></div>
+		<div class="site-wrap">
+			<div id="flash_messages"></div>
+
+			<div id="js-promo-coupon"></div>
+
+			<section class="bg bg-navigation">
+				<div class="container">
+					<nav class="navbar clearfix">
+						<div class="navbar--title">
+							<a class="clearfix no-link-style" data-dc-track=""
+								data-dc-referrer="main" href="/">
+								<div class="logo"></div>
+								<div class="logo-title">DataCamp</div>
+							</a> <a class="small-link" href="/careers">We&#39;re hiring!</a>
+						</div>
+
+
+
+						<a class="navbar__slack hidden-xs hidden-sm" id="slack-link"
+							target="_blank" title="Join Slack" href="/slack/join"> <img
+							height="20"
+							src="https://cdn.datacamp.com/main-app/assets/home_logged_in/slack-logo-mark-28502b3886496c3ca29eac97fd33615170181e0f0790563c622529210a1df941.svg"
+							alt="Slack logo mark" />
+						</a>
+						<ul class="nav hidden-xs hidden-sm">
+							<li class="dropdown"><a class="dropdown--trigger with-arrow"
+								data-toggle="dropdown" href=""> ${user.email} </a>
+								<div class="dropdown--body white">
+									<div class="navbar--user">
+										<img alt="" width="50" height="50"
+											src="https://cdn.datacamp.com/main-app/assets/placeholder-c6e992ae2135cef49afd126fcd3bda30d1fa33284a9acafa45d6c8272f360005.png" />
+										<h5>${user.email}</h5>
+										<p>${user.email}</p>
+									</div>
+									<a class="btn btn-primary m0 fw" data-dc-track=""
+										data-dc-referrer="main" href="/pricing">Upgrade Account</a>
+									<div class="navbar--user-links">
+										<a href="rcampus/user/getUserById?userId=${user.userId}">My
+											Profile</a> <span class="spacer"></span> <a rel="nofollow"
+											data-method="delete" href="/users/sign_out">Logout</a>
+									</div>
+								</div></li>
+
+							<li class="dropdown notification-dropdown"><a
+								class="dropdown-trigger" data-toggle="dropdown" href=""> <i
+									class="fa fa-bell-o js-notifications-open"></i>
+							</a>
+								<div id='notificationsDropdownList'
+									class="dropdown--body white notifications-dropdown__body">
+								</div></li>
+
+							<li><a data-dc-track="" data-dc-referrer="main"
+								href="/community/">Community</a></li>
+							<li><a data-dc-track="" data-dc-referrer="main"
+								href="/groups/business">Business</a></li>
+							<li><a data-dc-track="" data-dc-referrer="main"
+								href="/pricing">Pricing</a></li>
+							<li><a data-dc-track="" data-dc-referrer="main"
+								href="/tracks">Tracks</a></li>
+							<li><a data-dc-track="" data-dc-referrer="main"
+								href="/courses">Courses</a></li>
+							<li><a class="hidden-md" data-dc-track=""
+								data-dc-referrer="main" href="/">Dashboard</a></li>
+
+						</ul>
+						<div class="nav--resp-menu-toggle hidden-lg hidden-md">
+							<a class="no-link-style" href=""><i class="fa fa-bars fa-2x"></i></a>
+						</div>
+					</nav>
+
+				</div>
+			</section>
+
+			<div class="container">
+				<div class="row account-settings">
+					<div class="col-sm-9 vertical-nav-border">
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane active" id="general">
+								<h3>General Information</h3>
+								<hr>
+								<form class="edit_user" id="edit_user"
+									enctype="multipart/form-data"
+									action="/rcampus/user/setUserInfo?userId=${user.userId}"
+									accept-charset="UTF-8" method="post">
+									<div class="row">
+										<div class="col-sm-6">
+											<fieldset>
+												<label for="user_name"></label> UserName<input
+													placeholder="User Name" required="required" type="text"
+													name="user_name" id="user_name" value="${user.userName}" />
+											</fieldset>
+											<fieldset>
+												<label for="user_email">Email</label> <input
+													placeholder="Email" required="required" type="email"
+													value="${user.email}" name="user_email" id="user_email" />
+											</fieldset>
+										</div>
+										<div class="col-sm-6">
+											<fieldset>
+												<label for="user_head"></label>
+												<div class="avatar-selector">
+													<img class="image-editable image-rounded" width="150"
+														height="150" src=${user.photo } /> <input
+														class="clickable" type="file" name="user_head"
+														id="user_head" />
+												</div>
+											</fieldset>
 										</div>
 									</div>
-									<div class="col-sm-4"></div>
+									<div class="row">
+										<div class="col-sm-8 change-password">
+											<a href="/users/edit">Change Password</a>
+										</div>
+										<div class="col-sm-4">
+											<input type="submit" name="commit" value="Save Changes"
+												class="btn btn-primary m0" data-disable-with="Save Changes" />
+										</div>
+									</div>
+
+									<fieldset>
+										<input name="user[receive_mail]" type="hidden" value="0" /><input
+											type="checkbox" value="1" checked="checked"
+											name="user[receive_mail]" id="user_receive_mail" /> <label
+											for="user_receive_mail">I want to receive email from
+											DataCamp</label>
+									</fieldset>
+
+								</form>
+							</div>
+							<div role="tabpanel" class="tab-pane" id="social">
+								<h3>Social</h3>
+								<hr>
+
+								<h5>Unlinked Accounts</h5>
+								<div class="row">
+									<div class="col-sm-4">
+										<a class="btn btn-secondary ml0 fw btn-linkedin"
+											href="/users/auth/linkedin"> <i
+											class="fa fa-linkedin-square"></i> Link LinkedIn
+										</a>
+									</div>
 								</div>
-							</c:forEach></li>
-					</ul>
-					<!-- 分页 -->
-					<ul id="pagination-flickr">
-						<c:choose>
-							<c:when test="${currentPage!=1}">
-								<li class="previous-off"><a
-									href="rcampus/user/getUserById?userId=${user.userId}&currentPage=${currentPage-1}">Prevoius</a></li>
-							</c:when>
-						</c:choose>
-						<c:forEach var="page" begin="${beginPage}" end="${endPage}"
-							step="1">
-							<c:choose>
-								<c:when test="${page==currentPage}">
-									<li class="active"><a
-										href="rcampus/user/getUserById?userId=${user.userId}&currentPage=${page}"><font
-											color="red">第${page}页 </font></a></li>
-								</c:when>
-								<c:otherwise>
-									<li><a
-										href="rcampus/user/getUserById?userId=${user.userId}&currentPage=${page}">第${page}页
-									</a></li>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-						<c:choose>
-							<c:when test="${currentPage<pageCount}">
-								<li class="next"><a
-									href="rcampus/user/getUserById?userId=${user.userId}&currentPage=${currentPage+1}">Next
-								</a></li>
-							</c:when>
-						</c:choose>
-					</ul>
+								<div class="row">
+									<div class="col-sm-4">
+										<a class="btn btn-secondary ml0 fw btn-facebook"
+											href="/users/auth/facebook"> <i class="fa fa-facebook"></i>
+											Link Facebook
+										</a>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-4">
+										<a class="btn btn-secondary ml0 fw btn-google-plus"
+											href="/users/auth/google_oauth2"> <i
+											class="fa fa-google-plus"></i> Link Google +
+										</a>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-4">
+										<a class="btn btn-secondary ml0 fw btn-github"
+											href="/users/auth/github"> <i class="fa fa-github"></i>
+											Link GitHub
+										</a>
+									</div>
+								</div>
+							</div>
+							<div role="tabpanel" class="tab-pane" id="payments">
+
+								<h3>Payments</h3>
+								<hr>
+								<h5>Payment Method(s)</h5>
+								<div class="row">
+									<div class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
+										<a class="btn btn-primary ml0 mr0 fw"
+											href="/profile/add_payment_method">Add Payment Method</a>
+									</div>
+								</div>
+
+								<h5>Order History</h5>
+							</div>
+
+							<div role="tabpanel" class="tab-pane" id="advanced">
+								<h3>Advanced</h3>
+								<hr>
+								<h5>Deactivate account?</h5>
+								<div class="row">
+									<div class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
+										<form class="button_to" method="post" action="/users">
+											<input type="hidden" name="_method" value="delete" /><input
+												data-confirm="Are you sure you want to deactivate your Account?"
+												class="btn btn-danger m0" type="submit"
+												value="Deactivate account" /><input type="hidden"
+												name="authenticity_token"
+												value="6AfLJ3tm/2ZSCYMfzFVGL+kMcUSagZIbqyRpoBkd+K+5mULzjnCzriUrBLXE/Lrb7IZUV9jvBumEu1XxBgHC+Q==" />
+										</form>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -307,16 +319,36 @@ ul {
 		<div class="bottom-navigation">
 			<div class="container clearfix">
 				<div class="navbar--title">
-					<a class="clearfix no-link-style" href="/"></a>
-					<div class="logo-title">DataCamp</div>
-					<a class="small-link" href="/careers">We&#39;re hiring!</a>
+					<a class="clearfix no-link-style" href="/">
+						<div class="logo"></div>
+						<div class="logo-title">DataCamp</div>
+					</a> <a class="small-link" href="/careers">We&#39;re hiring!</a>
 				</div>
-				<ul class="inline clearfix hidden-xs">
-					<li><a target="_blank" href="http://www.r-fiddle.org/">R
-							Fiddle</a></li>
-					<li><a target="_blank" href="https://www.rdocumentation.org">RDocumentation</a></li>
-					<li><a href="/about">About</a></li>
-				</ul>
+				<div class="footer-links-container hidden-xs">
+					<ul class="footer-links-list">
+						<li>DataCamp</li>
+						<li><a href="/about">About</a></li>
+						<li><a href="/pricing">Pricing</a></li>
+						<li><a href="/brand">Press</a></li>
+						<li><a href="/careers">Jobs</a></li>
+					</ul>
+					<ul class="footer-links-list">
+						<li>Resources</li>
+						<li><a href="/courses">View All Courses</a></li>
+						<li><a href="/community/">Community</a></li>
+						<li><a href="/groups/business">DataCamp for Groups</a></li>
+						<li><a href="/teach/">Become a Teacher</a></li>
+						<li><a target="_blank" href="http://www.r-fiddle.org/">R
+								Fiddle</a></li>
+						<li><a target="_blank" href="https://www.rdocumentation.org">RDocumentation</a></li>
+					</ul>
+					<ul class="footer-links-list">
+						<li>Support</li>
+						<li><a href="/contact-us">Contact Us</a></li>
+						<li><a href="/terms-of-use">Terms of Use</a></li>
+						<li><a href="/privacy-policy">Privacy Policy</a></li>
+					</ul>
+				</div>
 				<div class="social-icons clearfix">
 					<a target="_blank" href="https://twitter.com/datacamp"><i
 						class="fa fa-twitter fa-2x"></i></a> <a target="_blank"
@@ -329,11 +361,8 @@ ul {
 				</div>
 			</div>
 		</div>
-
-
-
-
 	</div>
+
 	<script src="https://js.braintreegateway.com/v2/braintree.js"></script>
 	<script src="https://js.braintreegateway.com/v1/braintree-data.js"></script>
 	<script

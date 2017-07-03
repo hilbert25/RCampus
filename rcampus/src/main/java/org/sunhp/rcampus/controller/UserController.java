@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.sunhp.rcampus.bean.Course;
 import org.sunhp.rcampus.bean.Progress;
 import org.sunhp.rcampus.bean.User;
@@ -17,6 +19,8 @@ import org.sunhp.rcampus.components.Pageable;
 import org.sunhp.rcampus.service.CourseService;
 import org.sunhp.rcampus.service.ProgressService;
 import org.sunhp.rcampus.service.UserService;
+import org.sunhp.rcampus.vo.FileUpload;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("user")
@@ -76,5 +80,46 @@ public class UserController {
 		request.setAttribute("beginPage", beginPage);
 		request.setAttribute("endPage", endPage);
 		return "myprofile";
+	}
+
+	/**
+	 * 设置用户信息
+	 * 
+	 * @param userId
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/setUserInfo")
+	public String setUserInfo(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			Long userId,
+			@RequestParam(value = "user_head", required = false) MultipartFile file)
+			throws IOException {
+		User user = userService.get(userId);
+		String filePath = file.getOriginalFilename().equals("") ? user
+				.getPhoto() : FileUpload.uploadFile(file, userId, request);
+		user.setUserName(request.getParameter("user_name"));
+		user.setEmail(request.getParameter("user_email"));
+		user.setPhoto(filePath);
+		userService.update(user);
+		request.setAttribute("user", user);
+		request.setAttribute("status", true);
+		return "set_userinfo";
+	}
+
+	/**
+	 * jump
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value = "/toSetUserInfo")
+	public String toSetUserPhoto(HttpServletRequest request,
+			HttpServletResponse response, Long userId) {
+		User user = userService.get(userId);
+		request.setAttribute("user", user);
+		request.setAttribute("status", false);
+		return "set_userinfo";
 	}
 }
