@@ -7,12 +7,12 @@
 <meta charset="utf-8" />
 <script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","errorBeacon":"bam.nr-data.net","licenseKey":"4795905ee2","applicationID":"7334808","transactionName":"JlkNEEQLVA0DE0wTEABEEEtFDFcW","queueTime":0,"applicationTime":140,"agent":""}</script>
 <script type="text/javascript">window.NREUM||(NREUM={}),__nr_require=function(e,n,t){function r(t){if(!n[t]){var o=n[t]={exports:{}};e[t][0].call(o.exports,function(n){var o=e[t][1][n];return r(o||n)},o,o.exports)}return n[t].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<t.length;o++)r(t[o]);return r}({1:[function(e,n,t){function r(){}function o(e,n,t){return function(){return i(e,[c.now()].concat(u(arguments)),n?null:this,t),n?void 0:this}}var i=e("handle"),a=e(2),u=e(3),f=e("ee").get("tracer"),c=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(e,n){s[n]=o(d+n,!0,"api")}),s.addPageAction=o(d+"addPageAction",!0),s.setCurrentRouteName=o(d+"routeName",!0),n.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,n){var t={},r=this,o="function"==typeof n;return i(l+"tracer",[c.now(),e,t],r),function(){if(f.emit((o?"":"no-")+"fn-start",[c.now(),r,o],t),o)try{return n.apply(this,arguments)}finally{f.emit("fn-end",[c.now()],t)}}}};a("setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,n){m[n]=o(l+n)}),newrelic.noticeError=function(e){"string"==typeof e&&(e=new Error(e)),i("err",[e,c.now()])}},{}],2:[function(e,n,t){function r(e,n){var t=[],r="",i=0;for(r in e)o.call(e,r)&&(t[i]=n(r,e[r]),i+=1);return t}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],3:[function(e,n,t){function r(e,n,t){n||(n=0),"undefined"==typeof t&&(t=e?e.length:0);for(var r=-1,o=t-n||0,i=Array(o<0?0:o);++r<o;)i[r]=e[n+r];return i}n.exports=r},{}],4:[function(e,n,t){n.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,n,t){function r(){}function o(e){function n(e){return e&&e instanceof r?e:e?f(e,u,i):i()}function t(t,r,o,i){if(!d.aborted||i){e&&e(t,r,o);for(var a=n(o),u=m(t),f=u.length,c=0;c<f;c++)u[c].apply(a,r);var p=s[y[t]];return p&&p.push([b,t,r,a]),a}}function l(e,n){v[e]=m(e).concat(n)}function m(e){return v[e]||[]}function w(e){return p[e]=p[e]||o(t)}function g(e,n){c(e,function(e,t){n=n||"feature",y[t]=n,n in s||(s[n]=[])})}var v={},y={},b={on:l,emit:t,get:w,listeners:m,context:n,buffer:g,abort:a,aborted:!1};return b}function i(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var u="nr@context",f=e("gos"),c=e(2),s={},p={},d=n.exports=o();d.backlog=s},{}],gos:[function(e,n,t){function r(e,n,t){if(o.call(e,n))return e[n];var r=t();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,n,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return e[n]=r,r}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],handle:[function(e,n,t){function r(e,n,t,r){o.buffer([e],r),o.emit(e,n,t)}var o=e("ee").get("handle");n.exports=r,r.ee=o},{}],id:[function(e,n,t){function r(e){var n=typeof e;return!e||"object"!==n&&"function"!==n?-1:e===window?0:a(e,i,function(){return o++})}var o=1,i="nr@id",a=e("gos");n.exports=r},{}],loader:[function(e,n,t){function r(){if(!x++){var e=h.info=NREUM.info,n=d.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&n))return s.abort();c(y,function(n,t){e[n]||(e[n]=t)}),f("mark",["onload",a()+h.offset],null,"api");var t=d.createElement("script");t.src="https://"+e.agent,n.parentNode.insertBefore(t,n)}}function o(){"complete"===d.readyState&&i()}function i(){f("mark",["domContent",a()+h.offset],null,"api")}function a(){return E.exists&&performance.now?Math.round(performance.now()):(u=Math.max((new Date).getTime(),u))-h.offset}var u=(new Date).getTime(),f=e("handle"),c=e(2),s=e("ee"),p=window,d=p.document,l="addEventListener",m="attachEvent",w=p.XMLHttpRequest,g=w&&w.prototype;NREUM.o={ST:setTimeout,SI:p.setImmediate,CT:clearTimeout,XHR:w,REQ:p.Request,EV:p.Event,PR:p.Promise,MO:p.MutationObserver};var v=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1039.min.js"},b=w&&g&&g[l]&&!/CriOS/.test(navigator.userAgent),h=n.exports={offset:u,now:a,origin:v,features:{},xhrWrappable:b};e(1),d[l]?(d[l]("DOMContentLoaded",i,!1),p[l]("load",r,!1)):(d[m]("onreadystatechange",o),p[m]("onload",r)),f("mark",["firstbyte",u],null,"api");var x=0,E=e(4)},{}]},{},["loader"]);</script>
-<title>${user.user_name}|DataScienceProfile</title>
+<title>${user.userName}|DataScienceProfile</title>
 <meta name="description" content="The DataCamp profile of xjtuhht" />
 <link rel="canonical" href="https://www.datacamp.com/profile/xjtuhht" />
 <link rel="author" href="https://plus.google.com/u/0/+Datacamp/" />
 <meta property="og:image"
-	content="https://www.datacamp.com/datacamp.png" />
+	content="../../rcampus/page/assets/img/datacamp.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:title" content="xjtuhht | Data Science Profile" />
@@ -22,21 +22,21 @@
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@DataCamp" />
 <meta name="twitter:image"
-	content="https://www.datacamp.com/datacamp-sq.png" />
+	content="../../rcampus/page/assets/img/datacamp-sq.png" />
 <meta name="twitter:image:width" content="300" />
 <meta name="twitter:image:height" content="300" />
 <meta name="twitter:creator" content="@DataCamp" />
 <meta name="twitter:domain" content="www.datacamp.com" />
 <link rel="stylesheet" media="all"
-	href="https://cdn.datacamp.com/main-app/assets/application-764c6b8f001bf0f157eebd5c442f20839378fdd8b59b04968c6b9210b7168d07.css" />
+	href="../../rcampus/page/assets/css/application-764c6b8f001bf0f157eebd5c442f20839378fdd8b59b04968c6b9210b7168d07.css" />
 <link rel="shortcut icon" type="image/x-icon"
-	href="https://cdn.datacamp.com/main-app/assets/favicon-335cd0394b32102a39221d79e5fd7e51078e6d32a0c8aea59676a6869f84e9d8.ico" />
+	href="../../rcampus/page/assets/css/favicon-335cd0394b32102a39221d79e5fd7e51078e6d32a0c8aea59676a6869f84e9d8.ico" />
 <link rel="stylesheet"
-	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+	href="../../rcampus/page/assets/css/bootstrap.min.css">
 <script
-	src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	src="../../rcampus/page/assets/js/jquery.min.js"></script>
 <script
-	src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	src="../../rcampus/page/assets/js//bootstrap.min.js"></script>
 <meta name="csrf-param" content="authenticity_token" />
 <meta name="csrf-token"
 	content="XRiIGefGxNTibMrdZYZrFGB/pr7vWT711hnkjKm2/s3U5ylJvXPUIgNh9XfZH6XIxNHEmB9x4p5mjGAi49ZIeg==" />
@@ -48,7 +48,7 @@
 <meta name="google-site-verification"
 	content="ao3s4PdjisD2QsfTbldo7YJx7VX2QLkPEtlDpyFTjo8" />
 <link rel="stylesheet"
-	href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	href="../../rcampus/page/assets/css/font-awesome.min.css">
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -79,9 +79,7 @@
   a.appendChild(r);
 })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 </script>
-<style type="text/css">
-<
-style type ="text /css">.page-normal {
+<style type="text/css">.page-normal {
 	text-align: center;
 	font-size: 0;
 }
@@ -113,7 +111,29 @@ style type ="text /css">.page-normal {
 .page-normal .page-prev {
 	border: 1px solid #eee;
 }
-</style>
+
+a {
+	font-size: 16px
+}
+
+a:link {
+	color: #33aacc;
+	text-decoration: none;
+}
+
+a:active: {
+	color: red;
+}
+
+a:visited {
+	color: purple;
+	text-decoration: none;
+}
+
+a:hover {
+	color: red;
+	text-decoration: underline;
+}
 </style>
 
 </head>
@@ -146,15 +166,16 @@ style type ="text /css">.page-normal {
 							data-dc-referrer="main" href="/">
 							<div class="logo"></div>
 							<div class="logo-title">DataCamp</div>
-						</a> <a class="small-link" href="/careers">We&#39;re hiring!</a>
+						</a>
 					</div>
+					
 					<ul class="nav hidden-xs hidden-sm">
 						<li class="dropdown"><a class="dropdown--trigger with-arrow"
 							data-toggle="dropdown" href=""> ${user.email} </a>
 							<div class="dropdown--body white">
 								<div class="navbar--user">
 									<img alt="" width="50" height="50"
-										src="https://cdn.datacamp.com/main-app/assets/placeholder-c6e992ae2135cef49afd126fcd3bda30d1fa33284a9acafa45d6c8272f360005.png" />
+										src="../../rcampus/page/assets/img/assets/placeholder-c6e992ae2135cef49afd126fcd3bda30d1fa33284a9acafa45d6c8272f360005.png" />
 									<h5>${user.email}</h5>
 									<p>${user.email}</p>
 								</div>
@@ -208,7 +229,7 @@ style type ="text /css">.page-normal {
 				<div class="white-box clearfix" style="min-height: 800px;">
 					<img class="image-rounded image-centered" alt=""
 						style="width: 150px; height: 150px;"
-						src="https://cdn.datacamp.com/main-app/assets/placeholder-c6e992ae2135cef49afd126fcd3bda30d1fa33284a9acafa45d6c8272f360005.png" />
+						src="../../rcampus/page/assets/img/placeholder-c6e992ae2135cef49afd126fcd3bda30d1fa33284a9acafa45d6c8272f360005.png" />
 
 					<!-- Upsell -->
 					<a class="btn btn-primary upgrade-button" href="/pricing">Upgrade
@@ -216,7 +237,7 @@ style type ="text /css">.page-normal {
 					<!-- End Upsell -->
 
 					<div class="text-center">
-						<h1 class='profile-page__username-text'>${user.user_name}</h1>
+						<h1 class='profile-page__username-text'>${user.userName}</h1>
 
 						<div class="stats">
 							<span><b>100</b> XP Earned</span> <span><b>0</b> Courses
@@ -225,23 +246,25 @@ style type ="text /css">.page-normal {
 					</div>
 
 					<div class="col-md-offset-1 col-md-10 profile-content">
-						<h4>${user.user_name}的课程</h4>
+						<h4>${user.userName}的课程</h4>
 						<hr>
 						<ul class="no-style">
 							<c:forEach items="${progressList}" var="progress"
 								varStatus="loop">
 								<li>
 									<h5 class="mb0">
-										<a href="/User/getCourseById">${courseList[loop.count-1].course_name}</a>
+										<a href="rcampus/user/getCourseById">${courseList[loop.count-1].courseName}
+											${progress.point}分</a>
 									</h5>
-									<p class="m0 text-tertiary"></p>
+
 									<div class="row">
 										<div class="col-sm-8">
 											<div class="progress-bar">
-												<div class="inner" style="width: ${progress.point*10}px ;height:10px"></div>
+												<div class="inner"
+													style="width: ${progress.point}% ;height:18px"></div>
 											</div>
 										</div>
-										<div class="col-sm-4"></div>
+										<!-- <div class="col-sm-4"></div> -->
 									</div>
 								</li>
 							</c:forEach>
@@ -251,7 +274,7 @@ style type ="text /css">.page-normal {
 							<c:choose>
 								<c:when test="${currentPage!=1}">
 									<li><a
-										href="/User/getUserById?user_id=${user_id}&currentPage=${currentPage-1}">Prevoius</a></li>
+										href="rcampus/user/getUserById?userId=${user.userId}&currentPage=${currentPage-1}">Prevoius</a></li>
 								</c:when>
 							</c:choose>
 							<c:forEach var="page" begin="${beginPage}" end="${endPage}"
@@ -259,12 +282,12 @@ style type ="text /css">.page-normal {
 								<c:choose>
 									<c:when test="${page==currentPage}">
 										<li><a
-											href="/User/getUserById?user_id=${user_id}&currentPage=${page}"><font
+											href="rcampus/user/getUserById?userId=${user.userId}&currentPage=${page}"><font
 												color="red">第${page}页 </font></a></li>
 									</c:when>
 									<c:otherwise>
 										<li><a
-											href="/User/getUserById?user_id=${user_id}&currentPage=${page}">第${page}页
+											href="rcampus/user//getUserById?userId=${user.userId}&currentPage=${page}">第${page}页
 										</a></li>
 									</c:otherwise>
 								</c:choose>
@@ -272,7 +295,7 @@ style type ="text /css">.page-normal {
 							<c:choose>
 								<c:when test="${currentPage<pageCount}">
 									<li><a
-										href="/User/getUserById?user_id=${user_id}&currentPage=${currentPage+1}">Next
+										href="rcampus/user/getUserById?userId=${user.userId}&currentPage=${currentPage+1}">Next
 									</a></li>
 								</c:when>
 							</c:choose>
@@ -287,7 +310,7 @@ style type ="text /css">.page-normal {
 						<a class="clearfix no-link-style" href="/">
 							<div class="logo"></div>
 							<div class="logo-title">DataCamp</div>
-						</a> <a class="small-link" href="/careers">We&#39;re hiring!</a>
+						</a>
 					</div>
 					<ul class="inline clearfix hidden-xs">
 						<li><a target="_blank" href="http://www.r-fiddle.org/">R
@@ -326,7 +349,6 @@ style type ="text /css">.page-normal {
 		<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 		<script type="text/javascript">Stripe.setPublishableKey('pk_live_4bvFOkHgRQgjsTiRzCWM0yLk');</script>
 		<script type="text/javascript">
-
 </script>
 
 		<!-- Google Tag Manager -->
@@ -348,7 +370,6 @@ style type ="text /css">.page-normal {
   window[i] = window[i] || function () {
       (window[i].q = window[i].q || []).push(arguments);
   };
-
   tap('create', '1802-65ce86');
   tap('detectClick', function() {
 		Cookies.set("tap_vid", tap.vid, { expires: 36500 });
