@@ -123,7 +123,7 @@
 								data-dc-referrer="main" href="/">
 								<div class="logo"></div>
 								<div class="logo-title">DataCamp</div>
-							</a> <a class="small-link" href="/careers">We&#39;re hiring!</a>
+							</a> 
 						</div>
 
 
@@ -322,7 +322,7 @@
 					<a class="clearfix no-link-style" href="/">
 						<div class="logo"></div>
 						<div class="logo-title">DataCamp</div>
-					</a> <a class="small-link" href="/careers">We&#39;re hiring!</a>
+					</a> 
 				</div>
 				<div class="footer-links-container hidden-xs">
 					<ul class="footer-links-list">
