@@ -13,6 +13,9 @@ import java.io.IOException;
 public class IndexController {
 	@Autowired
 	ApiService apiService;
+	@Autowired
+	MailUtil mailUtil;
+	
 	@RequestMapping("/index.do")
 	public ModelAndView index() {
 		return new ModelAndView("index");
@@ -25,6 +28,20 @@ public class IndexController {
 //		list = storeService.getAll(new Store());
 //		return "总共有：" + list.size();
 	}
-
+   @RequestMapping("/home")
+   public String home(){
+	   return "home";
+   }
+   @ResponseBody
+	@RequestMapping("signin")
+	public String signin(HttpServletRequest request, HttpServletResponse response, Long courseId) {
+		String email=request.getParameter("email");
+		String link="www.baidu.com";
+		mailUtil.sendMail(email,link);
+		Result result=new Result();
+		result.setStatus("success");
+		result.setFlag(1);
+		return JSON.toJSONString(result);
+	}
 
 }
