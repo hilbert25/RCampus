@@ -256,7 +256,7 @@ ul {
 									<!-- <a href="rcampus/user/getCourseById">${courseList[loop.count-1].courseName}</a> -->
 								</h5>
 								<p class="m0 text-tertiary">
-									<a href="rcampus/user/getCourseById">${courseList[loop.count-1].courseName}</a>
+									<a href="rcampus/course/getCourseById?courseId=${courseList[loop.count-1].courseId}">${courseList[loop.count-1].courseName}</a>
 									${progress.point}/100分
 								</p>
 								<div class="row">

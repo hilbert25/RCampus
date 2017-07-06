@@ -28,9 +28,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     content: <textarea name="content"></textarea>
     <input type="submit">
     </form>
-    <form action="/rcampus/course/detail.do" method="post">
-    courseId: <input name="courseId" type="text"/><br/>
-    <input type="submit">
-    </form>
   </body>
 </html>

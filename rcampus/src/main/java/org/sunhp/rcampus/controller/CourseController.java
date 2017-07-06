@@ -38,20 +38,22 @@ public class CourseController {
 
 	/**
 	 * 获得某章节的课程列表
+	 * 
 	 * @param request
 	 * @param response
 	 * @param chapterId
-     * @return
-     */
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping("list.do")
-	public String getCourseList(HttpServletRequest request, HttpServletResponse response, Long chapterId) {
+	public String getCourseList(HttpServletRequest request,
+			HttpServletResponse response, Long chapterId) {
 		Course course = new Course();
 		course.setChapter(chapterId);
-		List<Course>  list  = courseService.getAll(course);
+		List<Course> list = courseService.getAll(course);
 		List<SimpleCourse> sList = new ArrayList<>();
-		for(Course co:list){
-			SimpleCourse sc = new SimpleCourse(co,0.0);
+		for (Course co : list) {
+			SimpleCourse sc = new SimpleCourse(co, 0.0);
 			sList.add(sc);
 		}
 		return JSON.toJSONString(sList);
@@ -59,105 +61,123 @@ public class CourseController {
 
 	/**
 	 * 获得某一课程内容
+	 * 
 	 * @param request
 	 * @param response
 	 * @param courseId
-     * @return
-     */
-	@ResponseBody
-	@RequestMapping("detail.do")
-	public String getCourseDetail(HttpServletRequest request, HttpServletResponse response, Long courseId) {
+	 * @return
+	 */
+	@RequestMapping(value = "/getCourseById")
+	public String getCourseDetail(HttpServletRequest request,
+			HttpServletResponse response, Long courseId) {
 		Course course = courseService.get(courseId);
-		if(course!=null){
-			return JSON.toJSONString(course);
+		if (course != null) {
+			// return JSON.toJSONString(course);
+
 		}
-		return null;
+		request.setAttribute("course", course);
+		return "course_detail";
 	}
+
 	/**
 	 * 提交课程作业
+	 * 
 	 * @param request
 	 * @param response
 	 * @param courseId
 	 * @param content
 	 * @return
-     * @throws IOException
-     */
+	 * @throws IOException
+	 */
 	@ResponseBody
 	@RequestMapping("submit.do")
-	public String getCourseSubmit(HttpServletRequest request, HttpServletResponse response, Long courseId,String content)throws IOException {
+	public String getCourseSubmit(HttpServletRequest request,
+			HttpServletResponse response, Long courseId, String code)
+			throws IOException {
+		System.out.println(code);
 		ExamResult examResult;
 		OcpuResult ocpuResult;
-		//判断用户输入是否符合要求
-		Course course = courseService.get(courseId);
-		System.out.println(course.getCourseName());
+		// 判断用户输入是否符合要求
+		// Course course = courseService.get(courseId);
 		Judge judge = new Judge();
 		judge.setExamId(courseId);
 		List<Judge> judgeList = judgeService.getAll(judge);
-		examResult = judgeService.judegeInput(judgeList,content);
+		examResult = judgeService.judegeInput(judgeList, code);
 
-		//将用户输入存入temp.R文件中
-		String excuteFilePath = FileUtils.saveStrToFile(request,"temp.R",content);
-		//将temp.R上传到OpenCPU
-		String url = Constants.OPENCPU_HOST+"/"+Constants.OPENCPU_NAME+"/library/utils/R/file.edit";
-		HttpResult result = apiService.doPostFile(url,excuteFilePath);
-		if(result.getCode()!=201) {
-			ocpuResult = new OcpuResult(content,"R文件上传出错");
+		// 将用户输入存入temp.R文件中
+		String excuteFilePath = FileUtils
+				.saveStrToFile(request, "temp.R", code);
+		// 将temp.R上传到OpenCPU
+		String url = Constants.OPENCPU_HOST + "/" + Constants.OPENCPU_NAME
+				+ "/library/utils/R/file.edit";
+		HttpResult result = apiService.doPostFile(url, excuteFilePath);
+		if (result.getCode() != 201) {
+			ocpuResult = new OcpuResult(code, "R文件上传出错");
 			examResult.setStatus(false);
 			examResult.setOcpuResult(ocpuResult);
 			return JSON.toJSONString(examResult);
 		}
 		ocpuResult = new OcpuResult(result.getData());
-		if(ocpuResult.getSessionID()==null){
-			ocpuResult = new OcpuResult(content,"R文件上传后openCPU结果解析出错");
+		if (ocpuResult.getSessionID() == null) {
+			ocpuResult = new OcpuResult(code, "R文件上传后openCPU结果解析出错");
 			examResult.setStatus(false);
 			examResult.setOcpuResult(ocpuResult);
 			return JSON.toJSONString(examResult);
 		}
-		//OpenCPU上执行emp.R
-		String url2 = Constants.OPENCPU_HOST+"/ocpu/tmp/"+ocpuResult.getSessionID()+"/files/temp.R";
+		// OpenCPU上执行emp.R
+		String url2 = Constants.OPENCPU_HOST + "/ocpu/tmp/"
+				+ ocpuResult.getSessionID() + "/files/temp.R";
 		result = apiService.doPost(url2);
-		//编译出错
-		if(result.getCode()==400){
-			ocpuResult = new OcpuResult(content,result.getData());
+		// 编译出错
+		if (result.getCode() == 400) {
+			ocpuResult = new OcpuResult(code, result.getData());
 			examResult.setStatus(false);
 			examResult.setOcpuResult(ocpuResult);
 			return JSON.toJSONString(examResult);
 		}
-		if(result.getCode()!=201&&result.getCode()!=200) {
-			ocpuResult = new OcpuResult(content,"系统内部错误:"+result.getCode());
+		if (result.getCode() != 201 && result.getCode() != 200) {
+			ocpuResult = new OcpuResult(code, "系统内部错误:" + result.getCode());
 			examResult.setStatus(false);
 			examResult.setOcpuResult(ocpuResult);
 			return JSON.toJSONString(examResult);
 		}
-		//正常情况
+		// 正常情况
 		ocpuResult = new OcpuResult(result.getData());
-		if(ocpuResult.getSessionID()==null){
-			ocpuResult = new OcpuResult(content,"R文件执行后openCPU结果解析出错结果解析出错");
+		if (ocpuResult.getSessionID() == null) {
+			ocpuResult = new OcpuResult(code, "R文件执行后openCPU结果解析出错结果解析出错");
 			examResult.setStatus(false);
 			examResult.setOcpuResult(ocpuResult);
 			return JSON.toJSONString(examResult);
 		}
-		//获取执行结果数据
-		String source = apiService.doGet( Constants.OPENCPU_HOST+"/ocpu/tmp/"+ocpuResult.getSessionID()+"/source");
-		String console = apiService.doGet( Constants.OPENCPU_HOST+"/ocpu/tmp/"+ocpuResult.getSessionID()+"/console");
-		String info = apiService.doGet( Constants.OPENCPU_HOST+"/ocpu/tmp/"+ocpuResult.getSessionID()+"/info");
+		// 获取执行结果数据
+		String source = apiService.doGet(Constants.OPENCPU_HOST + "/ocpu/tmp/"
+				+ ocpuResult.getSessionID() + "/source");
+		String console = apiService.doGet(Constants.OPENCPU_HOST + "/ocpu/tmp/"
+				+ ocpuResult.getSessionID() + "/console");
+		String info = apiService.doGet(Constants.OPENCPU_HOST + "/ocpu/tmp/"
+				+ ocpuResult.getSessionID() + "/info");
 		ocpuResult.setSource(source);
 		ocpuResult.setInfo(info);
 		ocpuResult.setConsole(console);
-		examResult.setOcpuResult(ocpuResult);
+		examResult.setOcpuJSON(JSON.toJSONString(ocpuResult));
+		// examResult.setOcpuResult(ocpuResult);
 		examResult.setStatus(true);
 
 		return JSON.toJSONString(examResult);
 	}
+
 	@ResponseBody
 	@RequestMapping("add.do")
-	public String addCourse(HttpServletRequest request, HttpServletResponse response,Course course) {
+	public String addCourse(HttpServletRequest request,
+			HttpServletResponse response, Course course) {
 		courseService.save(course);
 		return JSON.toJSONString(course);
 	}
+
 	@ResponseBody
 	@RequestMapping("delete.do")
-	public String addCourse(HttpServletRequest request, HttpServletResponse response,Long courseId) {
+	public String addCourse(HttpServletRequest request,
+			HttpServletResponse response, Long courseId) {
 		courseService.delete(courseId);
 		return JSON.toJSONString("deleted");
 	}
