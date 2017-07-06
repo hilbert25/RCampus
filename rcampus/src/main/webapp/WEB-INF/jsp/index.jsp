@@ -9,7 +9,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="https://cdn.datacamp.com/main-app/assets/favicon-335cd0394b32102a39221d79e5fd7e51078e6d32a0c8aea59676a6869f84e9d8.ico" />
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="./page/assets/css/bootstrap.min.css">
-        <link rel="stylesheet" media="all" href="https://cdn.datacamp.com/main-app/assets/application-764c6b8f001bf0f157eebd5c442f20839378fdd8b59b04968c6b9210b7168d07.css" />
+    <link rel="stylesheet" media="all" href="https://cdn.datacamp.com/main-app/assets/application-764c6b8f001bf0f157eebd5c442f20839378fdd8b59b04968c6b9210b7168d07.css" />
     <script src="./page/assets/js/jquery-2.1.1.min.js"></script>
 	<script src="./page/assets/js/bootstrap.min.js"></script>
 	<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
@@ -44,7 +44,7 @@
 			submitHandler:function(){
 				$.ajax({
 					type:"post",
-					url:"./signin",
+					url:"./signup",
 					dataType:"json",
 					data:"email="+$("#email1").val()+"&password="+$("#password1").val(),
 					success:function(json){
@@ -54,11 +54,11 @@
 						}
 						else{
 							console.log("failure");
-							$("#errorMessage2").html("用户名或密码错误").show();
+							$("#message").html("用户名或密码错误").show();
 						}
 					},
 					error:function(){
-						$("#errorMessage2").html("用户名或密码错误").show();
+						$("#message").html("用户名或密码错误").show();
 					}
 				})
 			}
@@ -69,13 +69,12 @@
   <body class="">
     <ul class="offscreen-nav">
   <li class="top offscreen-nav-li"></li>
-  <li class="offscreen-nav-li"><a href="/">Home</a></li>
-  <li class="offscreen-nav-li"><a href="/courses">Courses</a></li>
+  <li class="offscreen-nav-li"><a href="./">Home</a></li>
+  <li class="offscreen-nav-li"><a href="./courses/">Courses</a></li>
     <li class="offscreen-nav-li"><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
   sign in
 </button></li>
 </ul>
-
     <div class="site-wrap">
       <div id="flash_messages">
 </div>
