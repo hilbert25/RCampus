@@ -236,10 +236,10 @@
 													&& xmlhttp.status == 200) {
 												var obj = JSON
 														.parse(xmlhttp.responseText);
-												
+
 												alert(ocpuJSON);
 												document
-														.getElementById("codeout").innerHTML = "";
+														.getElementById("codeout").innerHTML = xmlhttp.responseText;
 											}
 										};
 										xmlhttp.open("POST",

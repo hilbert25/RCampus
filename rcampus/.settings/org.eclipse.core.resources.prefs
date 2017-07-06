@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/main/webapp/WEB-INF/jsp/course_detail.jsp=UTF-8
 encoding//src/test/java=UTF-8
+=======
+eclipse.preferences.version=1
+encoding//src/main/java=UTF-8
+encoding//src/test/java=UTF-8
+>>>>>>> 7aed6b97fa356ffd8f34406b1ee01429e7582dbe

@@ -59,6 +59,11 @@ public class CourseController {
 		return JSON.toJSONString(sList);
 	}
 
+	@RequestMapping("/courseIntro")
+	public String courseIntro() {
+		return "courseIntro";
+	}
+
 	/**
 	 * 获得某一课程内容
 	 * 

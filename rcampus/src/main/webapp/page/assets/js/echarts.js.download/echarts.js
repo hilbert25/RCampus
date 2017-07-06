@@ -8,49 +8,49 @@
 	else
 		root["echarts"] = factory();
 })(this, function() {
-return /** *** */ (function(modules) { // webpackBootstrap
-/** *** */ 	// The module cache
-/** *** */ 	var installedModules = {};
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
 
-/** *** */ 	// The require function
-/** *** */ 	function __webpack_require__(moduleId) {
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
 
-/** *** */ 		// Check if module is in cache
-/** *** */ 		if(installedModules[moduleId])
-/** *** */ 			return installedModules[moduleId].exports;
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
 
-/** *** */ 		// Create a new module (and put it into the cache)
-/** *** */ 		var module = installedModules[moduleId] = {
-/** *** */ 			exports: {},
-/** *** */ 			id: moduleId,
-/** *** */ 			loaded: false
-/** *** */ 		};
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
 
-/** *** */ 		// Execute the module function
-/** *** */ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 
-/** *** */ 		// Flag the module as loaded
-/** *** */ 		module.loaded = true;
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
 
-/** *** */ 		// Return the exports of the module
-/** *** */ 		return module.exports;
-/** *** */ 	}
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
 
 
-/** *** */ 	// expose the modules object (__webpack_modules__)
-/** *** */ 	__webpack_require__.m = modules;
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
 
-/** *** */ 	// expose the module cache
-/** *** */ 	__webpack_require__.c = installedModules;
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
 
-/** *** */ 	// __webpack_public_path__
-/** *** */ 	__webpack_require__.p = "";
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
 
-/** *** */ 	// Load entry module and return exports
-/** *** */ 	return __webpack_require__(0);
-/** *** */ })
-/** ********************************************************************* */
-/** *** */ ([
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -107,8 +107,7 @@ return /** *** */ (function(modules) { // webpackBootstrap
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// Enable DEV mode when using source code without build. which has no
-	// __DEV__ variable
+	// Enable DEV mode when using source code without build. which has no __DEV__ variable
 	// In build process 'typeof __DEV__' will be replace with 'boolean'
 	// So this code will be removed or disabled anyway after built.
 	if (false) {
@@ -122,12 +121,14 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 	}
 
-	/*
-	 * ! ECharts, a javascript interactive chart library.
-	 * 
-	 * Copyright (c) 2015, Baidu Inc. All rights reserved.
-	 * 
-	 * LICENSE https://github.com/ecomfe/echarts/blob/master/LICENSE.txt
+	/*!
+	 * ECharts, a javascript interactive chart library.
+	 *
+	 * Copyright (c) 2015, Baidu Inc.
+	 * All rights reserved.
+	 *
+	 * LICENSE
+	 * https://github.com/ecomfe/echarts/blob/master/LICENSE.txt
 	 */
 
 	/**
@@ -167,13 +168,11 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    var PRIORITY_VISUAL_COMPONENT = 4000;
 	    var PRIORITY_VISUAL_BRUSH = 5000;
 
-	    // Main process have three entries: `setOption`, `dispatchAction` and
-		// `resize`,
+	    // Main process have three entries: `setOption`, `dispatchAction` and `resize`,
 	    // where they must not be invoked nestedly, except the only case: invoke
 	    // dispatchAction with updateMethod "none" in main process.
 	    // This flag is used to carry out this rule.
-	    // All events will be triggered out side main process (i.e. when
-		// !this[IN_MAIN_PROCESS]).
+	    // All events will be triggered out side main process (i.e. when !this[IN_MAIN_PROCESS]).
 	    var IN_MAIN_PROCESS = '__flag_in_main_process';
 	    var HAS_GRADIENT_OR_PATTERN_BG = '_hasGradientOrPatternBg';
 
@@ -188,8 +187,8 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        };
 	    }
 	    /**
-		 * @module echarts~MessageCenter
-		 */
+	     * @module echarts~MessageCenter
+	     */
 	    function MessageCenter() {
 	        Eventful.call(this);
 	    }
@@ -198,8 +197,8 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    MessageCenter.prototype.one = createRegisterEventWithLowercaseName('one');
 	    zrUtil.mixin(MessageCenter, Eventful);
 	    /**
-		 * @module echarts~ECharts
-		 */
+	     * @module echarts~ECharts
+	     */
 	    function ECharts (dom, theme, opts) {
 	        opts = opts || {};
 
@@ -209,77 +208,76 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        }
 
 	        /**
-			 * @type {string}
-			 */
+	         * @type {string}
+	         */
 	        this.id;
 	        /**
-			 * Group id
-			 * 
-			 * @type {string}
-			 */
+	         * Group id
+	         * @type {string}
+	         */
 	        this.group;
 	        /**
-			 * @type {HTMLDomElement}
-			 * @private
-			 */
+	         * @type {HTMLDomElement}
+	         * @private
+	         */
 	        this._dom = dom;
 	        /**
-			 * @type {module:zrender/ZRender}
-			 * @private
-			 */
+	         * @type {module:zrender/ZRender}
+	         * @private
+	         */
 	        this._zr = zrender.init(dom, {
 	            renderer: opts.renderer || 'canvas',
 	            devicePixelRatio: opts.devicePixelRatio
 	        });
 
 	        /**
-			 * @type {Object}
-			 * @private
-			 */
+	         * @type {Object}
+	         * @private
+	         */
 	        this._theme = zrUtil.clone(theme);
 
 	        /**
-			 * @type {Array.<module:echarts/view/Chart>}
-			 * @private
-			 */
+	         * @type {Array.<module:echarts/view/Chart>}
+	         * @private
+	         */
 	        this._chartsViews = [];
 
 	        /**
-			 * @type {Object.<string, module:echarts/view/Chart>}
-			 * @private
-			 */
+	         * @type {Object.<string, module:echarts/view/Chart>}
+	         * @private
+	         */
 	        this._chartsMap = {};
 
 	        /**
-			 * @type {Array.<module:echarts/view/Component>}
-			 * @private
-			 */
+	         * @type {Array.<module:echarts/view/Component>}
+	         * @private
+	         */
 	        this._componentsViews = [];
 
 	        /**
-			 * @type {Object.<string, module:echarts/view/Component>}
-			 * @private
-			 */
+	         * @type {Object.<string, module:echarts/view/Component>}
+	         * @private
+	         */
 	        this._componentsMap = {};
 
 	        /**
-			 * @type {module:echarts/ExtensionAPI}
-			 * @private
-			 */
+	         * @type {module:echarts/ExtensionAPI}
+	         * @private
+	         */
 	        this._api = new ExtensionAPI(this);
 
 	        /**
-			 * @type {module:echarts/CoordinateSystem}
-			 * @private
-			 */
+	         * @type {module:echarts/CoordinateSystem}
+	         * @private
+	         */
 	        this._coordSysMgr = new CoordinateSystemManager();
 
 	        Eventful.call(this);
 
 	        /**
-			 * @type {module:echarts~MessageCenter}
-			 * @private
-			 */
+	         * @type {module:echarts~MessageCenter}
+	         * @private
+	         */
 	        this._messageCenter = new MessageCenter();
 
 	        // Init mouse events
@@ -316,27 +314,24 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        }
 	    };
 	    /**
-		 * @return {HTMLDomElement}
-		 */
+	     * @return {HTMLDomElement}
+	     */
 	    echartsProto.getDom = function () {
 	        return this._dom;
 	    };
 
 	    /**
-		 * @return {module:zrender~ZRender}
-		 */
+	     * @return {module:zrender~ZRender}
+	     */
 	    echartsProto.getZr = function () {
 	        return this._zr;
 	    };
 
 	    /**
-		 * @param {Object}
-		 *            option
-		 * @param {boolean}
-		 *            notMerge
-		 * @param {boolean}
-		 *            [lazyUpdate=false] Useful when setOption frequently.
-		 */
+	     * @param {Object} option
+	     * @param {boolean} notMerge
+	     * @param {boolean} [lazyUpdate=false] Useful when setOption frequently.
+	     */
 	    echartsProto.setOption = function (option, notMerge, lazyUpdate) {
 	        if (true) {
 	            zrUtil.assert(!this[IN_MAIN_PROCESS], '`setOption` should not be called during main process.');
@@ -368,48 +363,45 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * @DEPRECATED
-		 */
+	     * @DEPRECATED
+	     */
 	    echartsProto.setTheme = function () {
 	        console.log('ECharts#setTheme() is DEPRECATED in ECharts 3.0');
 	    };
 
 	    /**
-		 * @return {module:echarts/model/Global}
-		 */
+	     * @return {module:echarts/model/Global}
+	     */
 	    echartsProto.getModel = function () {
 	        return this._model;
 	    };
 
 	    /**
-		 * @return {Object}
-		 */
+	     * @return {Object}
+	     */
 	    echartsProto.getOption = function () {
 	        return this._model && this._model.getOption();
 	    };
 
 	    /**
-		 * @return {number}
-		 */
+	     * @return {number}
+	     */
 	    echartsProto.getWidth = function () {
 	        return this._zr.getWidth();
 	    };
 
 	    /**
-		 * @return {number}
-		 */
+	     * @return {number}
+	     */
 	    echartsProto.getHeight = function () {
 	        return this._zr.getHeight();
 	    };
 
 	    /**
-		 * Get canvas which has all thing rendered
-		 * 
-		 * @param {Object}
-		 *            opts
-		 * @param {string}
-		 *            [opts.backgroundColor]
-		 */
+	     * Get canvas which has all thing rendered
+	     * @param {Object} opts
+	     * @param {string} [opts.backgroundColor]
+	     */
 	    echartsProto.getRenderedCanvas = function (opts) {
 	        if (!env.canvasSupported) {
 	            return;
@@ -427,16 +419,12 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        return zr.painter.getRenderedCanvas(opts);
 	    };
 	    /**
-		 * @return {string}
-		 * @param {Object}
-		 *            opts
-		 * @param {string}
-		 *            [opts.type='png']
-		 * @param {string}
-		 *            [opts.pixelRatio=1]
-		 * @param {string}
-		 *            [opts.backgroundColor]
-		 */
+	     * @return {string}
+	     * @param {Object} opts
+	     * @param {string} [opts.type='png']
+	     * @param {string} [opts.pixelRatio=1]
+	     * @param {string} [opts.backgroundColor]
+	     */
 	    echartsProto.getDataURL = function (opts) {
 	        opts = opts || {};
 	        var excludeComponents = opts.excludeComponents;
@@ -468,16 +456,12 @@ return /** *** */ (function(modules) { // webpackBootstrap
 
 
 	    /**
-		 * @return {string}
-		 * @param {Object}
-		 *            opts
-		 * @param {string}
-		 *            [opts.type='png']
-		 * @param {string}
-		 *            [opts.pixelRatio=1]
-		 * @param {string}
-		 *            [opts.backgroundColor]
-		 */
+	     * @return {string}
+	     * @param {Object} opts
+	     * @param {string} [opts.type='png']
+	     * @param {string} [opts.pixelRatio=1]
+	     * @param {string} [opts.backgroundColor]
+	     */
 	    echartsProto.getConnectedDataURL = function (opts) {
 	        if (!env.canvasSupported) {
 	            return;
@@ -546,10 +530,9 @@ return /** *** */ (function(modules) { // webpackBootstrap
 
 
 	        /**
-			 * @param {Object}
-			 *            payload
-			 * @private
-			 */
+	         * @param {Object} payload
+	         * @private
+	         */
 	        update: function (payload) {
 	            // console.time && console.time('update');
 
@@ -566,14 +549,11 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	            ecModel.restoreData();
 
 	            // TODO
-	            // Save total ecModel here for undo/redo (after restoring data
-				// and before processing data).
-	            // Undo (restoration of total ecModel) can be carried out in
-				// 'action' or outside API call.
+	            // Save total ecModel here for undo/redo (after restoring data and before processing data).
+	            // Undo (restoration of total ecModel) can be carried out in 'action' or outside API call.
 
 	            // Create new coordinate system each update
-	            // In LineView may save the old coordinate system and use it to
-				// get the orignal point
+	            // In LineView may save the old coordinate system and use it to get the orignal point
 	            coordSysMgr.create(this._model, this._api);
 
 	            processData.call(this, ecModel, api);
@@ -632,10 +612,9 @@ return /** *** */ (function(modules) { // webpackBootstrap
 
 	        // PENDING
 	        /**
-			 * @param {Object}
-			 *            payload
-			 * @private
-			 */
+	         * @param {Object} payload
+	         * @private
+	         */
 	        updateView: function (payload) {
 	            var ecModel = this._model;
 
@@ -654,10 +633,9 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-			 * @param {Object}
-			 *            payload
-			 * @private
-			 */
+	         * @param {Object} payload
+	         * @private
+	         */
 	        updateVisual: function (payload) {
 	            var ecModel = this._model;
 
@@ -676,10 +654,9 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-			 * @param {Object}
-			 *            payload
-			 * @private
-			 */
+	         * @param {Object} payload
+	         * @private
+	         */
 	        updateLayout: function (payload) {
 	            var ecModel = this._model;
 
@@ -694,28 +671,25 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-			 * @param {Object}
-			 *            payload
-			 * @private
-			 */
+	         * @param {Object} payload
+	         * @private
+	         */
 	        highlight: function (payload) {
 	            toggleHighlight.call(this, 'highlight', payload);
 	        },
 
 	        /**
-			 * @param {Object}
-			 *            payload
-			 * @private
-			 */
+	         * @param {Object} payload
+	         * @private
+	         */
 	        downplay: function (payload) {
 	            toggleHighlight.call(this, 'downplay', payload);
 	        },
 
 	        /**
-			 * @param {Object}
-			 *            payload
-			 * @private
-			 */
+	         * @param {Object} payload
+	         * @private
+	         */
 	        prepareAndUpdate: function (payload) {
 	            var ecModel = this._model;
 
@@ -728,10 +702,9 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * @param {Object}
-		 *            payload
-		 * @private
-		 */
+	     * @param {Object} payload
+	     * @private
+	     */
 	    function toggleHighlight(method, payload) {
 	        var ecModel = this._model;
 
@@ -755,8 +728,8 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * Resize the chart
-		 */
+	     * Resize the chart
+	     */
 	    echartsProto.resize = function () {
 	        if (true) {
 	            zrUtil.assert(!this[IN_MAIN_PROCESS], '`resize` should not be called during main process.');
@@ -778,13 +751,10 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * Show loading effect
-		 * 
-		 * @param {string}
-		 *            [name='default']
-		 * @param {Object}
-		 *            [cfg]
-		 */
+	     * Show loading effect
+	     * @param  {string} [name='default']
+	     * @param  {Object} [cfg]
+	     */
 	    echartsProto.showLoading = function (name, cfg) {
 	        if (zrUtil.isObject(name)) {
 	            cfg = name;
@@ -807,18 +777,17 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * Hide loading effect
-		 */
+	     * Hide loading effect
+	     */
 	    echartsProto.hideLoading = function () {
 	        this._loadingFX && this._zr.remove(this._loadingFX);
 	        this._loadingFX = null;
 	    };
 
 	    /**
-		 * @param {Object}
-		 *            eventObj
-		 * @return {Object}
-		 */
+	     * @param {Object} eventObj
+	     * @return {Object}
+	     */
 	    echartsProto.makeActionFromEvent = function (eventObj) {
 	        var payload = zrUtil.extend({}, eventObj);
 	        payload.type = eventActionMap[eventObj.type];
@@ -826,14 +795,11 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * @pubilc
-		 * @param {Object}
-		 *            payload
-		 * @param {string}
-		 *            [payload.type] Action type
-		 * @param {boolean}
-		 *            [silent=false] Whether trigger event.
-		 */
+	     * @pubilc
+	     * @param {Object} payload
+	     * @param {string} [payload.type] Action type
+	     * @param {boolean} [silent=false] Whether trigger event.
+	     */
 	    echartsProto.dispatchAction = function (payload, silent) {
 	        var actionWrap = actions[payload.type];
 	        if (!actionWrap) {
@@ -844,11 +810,11 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        var updateMethod = actionInfo.update || 'update';
 
 	        // if (__DEV__) {
-	        // zrUtil.assert(
-	        // !this[IN_MAIN_PROCESS],
-	        // '`dispatchAction` should not be called during main process.'
-	        // + 'unless updateMathod is "none".'
-	        // );
+	        //     zrUtil.assert(
+	        //         !this[IN_MAIN_PROCESS],
+	        //         '`dispatchAction` should not be called during main process.'
+	        //         + 'unless updateMathod is "none".'
+	        //     );
 	        // }
 
 	        // May dispatchAction in rendering procedure
@@ -928,19 +894,17 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * Register event
-		 * 
-		 * @method
-		 */
+	     * Register event
+	     * @method
+	     */
 	    echartsProto.on = createRegisterEventWithLowercaseName('on');
 	    echartsProto.off = createRegisterEventWithLowercaseName('off');
 	    echartsProto.one = createRegisterEventWithLowercaseName('one');
 
 	    /**
-		 * @param {string}
-		 *            methodName
-		 * @private
-		 */
+	     * @param {string} methodName
+	     * @private
+	     */
 	    function invokeUpdateMethod(methodName, ecModel, payload) {
 	        var api = this._api;
 
@@ -967,12 +931,10 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * Prepare view instances of charts and components
-		 * 
-		 * @param {module:echarts/model/Global}
-		 *            ecModel
-		 * @private
-		 */
+	     * Prepare view instances of charts and components
+	     * @param  {module:echarts/model/Global} ecModel
+	     * @private
+	     */
 	    function prepareView(type, ecModel) {
 	        var isComponent = type === 'component';
 	        var viewList = isComponent ? this._componentsViews : this._chartsViews;
@@ -1035,12 +997,11 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * Processor data in each series
-		 * 
-		 * @param {module:echarts/model/Global}
-		 *            ecModel
-		 * @private
-		 */
+	     * Processor data in each series
+	     *
+	     * @param {module:echarts/model/Global} ecModel
+	     * @private
+	     */
 	    function processData(ecModel, api) {
 	        each(dataProcessorFuncs, function (process) {
 	            process.func(ecModel, api);
@@ -1048,8 +1009,8 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * @private
-		 */
+	     * @private
+	     */
 	    function stackSeriesData(ecModel) {
 	        var stackedDataMap = {};
 	        ecModel.eachSeries(function (series) {
@@ -1066,13 +1027,11 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * Layout before each chart render there series, special visual encoding
-		 * stage
-		 * 
-		 * @param {module:echarts/model/Global}
-		 *            ecModel
-		 * @private
-		 */
+	     * Layout before each chart render there series, special visual encoding stage
+	     *
+	     * @param {module:echarts/model/Global} ecModel
+	     * @private
+	     */
 	    function doLayout(ecModel, payload) {
 	        var api = this._api;
 	        each(visualFuncs, function (visual) {
@@ -1083,12 +1042,11 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * Encode visual infomation from data after data processing
-		 * 
-		 * @param {module:echarts/model/Global}
-		 *            ecModel
-		 * @private
-		 */
+	     * Encode visual infomation from data after data processing
+	     *
+	     * @param {module:echarts/model/Global} ecModel
+	     * @private
+	     */
 	    function doVisualEncoding(ecModel, payload) {
 	        var api = this._api;
 	        ecModel.clearColorPalette();
@@ -1101,10 +1059,9 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * Render each chart and component
-		 * 
-		 * @private
-		 */
+	     * Render each chart and component
+	     * @private
+	     */
 	    function doRender(ecModel, payload) {
 	        var api = this._api;
 	        // Render all components
@@ -1148,8 +1105,8 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        'click', 'dblclick', 'mouseover', 'mouseout', 'mousemove', 'mousedown', 'mouseup', 'globalout'
 	    ];
 	    /**
-		 * @private
-		 */
+	     * @private
+	     */
 	    echartsProto._initEvents = function () {
 	        each(MOUSE_EVENT_NAMES, function (eveName) {
 	            this._zr.on(eveName, function (e) {
@@ -1177,21 +1134,21 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * @return {boolean}
-		 */
+	     * @return {boolean}
+	     */
 	    echartsProto.isDisposed = function () {
 	        return this._disposed;
 	    };
 
 	    /**
-		 * Clear
-		 */
+	     * Clear
+	     */
 	    echartsProto.clear = function () {
 	        this.setOption({ series: [] }, true);
 	    };
 	    /**
-		 * Dispose instance
-		 */
+	     * Dispose instance
+	     */
 	    echartsProto.dispose = function () {
 	        if (this._disposed) {
 	            if (true) {
@@ -1236,13 +1193,10 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        }
 	    }
 	    /**
-		 * Update chart progressive and blend.
-		 * 
-		 * @param {module:echarts/model/Series|module:echarts/model/Component}
-		 *            model
-		 * @param {module:echarts/view/Component|module:echarts/view/Chart}
-		 *            view
-		 */
+	     * Update chart progressive and blend.
+	     * @param {module:echarts/model/Series|module:echarts/model/Component} model
+	     * @param {module:echarts/view/Component|module:echarts/view/Chart} view
+	     */
 	    function updateProgressiveAndBlend(seriesModel, chartView) {
 	        // Progressive configuration
 	        var elCount = 0;
@@ -1281,11 +1235,9 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        });
 	    }
 	    /**
-		 * @param {module:echarts/model/Series|module:echarts/model/Component}
-		 *            model
-		 * @param {module:echarts/view/Component|module:echarts/view/Chart}
-		 *            view
-		 */
+	     * @param {module:echarts/model/Series|module:echarts/model/Component} model
+	     * @param {module:echarts/view/Component|module:echarts/view/Chart} view
+	     */
 	    function updateZ(model, view) {
 	        var z = model.get('z');
 	        var zlevel = model.get('zlevel');
@@ -1298,48 +1250,44 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        });
 	    }
 	    /**
-		 * @type {Array.<Function>}
-		 * @inner
-		 */
+	     * @type {Array.<Function>}
+	     * @inner
+	     */
 	    var actions = [];
 
 	    /**
-		 * Map eventType to actionType
-		 * 
-		 * @type {Object}
-		 */
+	     * Map eventType to actionType
+	     * @type {Object}
+	     */
 	    var eventActionMap = {};
 
 	    /**
-		 * Data processor functions of each stage
-		 * 
-		 * @type {Array.<Object.<string, Function>>}
-		 * @inner
-		 */
+	     * Data processor functions of each stage
+	     * @type {Array.<Object.<string, Function>>}
+	     * @inner
+	     */
 	    var dataProcessorFuncs = [];
 
 	    /**
-		 * @type {Array.<Function>}
-		 * @inner
-		 */
+	     * @type {Array.<Function>}
+	     * @inner
+	     */
 	    var optionPreprocessorFuncs = [];
 
 	    /**
-		 * Visual encoding functions of each stage
-		 * 
-		 * @type {Array.<Object.<string, Function>>}
-		 * @inner
-		 */
+	     * Visual encoding functions of each stage
+	     * @type {Array.<Object.<string, Function>>}
+	     * @inner
+	     */
 	    var visualFuncs = [];
 	    /**
-		 * Theme storage
-		 * 
-		 * @type {Object.<key, Object>}
-		 */
+	     * Theme storage
+	     * @type {Object.<key, Object>}
+	     */
 	    var themeStorage = {};
 	    /**
-		 * Loading effects
-		 */
+	     * Loading effects
+	     */
 	    var loadingEffects = {};
 
 
@@ -1350,12 +1298,12 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    var groupIdBase = new Date() - 0;
 	    var DOM_ATTRIBUTE_KEY = '_echarts_instance_';
 	    /**
-		 * @alias module:echarts
-		 */
+	     * @alias module:echarts
+	     */
 	    var echarts = {
 	        /**
-			 * @type {number}
-			 */
+	         * @type {number}
+	         */
 	        version: '3.2.3',
 	        dependencies: {
 	            zrender: '3.1.3'
@@ -1398,13 +1346,10 @@ return /** *** */ (function(modules) { // webpackBootstrap
 
 	    }
 	    /**
-		 * @param {HTMLDomElement}
-		 *            dom
-		 * @param {Object}
-		 *            [theme]
-		 * @param {Object}
-		 *            opts
-		 */
+	     * @param {HTMLDomElement} dom
+	     * @param {Object} [theme]
+	     * @param {Object} opts
+	     */
 	    echarts.init = function (dom, theme, opts) {
 	        if (true) {
 	            // Check version
@@ -1437,8 +1382,8 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * @return {string|Array.<module:echarts~ECharts>} groupId
-		 */
+	     * @return {string|Array.<module:echarts~ECharts>} groupId
+	     */
 	    echarts.connect = function (groupId) {
 	        // Is array of charts
 	        if (zrUtil.isArray(groupId)) {
@@ -1460,18 +1405,16 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * @return {string} groupId
-		 */
+	     * @return {string} groupId
+	     */
 	    echarts.disConnect = function (groupId) {
 	        connectedGroups[groupId] = false;
 	    };
 
 	    /**
-		 * Dispose a chart instance
-		 * 
-		 * @param {module:echarts~ECharts|HTMLDomElement|string}
-		 *            chart
-		 */
+	     * Dispose a chart instance
+	     * @param  {module:echarts~ECharts|HTMLDomElement|string} chart
+	     */
 	    echarts.dispose = function (chart) {
 	        if (zrUtil.isDom(chart)) {
 	            chart = echarts.getInstanceByDom(chart);
@@ -1485,46 +1428,40 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * @param {HTMLDomElement}
-		 *            dom
-		 * @return {echarts~ECharts}
-		 */
+	     * @param  {HTMLDomElement} dom
+	     * @return {echarts~ECharts}
+	     */
 	    echarts.getInstanceByDom = function (dom) {
 	        var key = dom.getAttribute(DOM_ATTRIBUTE_KEY);
 	        return instances[key];
 	    };
 	    /**
-		 * @param {string}
-		 *            key
-		 * @return {echarts~ECharts}
-		 */
+	     * @param {string} key
+	     * @return {echarts~ECharts}
+	     */
 	    echarts.getInstanceById = function (key) {
 	        return instances[key];
 	    };
 
 	    /**
-		 * Register theme
-		 */
+	     * Register theme
+	     */
 	    echarts.registerTheme = function (name, theme) {
 	        themeStorage[name] = theme;
 	    };
 
 	    /**
-		 * Register option preprocessor
-		 * 
-		 * @param {Function}
-		 *            preprocessorFunc
-		 */
+	     * Register option preprocessor
+	     * @param {Function} preprocessorFunc
+	     */
 	    echarts.registerPreprocessor = function (preprocessorFunc) {
 	        optionPreprocessorFuncs.push(preprocessorFunc);
 	    };
 
 	    /**
-		 * @param {number}
-		 *            [priority=1000]
-		 * @param {Function}
-		 *            processorFunc
-		 */
+	     * @param {number} [priority=1000]
+	     * @param {Function} processorFunc
+	     */
 	    echarts.registerProcessor = function (priority, processorFunc) {
 	        if (typeof priority === 'function') {
 	            processorFunc = priority;
@@ -1542,24 +1479,21 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * Usage: registerAction('someAction', 'someEvent', function () { ...
-		 * }); registerAction('someAction', function () { ... });
-		 * registerAction( {type: 'someAction', event: 'someEvent', update:
-		 * 'updateView'}, function () { ... } );
-		 * 
-		 * @param {(string|Object)}
-		 *            actionInfo
-		 * @param {string}
-		 *            actionInfo.type
-		 * @param {string}
-		 *            [actionInfo.event]
-		 * @param {string}
-		 *            [actionInfo.update]
-		 * @param {string}
-		 *            [eventName]
-		 * @param {Function}
-		 *            action
-		 */
+	     * Usage:
+	     * registerAction('someAction', 'someEvent', function () { ... });
+	     * registerAction('someAction', function () { ... });
+	     * registerAction(
+	     *     {type: 'someAction', event: 'someEvent', update: 'updateView'},
+	     *     function () { ... }
+	     * );
+	     *
+	     * @param {(string|Object)} actionInfo
+	     * @param {string} actionInfo.type
+	     * @param {string} [actionInfo.event]
+	     * @param {string} [actionInfo.update]
+	     * @param {string} [eventName]
+	     * @param {Function} action
+	     */
 	    echarts.registerAction = function (actionInfo, eventName, action) {
 	        if (typeof eventName === 'function') {
 	            action = eventName;
@@ -1582,25 +1516,21 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * @param {string}
-		 *            type
-		 * @param {*}
-		 *            CoordinateSystem
-		 */
+	     * @param {string} type
+	     * @param {*} CoordinateSystem
+	     */
 	    echarts.registerCoordinateSystem = function (type, CoordinateSystem) {
 	        CoordinateSystemManager.register(type, CoordinateSystem);
 	    };
 
 	    /**
-		 * Layout is a special stage of visual encoding Most visual encoding
-		 * like color are common for different chart But each chart has it's own
-		 * layout algorithm
-		 * 
-		 * @param {number}
-		 *            [priority=1000]
-		 * @param {Function}
-		 *            layoutFunc
-		 */
+	     * Layout is a special stage of visual encoding
+	     * Most visual encoding like color are common for different chart
+	     * But each chart has it's own layout algorithm
+	     *
+	     * @param {number} [priority=1000]
+	     * @param {Function} layoutFunc
+	     */
 	    echarts.registerLayout = function (priority, layoutFunc) {
 	        if (typeof priority === 'function') {
 	            layoutFunc = priority;
@@ -1619,11 +1549,9 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * @param {number}
-		 *            [priority=3000]
-		 * @param {Function}
-		 *            visualFunc
-		 */
+	     * @param {number} [priority=3000]
+	     * @param {Function} visualFunc
+	     */
 	    echarts.registerVisual = function (priority, visualFunc) {
 	        if (typeof priority === 'function') {
 	            visualFunc = priority;
@@ -1641,9 +1569,8 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * @param {string}
-		 *            name
-		 */
+	     * @param {string} name
+	     */
 	    echarts.registerLoading = function (name, loadingFx) {
 	        loadingEffects[name] = loadingFx;
 	    };
@@ -1651,11 +1578,9 @@ return /** *** */ (function(modules) { // webpackBootstrap
 
 	    var parseClassType = ComponentModel.parseClassType;
 	    /**
-		 * @param {Object}
-		 *            opts
-		 * @param {string}
-		 *            [superClass]
-		 */
+	     * @param {Object} opts
+	     * @param {string} [superClass]
+	     */
 	    echarts.extendComponentModel = function (opts, superClass) {
 	        var Clazz = ComponentModel;
 	        if (superClass) {
@@ -1666,11 +1591,9 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * @param {Object}
-		 *            opts
-		 * @param {string}
-		 *            [superClass]
-		 */
+	     * @param {Object} opts
+	     * @param {string} [superClass]
+	     */
 	    echarts.extendComponentView = function (opts, superClass) {
 	        var Clazz = ComponentView;
 	        if (superClass) {
@@ -1681,11 +1604,9 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * @param {Object}
-		 *            opts
-		 * @param {string}
-		 *            [superClass]
-		 */
+	     * @param {Object} opts
+	     * @param {string} [superClass]
+	     */
 	    echarts.extendSeriesModel = function (opts, superClass) {
 	        var Clazz = SeriesModel;
 	        if (superClass) {
@@ -1697,11 +1618,9 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * @param {Object}
-		 *            opts
-		 * @param {string}
-		 *            [superClass]
-		 */
+	     * @param {Object} opts
+	     * @param {string} [superClass]
+	     */
 	    echarts.extendChartView = function (opts, superClass) {
 	        var Clazz = ChartView;
 	        if (superClass) {
@@ -1713,19 +1632,21 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * ZRender need a canvas context to do measureText. But in node
-		 * environment canvas may be created by node-canvas. So we need to
-		 * specify how to create a canvas instead of using
-		 * document.createElement('canvas')
-		 * 
-		 * Be careful of using it in the browser.
-		 * 
-		 * @param {Function}
-		 *            creator
-		 * @example var Canvas = require('canvas'); var echarts =
-		 *          require('echarts'); echarts.setCanvasCreator(function () { //
-		 *          Small size is enough. return new Canvas(32, 32); });
-		 */
+	     * ZRender need a canvas context to do measureText.
+	     * But in node environment canvas may be created by node-canvas.
+	     * So we need to specify how to create a canvas instead of using document.createElement('canvas')
+	     *
+	     * Be careful of using it in the browser.
+	     *
+	     * @param {Function} creator
+	     * @example
+	     *     var Canvas = require('canvas');
+	     *     var echarts = require('echarts');
+	     *     echarts.setCanvasCreator(function () {
+	     *         // Small size is enough.
+	     *         return new Canvas(32, 32);
+	     *     });
+	     */
 	    echarts.setCanvasCreator = function (creator) {
 	        zrUtil.createCanvas = creator;
 	    };
@@ -1796,7 +1717,7 @@ return /** *** */ (function(modules) { // webpackBootstrap
 
 	/**
 	 * echarts设备环境识别
-	 * 
+	 *
 	 * @desc echarts基于Canvas，纯Javascript图表库，提供直观，生动，可交互，可个性化定制的数据统计图表。
 	 * @author firede[firede@firede.us]
 	 * @desc thanks zepto.
@@ -1839,13 +1760,10 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        // var bb10 = ua.match(/(BB10).*Version\/([\d.]+)/);
 	        // var rimtabletos = ua.match(/(RIM\sTablet\sOS)\s([\d.]+)/);
 	        // var playbook = ua.match(/PlayBook/);
-	        // var chrome = ua.match(/Chrome\/([\d.]+)/) ||
-			// ua.match(/CriOS\/([\d.]+)/);
+	        // var chrome = ua.match(/Chrome\/([\d.]+)/) || ua.match(/CriOS\/([\d.]+)/);
 	        var firefox = ua.match(/Firefox\/([\d.]+)/);
 	        // var safari = webkit && ua.match(/Mobile\//) && !chrome;
-	        // var webview =
-			// ua.match(/(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/) &&
-			// !chrome;
+	        // var webview = ua.match(/(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/) && !chrome;
 	        var ie = ua.match(/MSIE\s([\d.]+)/)
 	            // IE 11 Trident/7.0; rv:11.0
 	            || ua.match(/Trident\/.+?rv:(([\d.]+))/);
@@ -1860,27 +1778,21 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        // if (browser.webkit = !!webkit) browser.version = webkit[1];
 
 	        // if (android) os.android = true, os.version = android[2];
-	        // if (iphone && !ipod) os.ios = os.iphone = true, os.version =
-			// iphone[2].replace(/_/g, '.');
-	        // if (ipad) os.ios = os.ipad = true, os.version =
-			// ipad[2].replace(/_/g, '.');
-	        // if (ipod) os.ios = os.ipod = true, os.version = ipod[3] ?
-			// ipod[3].replace(/_/g, '.') : null;
+	        // if (iphone && !ipod) os.ios = os.iphone = true, os.version = iphone[2].replace(/_/g, '.');
+	        // if (ipad) os.ios = os.ipad = true, os.version = ipad[2].replace(/_/g, '.');
+	        // if (ipod) os.ios = os.ipod = true, os.version = ipod[3] ? ipod[3].replace(/_/g, '.') : null;
 	        // if (webos) os.webos = true, os.version = webos[2];
 	        // if (touchpad) os.touchpad = true;
 	        // if (blackberry) os.blackberry = true, os.version = blackberry[2];
 	        // if (bb10) os.bb10 = true, os.version = bb10[2];
-	        // if (rimtabletos) os.rimtabletos = true, os.version =
-			// rimtabletos[2];
+	        // if (rimtabletos) os.rimtabletos = true, os.version = rimtabletos[2];
 	        // if (playbook) browser.playbook = true;
 	        // if (kindle) os.kindle = true, os.version = kindle[1];
 	        // if (silk) browser.silk = true, browser.version = silk[1];
-	        // if (!silk && os.android && ua.match(/Kindle Fire/)) browser.silk
-			// = true;
+	        // if (!silk && os.android && ua.match(/Kindle Fire/)) browser.silk = true;
 	        // if (chrome) browser.chrome = true, browser.version = chrome[1];
 	        if (firefox) browser.firefox = true, browser.version = firefox[1];
-	        // if (safari && (ua.match(/Safari/) || !!os.ios)) browser.safari =
-			// true;
+	        // if (safari && (ua.match(/Safari/) || !!os.ios)) browser.safari = true;
 	        // if (webview) browser.webview = true;
 	        if (ie) {
 	            browser.ie = true; browser.version = ie[1];
@@ -1894,37 +1806,28 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	            browser.version = edge[1];
 	        }
 
-	        // os.tablet = !!(ipad || playbook || (android &&
-			// !ua.match(/Mobile/)) ||
-	        // (firefox && ua.match(/Tablet/)) || (ie && !ua.match(/Phone/) &&
-			// ua.match(/Touch/)));
-	        // os.phone = !!(!os.tablet && !os.ipod && (android || iphone ||
-			// webos ||
-	        // (chrome && ua.match(/Android/)) || (chrome &&
-			// ua.match(/CriOS\/([\d.]+)/)) ||
-	        // (firefox && ua.match(/Mobile/)) || (ie && ua.match(/Touch/))));
+	        // os.tablet = !!(ipad || playbook || (android && !ua.match(/Mobile/)) ||
+	        //     (firefox && ua.match(/Tablet/)) || (ie && !ua.match(/Phone/) && ua.match(/Touch/)));
+	        // os.phone  = !!(!os.tablet && !os.ipod && (android || iphone || webos ||
+	        //     (chrome && ua.match(/Android/)) || (chrome && ua.match(/CriOS\/([\d.]+)/)) ||
+	        //     (firefox && ua.match(/Mobile/)) || (ie && ua.match(/Touch/))));
 
 	        return {
 	            browser: browser,
 	            os: os,
 	            node: false,
 	            // 原生canvas支持，改极端点了
-	            // canvasSupported : !(browser.ie && parseFloat(browser.version)
-				// < 9)
+	            // canvasSupported : !(browser.ie && parseFloat(browser.version) < 9)
 	            canvasSupported : document.createElement('canvas').getContext ? true : false,
-	            // @see
-				// <http://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-javascript>
+	            // @see <http://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-javascript>
 	            // works on most browsers
-	            // IE10/11 does not support touch event, and MS Edge supports
-				// them but not by
-	            // default, so we dont check navigator.maxTouchPoints for them
-				// here.
+	            // IE10/11 does not support touch event, and MS Edge supports them but not by
+	            // default, so we dont check navigator.maxTouchPoints for them here.
 	            touchEventsSupported: 'ontouchstart' in window && !browser.ie && !browser.edge,
 	            // <http://caniuse.com/#search=pointer%20event>.
 	            pointerEventsSupported: 'onpointerdown' in window
 	                // Firefox supports pointer but not by default,
-	                // only MS browsers are reliable on pointer events
-					// currently.
+	                // only MS browsers are reliable on pointer events currently.
 	                && (browser.edge || (browser.ie && browser.version >= 10))
 	        };
 	    }
@@ -1936,9 +1839,9 @@ return /** *** */ (function(modules) { // webpackBootstrap
 
 	/**
 	 * ECharts global model
-	 * 
+	 *
 	 * @module {echarts/model/Global}
-	 * 
+	 *
 	 */
 
 
@@ -1960,15 +1863,12 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    var OPTION_INNER_KEY = '\0_ec_inner';
 
 	    /**
-		 * @alias module:echarts/model/Global
-		 * 
-		 * @param {Object}
-		 *            option
-		 * @param {module:echarts/model/Model}
-		 *            parentModel
-		 * @param {Object}
-		 *            theme
-		 */
+	     * @alias module:echarts/model/Global
+	     *
+	     * @param {Object} option
+	     * @param {module:echarts/model/Model} parentModel
+	     * @param {Object} theme
+	     */
 	    var GlobalModel = Model.extend({
 
 	        constructor: GlobalModel,
@@ -1979,14 +1879,14 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	            this.option = null; // Mark as not initialized.
 
 	            /**
-				 * @type {module:echarts/model/Model}
-				 * @private
-				 */
+	             * @type {module:echarts/model/Model}
+	             * @private
+	             */
 	            this._theme = new Model(theme);
 
 	            /**
-				 * @type {module:echarts/model/OptionManager}
-				 */
+	             * @type {module:echarts/model/OptionManager}
+	             */
 	            this._optionManager = optionManager;
 	        },
 
@@ -2002,12 +1902,12 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-			 * @param {string}
-			 *            type null/undefined: reset all. 'recreate': force
-			 *            recreate all. 'timeline': only reset timeline option
-			 *            'media': only reset media query option
-			 * @return {boolean} Whether option changed.
-			 */
+	         * @param {string} type null/undefined: reset all.
+	         *                      'recreate': force recreate all.
+	         *                      'timeline': only reset timeline option
+	         *                      'media': only reset media query option
+	         * @return {boolean} Whether option changed.
+	         */
 	        resetOption: function (type) {
 	            var optionChanged = false;
 	            var optionManager = this._optionManager;
@@ -2047,8 +1947,8 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-			 * @protected
-			 */
+	         * @protected
+	         */
 	        mergeOption: function (newOption) {
 	            var option = this.option;
 	            var componentsMap = this._componentsMap;
@@ -2102,8 +2002,7 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	                        'Empty component definition'
 	                    );
 
-	                    // Consider where is no new option and should be merged
-						// using {},
+	                    // Consider where is no new option and should be merged using {},
 	                    // see removeEdgeAndAdd in topologicalTravel and
 	                    // ComponentModel.getAllClassMainTypes.
 	                    if (!newCptOption) {
@@ -2133,10 +2032,8 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	                            );
 	                            componentModel.init(newCptOption, this, this, extraOpt);
 	                            // Call optionUpdated after init.
-	                            // newCptOption has been used as
-								// componentModel.option
-	                            // and may be merged with theme and default, so
-								// pass null
+	                            // newCptOption has been used as componentModel.option
+	                            // and may be merged with theme and default, so pass null
 	                            // to avoid confusion.
 	                            componentModel.optionUpdated(null, true);
 	                        }
@@ -2154,11 +2051,10 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-			 * Get option for output (cloned option and inner info removed)
-			 * 
-			 * @public
-			 * @return {Object}
-			 */
+	         * Get option for output (cloned option and inner info removed)
+	         * @public
+	         * @return {Object}
+	         */
 	        getOption: function () {
 	            var option = zrUtil.clone(this.option);
 
@@ -2181,19 +2077,17 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-			 * @return {module:echarts/model/Model}
-			 */
+	         * @return {module:echarts/model/Model}
+	         */
 	        getTheme: function () {
 	            return this._theme;
 	        },
 
 	        /**
-			 * @param {string}
-			 *            mainType
-			 * @param {number}
-			 *            [idx=0]
-			 * @return {module:echarts/model/Component}
-			 */
+	         * @param {string} mainType
+	         * @param {number} [idx=0]
+	         * @return {module:echarts/model/Component}
+	         */
 	        getComponent: function (mainType, idx) {
 	            var list = this._componentsMap[mainType];
 	            if (list) {
@@ -2202,20 +2096,14 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-			 * @param {Object}
-			 *            condition
-			 * @param {string}
-			 *            condition.mainType
-			 * @param {string}
-			 *            [condition.subType] If ignore, only query by mainType
-			 * @param {number}
-			 *            [condition.index] Either input index or id or name.
-			 * @param {string}
-			 *            [condition.id] Either input index or id or name.
-			 * @param {string}
-			 *            [condition.name] Either input index or id or name.
-			 * @return {Array.<module:echarts/model/Component>}
-			 */
+	         * @param {Object} condition
+	         * @param {string} condition.mainType
+	         * @param {string} [condition.subType] If ignore, only query by mainType
+	         * @param {number} [condition.index] Either input index or id or name.
+	         * @param {string} [condition.id] Either input index or id or name.
+	         * @param {string} [condition.name] Either input index or id or name.
+	         * @return {Array.<module:echarts/model/Component>}
+	         */
 	        queryComponents: function (condition) {
 	            var mainType = condition.mainType;
 	            if (!mainType) {
@@ -2267,34 +2155,33 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-			 * The interface is different from queryComponents, which is
-			 * convenient for inner usage.
-			 * 
-			 * @usage var result = findComponents( {mainType: 'dataZoom', query:
-			 *        {dataZoomId: 'abc'}} ); var result = findComponents(
-			 *        {mainType: 'series', subType: 'pie', query: {seriesName:
-			 *        'uio'}} ); var result = findComponents( {mainType:
-			 *        'series'}, function (model, index) {...} ); // result like
-			 *        [component0, componnet1, ...]
-			 * 
-			 * @param {Object}
-			 *            condition
-			 * @param {string}
-			 *            condition.mainType Mandatory.
-			 * @param {string}
-			 *            [condition.subType] Optional.
-			 * @param {Object}
-			 *            [condition.query] like {xxxIndex, xxxId, xxxName},
-			 *            where xxx is mainType. If query attribute is
-			 *            null/undefined or has no index/id/name, do not
-			 *            filtering by query conditions, which is convenient for
-			 *            no-payload situations or when target of action is
-			 *            global.
-			 * @param {Function}
-			 *            [condition.filter] parameter: component, return
-			 *            boolean.
-			 * @return {Array.<module:echarts/model/Component>}
-			 */
+	         * The interface is different from queryComponents,
+	         * which is convenient for inner usage.
+	         *
+	         * @usage
+	         * var result = findComponents(
+	         *     {mainType: 'dataZoom', query: {dataZoomId: 'abc'}}
+	         * );
+	         * var result = findComponents(
+	         *     {mainType: 'series', subType: 'pie', query: {seriesName: 'uio'}}
+	         * );
+	         * var result = findComponents(
+	         *     {mainType: 'series'},
+	         *     function (model, index) {...}
+	         * );
+	         * // result like [component0, componnet1, ...]
+	         *
+	         * @param {Object} condition
+	         * @param {string} condition.mainType Mandatory.
+	         * @param {string} [condition.subType] Optional.
+	         * @param {Object} [condition.query] like {xxxIndex, xxxId, xxxName},
+	         *        where xxx is mainType.
+	         *        If query attribute is null/undefined or has no index/id/name,
+	         *        do not filtering by query conditions, which is convenient for
+	         *        no-payload situations or when target of action is global.
+	         * @param {Function} [condition.filter] parameter: component, return boolean.
+	         * @return {Array.<module:echarts/model/Component>}
+	         */
 	        findComponents: function (condition) {
 	            var query = condition.query;
 	            var mainType = condition.mainType;
@@ -2333,23 +2220,28 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-			 * @usage eachComponent('legend', function (legendModel, index) {
-			 *        ... }); eachComponent(function (componentType, model,
-			 *        index) { // componentType does not include subType //
-			 *        (componentType is 'xxx' but not 'xxx.aa') });
-			 *        eachComponent( {mainType: 'dataZoom', query: {dataZoomId:
-			 *        'abc'}}, function (model, index) {...} ); eachComponent(
-			 *        {mainType: 'series', subType: 'pie', query: {seriesName:
-			 *        'uio'}}, function (model, index) {...} );
-			 * 
-			 * @param {string|Object=}
-			 *            mainType When mainType is object, the definition is
-			 *            the same as the method 'findComponents'.
-			 * @param {Function}
-			 *            cb
-			 * @param {*}
-			 *            context
-			 */
+	         * @usage
+	         * eachComponent('legend', function (legendModel, index) {
+	         *     ...
+	         * });
+	         * eachComponent(function (componentType, model, index) {
+	         *     // componentType does not include subType
+	         *     // (componentType is 'xxx' but not 'xxx.aa')
+	         * });
+	         * eachComponent(
+	         *     {mainType: 'dataZoom', query: {dataZoomId: 'abc'}},
+	         *     function (model, index) {...}
+	         * );
+	         * eachComponent(
+	         *     {mainType: 'series', subType: 'pie', query: {seriesName: 'uio'}},
+	         *     function (model, index) {...}
+	         * );
+	         *
+	         * @param {string|Object=} mainType When mainType is object, the definition
+	         *                                  is the same as the method 'findComponents'.
+	         * @param {Function} cb
+	         * @param {*} context
+	         */
 	        eachComponent: function (mainType, cb, context) {
 	            var componentsMap = this._componentsMap;
 
@@ -2372,10 +2264,9 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-			 * @param {string}
-			 *            name
-			 * @return {Array.<module:echarts/model/Series>}
-			 */
+	         * @param {string} name
+	         * @return {Array.<module:echarts/model/Series>}
+	         */
 	        getSeriesByName: function (name) {
 	            var series = this._componentsMap.series;
 	            return filter(series, function (oneSeries) {
@@ -2384,19 +2275,17 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-			 * @param {number}
-			 *            seriesIndex
-			 * @return {module:echarts/model/Series}
-			 */
+	         * @param {number} seriesIndex
+	         * @return {module:echarts/model/Series}
+	         */
 	        getSeriesByIndex: function (seriesIndex) {
 	            return this._componentsMap.series[seriesIndex];
 	        },
 
 	        /**
-			 * @param {string}
-			 *            subType
-			 * @return {Array.<module:echarts/model/Series>}
-			 */
+	         * @param {string} subType
+	         * @return {Array.<module:echarts/model/Series>}
+	         */
 	        getSeriesByType: function (subType) {
 	            var series = this._componentsMap.series;
 	            return filter(series, function (oneSeries) {
@@ -2405,20 +2294,19 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-			 * @return {Array.<module:echarts/model/Series>}
-			 */
+	         * @return {Array.<module:echarts/model/Series>}
+	         */
 	        getSeries: function () {
 	            return this._componentsMap.series.slice();
 	        },
 
 	        /**
-			 * After filtering, series may be different frome raw series.
-			 * 
-			 * @param {Function}
-			 *            cb
-			 * @param {*}
-			 *            context
-			 */
+	         * After filtering, series may be different
+	         * frome raw series.
+	         *
+	         * @param {Function} cb
+	         * @param {*} context
+	         */
 	        eachSeries: function (cb, context) {
 	            assertSeriesInitialized(this);
 	            each(this._seriesIndices, function (rawSeriesIndex) {
@@ -2428,26 +2316,23 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-			 * Iterate raw series before filtered.
-			 * 
-			 * @param {Function}
-			 *            cb
-			 * @param {*}
-			 *            context
-			 */
+	         * Iterate raw series before filtered.
+	         *
+	         * @param {Function} cb
+	         * @param {*} context
+	         */
 	        eachRawSeries: function (cb, context) {
 	            each(this._componentsMap.series, cb, context);
 	        },
 
 	        /**
-			 * After filtering, series may be different. frome raw series.
-			 * 
-			 * @parma {string} subType
-			 * @param {Function}
-			 *            cb
-			 * @param {*}
-			 *            context
-			 */
+	         * After filtering, series may be different.
+	         * frome raw series.
+	         *
+	         * @parma {string} subType
+	         * @param {Function} cb
+	         * @param {*} context
+	         */
 	        eachSeriesByType: function (subType, cb, context) {
 	            assertSeriesInitialized(this);
 	            each(this._seriesIndices, function (rawSeriesIndex) {
@@ -2459,33 +2344,28 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-			 * Iterate raw series before filtered of given type.
-			 * 
-			 * @parma {string} subType
-			 * @param {Function}
-			 *            cb
-			 * @param {*}
-			 *            context
-			 */
+	         * Iterate raw series before filtered of given type.
+	         *
+	         * @parma {string} subType
+	         * @param {Function} cb
+	         * @param {*} context
+	         */
 	        eachRawSeriesByType: function (subType, cb, context) {
 	            return each(this.getSeriesByType(subType), cb, context);
 	        },
 
 	        /**
-			 * @param {module:echarts/model/Series}
-			 *            seriesModel
-			 */
+	         * @param {module:echarts/model/Series} seriesModel
+	         */
 	        isSeriesFiltered: function (seriesModel) {
 	            assertSeriesInitialized(this);
 	            return zrUtil.indexOf(this._seriesIndices, seriesModel.componentIndex) < 0;
 	        },
 
 	        /**
-			 * @param {Function}
-			 *            cb
-			 * @param {*}
-			 *            context
-			 */
+	         * @param {Function} cb
+	         * @param {*} context
+	         */
 	        filterSeries: function (cb, context) {
 	            assertSeriesInitialized(this);
 	            var filteredSeries = filter(
@@ -2518,8 +2398,8 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    });
 
 	    /**
-		 * @inner
-		 */
+	     * @inner
+	     */
 	    function mergeTheme(option, theme) {
 	        for (var name in theme) {
 	            // 如果有 component model 则把具体的 merge 逻辑交给该 model 处理
@@ -2541,25 +2421,23 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    function initBase(baseOption) {
 	        baseOption = baseOption;
 
-	        // Using OPTION_INNER_KEY to mark that this option can not be used
-			// outside,
+	        // Using OPTION_INNER_KEY to mark that this option can not be used outside,
 	        // i.e. `chart.setOption(chart.getModel().option);` is forbiden.
 	        this.option = {};
 	        this.option[OPTION_INNER_KEY] = 1;
 
 	        /**
-			 * @type {Object.<string, Array.<module:echarts/model/Model>>}
-			 * @private
-			 */
+	         * @type {Object.<string, Array.<module:echarts/model/Model>>}
+	         * @private
+	         */
 	        this._componentsMap = {};
 
 	        /**
-			 * Mapping between filtered series list and raw series list. key:
-			 * filtered series indices, value: raw series indices.
-			 * 
-			 * @type {Array.<nubmer>}
-			 * @private
-			 */
+	         * Mapping between filtered series list and raw series list.
+	         * key: filtered series indices, value: raw series indices.
+	         * @type {Array.<nubmer>}
+	         * @private
+	         */
 	        this._seriesIndices = null;
 
 	        mergeTheme(baseOption, this._theme.option);
@@ -2571,11 +2449,10 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * @inner
-		 * @param {Array.
-		 *            <string>|string} types model types
-		 * @return {Object} key: {string} type, value: {Array.<Object>} models
-		 */
+	     * @inner
+	     * @param {Array.<string>|string} types model types
+	     * @return {Object} key: {string} type, value: {Array.<Object>} models
+	     */
 	    function getComponentsByTypes(componentsMap, types) {
 	        if (!zrUtil.isArray(types)) {
 	            types = types ? [types] : [];
@@ -2590,8 +2467,8 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * @inner
-		 */
+	     * @inner
+	     */
 	    function makeKeyInfo(mainType, mapResult) {
 	        // We use this id to hash component models and view instances
 	        // in echarts. id can be specified by user, or auto generated.
@@ -2657,8 +2534,8 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	            }
 	            else {
 	                // Consider this situatoin:
-	                // optionA: [{name: 'a'}, {name: 'a'}, {..}]
-	                // optionB [{..}, {name: 'a'}, {name: 'a'}]
+	                //  optionA: [{name: 'a'}, {name: 'a'}, {..}]
+	                //  optionB [{..}, {name: 'a'}, {name: 'a'}]
 	                // Series with the same name between optionA and optionB
 	                // should be mapped.
 	                var idNum = 0;
@@ -2673,8 +2550,8 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * @inner
-		 */
+	     * @inner
+	     */
 	    function determineSubType(mainType, newCptOption, existComponent) {
 	        var subType = newCptOption.type
 	            ? newCptOption.type
@@ -2688,8 +2565,8 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * @inner
-		 */
+	     * @inner
+	     */
 	    function createSeriesIndices(seriesModels) {
 	        return map(seriesModels, function (series) {
 	            return series.componentIndex;
@@ -2697,8 +2574,8 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * @inner
-		 */
+	     * @inner
+	     */
 	    function filterBySubType(components, condition) {
 	        // Using hasOwnProperty for restrict. Consider
 	        // subType is undefined in user payload.
@@ -2710,11 +2587,10 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * @inner
-		 */
+	     * @inner
+	     */
 	    function assertSeriesInitialized(ecModel) {
-	        // Components that use _seriesIndices should depends on series
-			// component,
+	        // Components that use _seriesIndices should depends on series component,
 	        // which make sure that their initialization is after series.
 	        if (true) {
 	            if (!ecModel._seriesIndices) {
@@ -2759,10 +2635,9 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    var nativeReduce = arrayProto.reduce;
 
 	    /**
-		 * @param {*}
-		 *            source
-		 * @return {*} 拷贝后的新对象
-		 */
+	     * @param {*} source
+	     * @return {*} 拷贝后的新对象
+	     */
 	    function clone(source) {
 	        if (typeof source == 'object' && source !== null) {
 	            var result = source;
@@ -2792,14 +2667,11 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * @memberOf module:zrender/core/util
-		 * @param {*}
-		 *            target
-		 * @param {*}
-		 *            source
-		 * @param {boolean}
-		 *            [overwrite=false]
-		 */
+	     * @memberOf module:zrender/core/util
+	     * @param {*} target
+	     * @param {*} source
+	     * @param {boolean} [overwrite=false]
+	     */
 	    function merge(target, source, overwrite) {
 	        // We should escapse that source is string
 	        // and enter for ... in ...
@@ -2836,13 +2708,10 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * @param {Array}
-		 *            targetAndSources The first item is target, and the rests
-		 *            are source.
-		 * @param {boolean}
-		 *            [overwrite=false]
-		 * @return {*} target
-		 */
+	     * @param {Array} targetAndSources The first item is target, and the rests are source.
+	     * @param {boolean} [overwrite=false]
+	     * @return {*} target
+	     */
 	    function mergeAll(targetAndSources, overwrite) {
 	        var result = targetAndSources[0];
 	        for (var i = 1, len = targetAndSources.length; i < len; i++) {
@@ -2852,12 +2721,10 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * @param {*}
-		 *            target
-		 * @param {*}
-		 *            source
-		 * @memberOf module:zrender/core/util
-		 */
+	     * @param {*} target
+	     * @param {*} source
+	     * @memberOf module:zrender/core/util
+	     */
 	    function extend(target, source) {
 	        for (var key in source) {
 	            if (source.hasOwnProperty(key)) {
@@ -2868,14 +2735,11 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * @param {*}
-		 *            target
-		 * @param {*}
-		 *            source
-		 * @param {boolen}
-		 *            [overlay=false]
-		 * @memberOf module:zrender/core/util
-		 */
+	     * @param {*} target
+	     * @param {*} source
+	     * @param {boolen} [overlay=false]
+	     * @memberOf module:zrender/core/util
+	     */
 	    function defaults(target, source, overlay) {
 	        for (var key in source) {
 	            if (source.hasOwnProperty(key)
@@ -2895,18 +2759,16 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    function getContext() {
 	        if (!_ctx) {
 	            // Use util.createCanvas instead of createCanvas
-	            // because createCanvas may be overwritten in different
-				// environment
+	            // because createCanvas may be overwritten in different environment
 	            _ctx = util.createCanvas().getContext('2d');
 	        }
 	        return _ctx;
 	    }
 
 	    /**
-		 * 查询数组中元素的index
-		 * 
-		 * @memberOf module:zrender/core/util
-		 */
+	     * 查询数组中元素的index
+	     * @memberOf module:zrender/core/util
+	     */
 	    function indexOf(array, value) {
 	        if (array) {
 	            if (array.indexOf) {
@@ -2922,14 +2784,12 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * 构造类继承关系
-		 * 
-		 * @memberOf module:zrender/core/util
-		 * @param {Function}
-		 *            clazz 源类
-		 * @param {Function}
-		 *            baseClazz 基类
-		 */
+	     * 构造类继承关系
+	     *
+	     * @memberOf module:zrender/core/util
+	     * @param {Function} clazz 源类
+	     * @param {Function} baseClazz 基类
+	     */
 	    function inherits(clazz, baseClazz) {
 	        var clazzPrototype = clazz.prototype;
 	        function F() {}
@@ -2944,14 +2804,11 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * @memberOf module:zrender/core/util
-		 * @param {Object|Function}
-		 *            target
-		 * @param {Object|Function}
-		 *            sorce
-		 * @param {boolean}
-		 *            overlay
-		 */
+	     * @memberOf module:zrender/core/util
+	     * @param {Object|Function} target
+	     * @param {Object|Function} sorce
+	     * @param {boolean} overlay
+	     */
 	    function mixin(target, source, overlay) {
 	        target = 'prototype' in target ? target.prototype : target;
 	        source = 'prototype' in source ? source.prototype : source;
@@ -2960,9 +2817,8 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * @param {Array|TypedArray}
-		 *            data
-		 */
+	     * @param {Array|TypedArray} data
+	     */
 	    function isArrayLike(data) {
 	        if (! data) {
 	            return;
@@ -2974,16 +2830,12 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * 数组或对象遍历
-		 * 
-		 * @memberOf module:zrender/core/util
-		 * @param {Object|Array}
-		 *            obj
-		 * @param {Function}
-		 *            cb
-		 * @param {*}
-		 *            [context]
-		 */
+	     * 数组或对象遍历
+	     * @memberOf module:zrender/core/util
+	     * @param {Object|Array} obj
+	     * @param {Function} cb
+	     * @param {*} [context]
+	     */
 	    function each(obj, cb, context) {
 	        if (!(obj && cb)) {
 	            return;
@@ -3006,17 +2858,13 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * 数组映射
-		 * 
-		 * @memberOf module:zrender/core/util
-		 * @param {Array}
-		 *            obj
-		 * @param {Function}
-		 *            cb
-		 * @param {*}
-		 *            [context]
-		 * @return {Array}
-		 */
+	     * 数组映射
+	     * @memberOf module:zrender/core/util
+	     * @param {Array} obj
+	     * @param {Function} cb
+	     * @param {*} [context]
+	     * @return {Array}
+	     */
 	    function map(obj, cb, context) {
 	        if (!(obj && cb)) {
 	            return;
@@ -3034,17 +2882,13 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * @memberOf module:zrender/core/util
-		 * @param {Array}
-		 *            obj
-		 * @param {Function}
-		 *            cb
-		 * @param {Object}
-		 *            [memo]
-		 * @param {*}
-		 *            [context]
-		 * @return {Array}
-		 */
+	     * @memberOf module:zrender/core/util
+	     * @param {Array} obj
+	     * @param {Function} cb
+	     * @param {Object} [memo]
+	     * @param {*} [context]
+	     * @return {Array}
+	     */
 	    function reduce(obj, cb, memo, context) {
 	        if (!(obj && cb)) {
 	            return;
@@ -3061,17 +2905,13 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * 数组过滤
-		 * 
-		 * @memberOf module:zrender/core/util
-		 * @param {Array}
-		 *            obj
-		 * @param {Function}
-		 *            cb
-		 * @param {*}
-		 *            [context]
-		 * @return {Array}
-		 */
+	     * 数组过滤
+	     * @memberOf module:zrender/core/util
+	     * @param {Array} obj
+	     * @param {Function} cb
+	     * @param {*} [context]
+	     * @return {Array}
+	     */
 	    function filter(obj, cb, context) {
 	        if (!(obj && cb)) {
 	            return;
@@ -3091,17 +2931,13 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * 数组项查找
-		 * 
-		 * @memberOf module:zrender/core/util
-		 * @param {Array}
-		 *            obj
-		 * @param {Function}
-		 *            cb
-		 * @param {*}
-		 *            [context]
-		 * @return {Array}
-		 */
+	     * 数组项查找
+	     * @memberOf module:zrender/core/util
+	     * @param {Array} obj
+	     * @param {Function} cb
+	     * @param {*} [context]
+	     * @return {Array}
+	     */
 	    function find(obj, cb, context) {
 	        if (!(obj && cb)) {
 	            return;
@@ -3114,13 +2950,11 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * @memberOf module:zrender/core/util
-		 * @param {Function}
-		 *            func
-		 * @param {*}
-		 *            context
-		 * @return {Function}
-		 */
+	     * @memberOf module:zrender/core/util
+	     * @param {Function} func
+	     * @param {*} context
+	     * @return {Function}
+	     */
 	    function bind(func, context) {
 	        var args = nativeSlice.call(arguments, 2);
 	        return function () {
@@ -3129,11 +2963,10 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * @memberOf module:zrender/core/util
-		 * @param {Function}
-		 *            func
-		 * @return {Function}
-		 */
+	     * @memberOf module:zrender/core/util
+	     * @param {Function} func
+	     * @return {Function}
+	     */
 	    function curry(func) {
 	        var args = nativeSlice.call(arguments, 1);
 	        return function () {
@@ -3142,77 +2975,68 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * @memberOf module:zrender/core/util
-		 * @param {*}
-		 *            value
-		 * @return {boolean}
-		 */
+	     * @memberOf module:zrender/core/util
+	     * @param {*} value
+	     * @return {boolean}
+	     */
 	    function isArray(value) {
 	        return objToString.call(value) === '[object Array]';
 	    }
 
 	    /**
-		 * @memberOf module:zrender/core/util
-		 * @param {*}
-		 *            value
-		 * @return {boolean}
-		 */
+	     * @memberOf module:zrender/core/util
+	     * @param {*} value
+	     * @return {boolean}
+	     */
 	    function isFunction(value) {
 	        return typeof value === 'function';
 	    }
 
 	    /**
-		 * @memberOf module:zrender/core/util
-		 * @param {*}
-		 *            value
-		 * @return {boolean}
-		 */
+	     * @memberOf module:zrender/core/util
+	     * @param {*} value
+	     * @return {boolean}
+	     */
 	    function isString(value) {
 	        return objToString.call(value) === '[object String]';
 	    }
 
 	    /**
-		 * @memberOf module:zrender/core/util
-		 * @param {*}
-		 *            value
-		 * @return {boolean}
-		 */
+	     * @memberOf module:zrender/core/util
+	     * @param {*} value
+	     * @return {boolean}
+	     */
 	    function isObject(value) {
 	        // Avoid a V8 JIT bug in Chrome 19-20.
-	        // See https://code.google.com/p/v8/issues/detail?id=2291 for more
-			// details.
+	        // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
 	        var type = typeof value;
 	        return type === 'function' || (!!value && type == 'object');
 	    }
 
 	    /**
-		 * @memberOf module:zrender/core/util
-		 * @param {*}
-		 *            value
-		 * @return {boolean}
-		 */
+	     * @memberOf module:zrender/core/util
+	     * @param {*} value
+	     * @return {boolean}
+	     */
 	    function isBuildInObject(value) {
 	        return !!BUILTIN_OBJECT[objToString.call(value)];
 	    }
 
 	    /**
-		 * @memberOf module:zrender/core/util
-		 * @param {*}
-		 *            value
-		 * @return {boolean}
-		 */
+	     * @memberOf module:zrender/core/util
+	     * @param {*} value
+	     * @return {boolean}
+	     */
 	    function isDom(value) {
 	        return value && value.nodeType === 1
 	               && typeof(value.nodeName) == 'string';
 	    }
 
 	    /**
-		 * If value1 is not null, then return value1, otherwise judget rest of
-		 * values.
-		 * 
-		 * @memberOf module:zrender/core/util
-		 * @return {*} Final value
-		 */
+	     * If value1 is not null, then return value1, otherwise judget rest of values.
+	     * @memberOf module:zrender/core/util
+	     * @return {*} Final value
+	     */
 	    function retrieve(values) {
 	        for (var i = 0, len = arguments.length; i < len; i++) {
 	            if (arguments[i] != null) {
@@ -3222,26 +3046,21 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * @memberOf module:zrender/core/util
-		 * @param {Array}
-		 *            arr
-		 * @param {number}
-		 *            startIndex
-		 * @param {number}
-		 *            endIndex
-		 * @return {Array}
-		 */
+	     * @memberOf module:zrender/core/util
+	     * @param {Array} arr
+	     * @param {number} startIndex
+	     * @param {number} endIndex
+	     * @return {Array}
+	     */
 	    function slice() {
 	        return Function.call.apply(nativeSlice, arguments);
 	    }
 
 	    /**
-		 * @memberOf module:zrender/core/util
-		 * @param {boolean}
-		 *            condition
-		 * @param {string}
-		 *            message
-		 */
+	     * @memberOf module:zrender/core/util
+	     * @param {boolean} condition
+	     * @param {string} message
+	     */
 	    function assert(condition, message) {
 	        if (!condition) {
 	            throw new Error(message);
@@ -3296,12 +3115,10 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    var modelUtil = {};
 
 	    /**
-		 * If value is not array, then translate it to array.
-		 * 
-		 * @param {*}
-		 *            value
-		 * @return {Array} [value] or value
-		 */
+	     * If value is not array, then translate it to array.
+	     * @param  {*} value
+	     * @return {Array} [value] or value
+	     */
 	    modelUtil.normalizeToArray = function (value) {
 	        return value instanceof Array
 	            ? value
@@ -3311,16 +3128,23 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * Sync default option between normal and emphasis like `position` and
-		 * `show` In case some one will write code like label: { normal: { show:
-		 * false, position: 'outside', textStyle: { fontSize: 18 } }, emphasis: {
-		 * show: true } }
-		 * 
-		 * @param {Object}
-		 *            opt
-		 * @param {Array.
-		 *            <string>} subOpts
-		 */
+	     * Sync default option between normal and emphasis like `position` and `show`
+	     * In case some one will write code like
+	     *     label: {
+	     *         normal: {
+	     *             show: false,
+	     *             position: 'outside',
+	     *             textStyle: {
+	     *                 fontSize: 18
+	     *             }
+	     *         },
+	     *         emphasis: {
+	     *             show: true
+	     *         }
+	     *     }
+	     * @param {Object} opt
+	     * @param {Array.<string>} subOpts
+	     */
 	     modelUtil.defaultEmphasis = function (opt, subOpts) {
 	        if (opt) {
 	            var emphasisOpt = opt.emphasis = opt.emphasis || {};
@@ -3339,42 +3163,33 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    modelUtil.LABEL_OPTIONS = ['position', 'show', 'textStyle', 'distance', 'formatter'];
 
 	    /**
-		 * data could be [12, 2323, {value: 223}, [1221, 23], {value: [2, 23]}]
-		 * This helper method retieves value from data.
-		 * 
-		 * @param {string|number|Date|Array|Object}
-		 *            dataItem
-		 * @return {number|string|Date|Array.<number|string|Date>}
-		 */
+	     * data could be [12, 2323, {value: 223}, [1221, 23], {value: [2, 23]}]
+	     * This helper method retieves value from data.
+	     * @param {string|number|Date|Array|Object} dataItem
+	     * @return {number|string|Date|Array.<number|string|Date>}
+	     */
 	    modelUtil.getDataItemValue = function (dataItem) {
 	        // Performance sensitive.
 	        return dataItem && (dataItem.value == null ? dataItem : dataItem.value);
 	    };
 
 	    /**
-		 * data could be [12, 2323, {value: 223}, [1221, 23], {value: [2, 23]}]
-		 * This helper method determine if dataItem has extra option besides
-		 * value
-		 * 
-		 * @param {string|number|Date|Array|Object}
-		 *            dataItem
-		 */
+	     * data could be [12, 2323, {value: 223}, [1221, 23], {value: [2, 23]}]
+	     * This helper method determine if dataItem has extra option besides value
+	     * @param {string|number|Date|Array|Object} dataItem
+	     */
 	    modelUtil.isDataItemOption = function (dataItem) {
 	        return zrUtil.isObject(dataItem)
 	            && !(dataItem instanceof Array);
 	            // // markLine data can be array
-	            // && !(dataItem[0] && zrUtil.isObject(dataItem[0]) &&
-				// !(dataItem[0] instanceof Array));
+	            // && !(dataItem[0] && zrUtil.isObject(dataItem[0]) && !(dataItem[0] instanceof Array));
 	    };
 
 	    /**
-		 * This helper method convert value in data.
-		 * 
-		 * @param {string|number|Date}
-		 *            value
-		 * @param {Object|string}
-		 *            [dimInfo] If string (like 'x'), dimType defaults 'number'.
-		 */
+	     * This helper method convert value in data.
+	     * @param {string|number|Date} value
+	     * @param {Object|string} [dimInfo] If string (like 'x'), dimType defaults 'number'.
+	     */
 	    modelUtil.converDataValue = function (value, dimInfo) {
 	        // Performance sensitive.
 	        var dimType = dimInfo && dimInfo.type;
@@ -3387,30 +3202,21 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        }
 
 	        // dimType defaults 'number'.
-	        // If dimType is not ordinal and value is null or undefined or NaN
-			// or '-',
+	        // If dimType is not ordinal and value is null or undefined or NaN or '-',
 	        // parse to NaN.
 	        return (value == null || value === '')
 	            ? NaN : +value; // If string (like '-'), using '+' parse to NaN
 	    };
 
 	    /**
-		 * Create a model proxy to be used in tooltip for edge data, markLine
-		 * data, markPoint data.
-		 * 
-		 * @param {module:echarts/data/List}
-		 *            data
-		 * @param {Object}
-		 *            opt
-		 * @param {string}
-		 *            [opt.seriesIndex]
-		 * @param {Object}
-		 *            [opt.name]
-		 * @param {Object}
-		 *            [opt.mainType]
-		 * @param {Object}
-		 *            [opt.subType]
-		 */
+	     * Create a model proxy to be used in tooltip for edge data, markLine data, markPoint data.
+	     * @param {module:echarts/data/List} data
+	     * @param {Object} opt
+	     * @param {string} [opt.seriesIndex]
+	     * @param {Object} [opt.name]
+	     * @param {Object} [opt.mainType]
+	     * @param {Object} [opt.subType]
+	     */
 	    modelUtil.createDataFormatModel = function (data, opt) {
 	        var model = new Model();
 	        zrUtil.mixin(model, modelUtil.dataFormatMixin);
@@ -3428,14 +3234,11 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    // PENDING A little ugly
 	    modelUtil.dataFormatMixin = {
 	        /**
-			 * Get params for formatter
-			 * 
-			 * @param {number}
-			 *            dataIndex
-			 * @param {string}
-			 *            [dataType]
-			 * @return {Object}
-			 */
+	         * Get params for formatter
+	         * @param {number} dataIndex
+	         * @param {string} [dataType]
+	         * @return {Object}
+	         */
 	        getDataParams: function (dataIndex, dataType) {
 	            var data = this.getData(dataType);
 
@@ -3466,18 +3269,13 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-			 * Format label
-			 * 
-			 * @param {number}
-			 *            dataIndex
-			 * @param {string}
-			 *            [status='normal'] 'normal' or 'emphasis'
-			 * @param {string}
-			 *            [dataType]
-			 * @param {number}
-			 *            [dimIndex]
-			 * @return {string}
-			 */
+	         * Format label
+	         * @param {number} dataIndex
+	         * @param {string} [status='normal'] 'normal' or 'emphasis'
+	         * @param {string} [dataType]
+	         * @param {number} [dimIndex]
+	         * @return {string}
+	         */
 	        getFormattedLabel: function (dataIndex, status, dataType, dimIndex) {
 	            status = status || 'normal';
 	            var data = this.getData(dataType);
@@ -3500,14 +3298,11 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-			 * Get raw value in option
-			 * 
-			 * @param {number}
-			 *            idx
-			 * @param {string}
-			 *            [dataType]
-			 * @return {Object}
-			 */
+	         * Get raw value in option
+	         * @param {number} idx
+	         * @param {string} [dataType]
+	         * @return {Object}
+	         */
 	        getRawValue: function (idx, dataType) {
 	            var data = this.getData(dataType);
 	            var dataItem = data.getRawDataItem(idx);
@@ -3518,30 +3313,24 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-			 * Should be implemented.
-			 * 
-			 * @param {number}
-			 *            dataIndex
-			 * @param {boolean}
-			 *            [multipleSeries=false]
-			 * @param {number}
-			 *            [dataType]
-			 * @return {string} tooltip string
-			 */
+	         * Should be implemented.
+	         * @param {number} dataIndex
+	         * @param {boolean} [multipleSeries=false]
+	         * @param {number} [dataType]
+	         * @return {string} tooltip string
+	         */
 	        formatTooltip: zrUtil.noop
 	    };
 
 	    /**
-		 * Mapping to exists for merge.
-		 * 
-		 * @public
-		 * @param {Array.
-		 *            <Object>|Array.<module:echarts/model/Component>} exists
-		 * @param {Object|Array.
-		 *            <Object>} newCptOptions
-		 * @return {Array.<Object>} Result, like [{exist: ..., option: ...},
-		 *         {}], which order is the same as exists.
-		 */
+	     * Mapping to exists for merge.
+	     *
+	     * @public
+	     * @param {Array.<Object>|Array.<module:echarts/model/Component>} exists
+	     * @param {Object|Array.<Object>} newCptOptions
+	     * @return {Array.<Object>} Result, like [{exist: ..., option: ...}, {}],
+	     *                          which order is the same as exists.
+	     */
 	    modelUtil.mappingToExists = function (exists, newCptOptions) {
 	        // Mapping by the order by original option (but not order of
 	        // new option) in merge mode. Because we should ensure
@@ -3622,11 +3411,10 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * @public
-		 * @param {Object}
-		 *            cptOption
-		 * @return {boolean}
-		 */
+	     * @public
+	     * @param {Object} cptOption
+	     * @return {boolean}
+	     */
 	    modelUtil.isIdInner = function (cptOption) {
 	        return zrUtil.isObject(cptOption)
 	            && cptOption.id
@@ -3634,18 +3422,13 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * A helper for removing duplicate items between batchA and batchB, and
-		 * in themselves, and categorize by series.
-		 * 
-		 * @param {Array.
-		 *            <Object>} batchA Like: [{seriesId: 2, dataIndex: [32, 4,
-		 *            5]}, ...]
-		 * @param {Array.
-		 *            <Object>} batchB Like: [{seriesId: 2, dataIndex: [32, 4,
-		 *            5]}, ...]
-		 * @return {Array.<Array.<Object>, Array.<Object>>} result:
-		 *         [resultBatchA, resultBatchB]
-		 */
+	     * A helper for removing duplicate items between batchA and batchB,
+	     * and in themselves, and categorize by series.
+	     *
+	     * @param {Array.<Object>} batchA Like: [{seriesId: 2, dataIndex: [32, 4, 5]}, ...]
+	     * @param {Array.<Object>} batchB Like: [{seriesId: 2, dataIndex: [32, 4, 5]}, ...]
+	     * @return {Array.<Array.<Object>, Array.<Object>>} result: [resultBatchA, resultBatchB]
+	     */
 	    modelUtil.compressBatches = function (batchA, batchB) {
 	        var mapA = {};
 	        var mapB = {};
@@ -3706,10 +3489,9 @@ return /** *** */ (function(modules) { // webpackBootstrap
 
 	    var formatUtil = {};
 	    /**
-		 * 每三位默认加,格式化
-		 * 
-		 * @type {string|number} x
-		 */
+	     * 每三位默认加,格式化
+	     * @type {string|number} x
+	     */
 	    formatUtil.addCommas = function (x) {
 	        if (isNaN(x)) {
 	            return '-';
@@ -3720,10 +3502,9 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * @param {string}
-		 *            str
-		 * @return {string} str
-		 */
+	     * @param {string} str
+	     * @return {string} str
+	     */
 	    formatUtil.toCamelCase = function (str) {
 	        return str.toLowerCase().replace(/-(.)/g, function(match, group1) {
 	            return group1.toUpperCase();
@@ -3731,12 +3512,13 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * Normalize css liked array configuration e.g. 3 => [3, 3, 3, 3] [4, 2] =>
-		 * [4, 2, 4, 2] [4, 3, 2] => [4, 3, 2, 3]
-		 * 
-		 * @param {number|Array.
-		 *            <number>} val
-		 */
+	     * Normalize css liked array configuration
+	     * e.g.
+	     *  3 => [3, 3, 3, 3]
+	     *  [4, 2] => [4, 2, 4, 2]
+	     *  [4, 3, 2] => [4, 3, 2, 3]
+	     * @param {number|Array.<number>} val
+	     */
 	    formatUtil.normalizeCssArray = function (val) {
 	        var len = val.length;
 	        if (typeof (val) === 'number') {
@@ -3769,14 +3551,11 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * Template formatter
-		 * 
-		 * @param {string}
-		 *            tpl
-		 * @param {Array.
-		 *            <Object>|Object} paramsList
-		 * @return {string}
-		 */
+	     * Template formatter
+	     * @param  {string} tpl
+	     * @param  {Array.<Object>|Object} paramsList
+	     * @return {string}
+	     */
 	    formatUtil.formatTpl = function (tpl, paramsList) {
 	        if (!zrUtil.isArray(paramsList)) {
 	            paramsList = [paramsList];
@@ -3805,24 +3584,20 @@ return /** *** */ (function(modules) { // webpackBootstrap
 
 
 	    /**
-		 * @param {string}
-		 *            str
-		 * @return {string}
-		 * @inner
-		 */
+	     * @param {string} str
+	     * @return {string}
+	     * @inner
+	     */
 	    var s2d = function (str) {
 	        return str < 10 ? ('0' + str) : str;
 	    };
 
 	    /**
-		 * ISO Date format
-		 * 
-		 * @param {string}
-		 *            tpl
-		 * @param {number}
-		 *            value
-		 * @inner
-		 */
+	     * ISO Date format
+	     * @param {string} tpl
+	     * @param {number} value
+	     * @inner
+	     */
 	    formatUtil.formatTime = function (tpl, value) {
 	        if (tpl === 'week'
 	            || tpl === 'month'
@@ -3858,12 +3633,10 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * Capital first
-		 * 
-		 * @param {string}
-		 *            str
-		 * @return {string}
-		 */
+	     * Capital first
+	     * @param {string} str
+	     * @return {string}
+	     */
 	    formatUtil.capitalFirst = function (str) {
 	        return str ? str.charAt(0).toUpperCase() + str.substr(1) : str;
 	    };
@@ -3879,7 +3652,6 @@ return /** *** */ (function(modules) { // webpackBootstrap
 
 	/**
 	 * 数值处理模块
-	 * 
 	 * @module echarts/util/number
 	 */
 
@@ -3894,21 +3666,14 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * Linear mapping a value from domain to range
-		 * 
-		 * @memberOf module:echarts/util/number
-		 * @param {(number|Array.
-		 *            <number>)} val
-		 * @param {Array.
-		 *            <number>} domain Domain extent domain[0] can be bigger
-		 *            than domain[1]
-		 * @param {Array.
-		 *            <number>} range Range extent range[0] can be bigger than
-		 *            range[1]
-		 * @param {boolean}
-		 *            clamp
-		 * @return {(number|Array.<number>}
-		 */
+	     * Linear mapping a value from domain to range
+	     * @memberOf module:echarts/util/number
+	     * @param  {(number|Array.<number>)} val
+	     * @param  {Array.<number>} domain Domain extent domain[0] can be bigger than domain[1]
+	     * @param  {Array.<number>} range  Range extent range[0] can be bigger than range[1]
+	     * @param  {boolean} clamp
+	     * @return {(number|Array.<number>}
+	     */
 	    number.linearMap = function (val, domain, range, clamp) {
 	        var subDomain = domain[1] - domain[0];
 	        var subRange = range[1] - range[0];
@@ -3955,16 +3720,13 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * Convert a percent string to absolute number. Returns NaN if percent
-		 * is not a valid string or number
-		 * 
-		 * @memberOf module:echarts/util/number
-		 * @param {string|number}
-		 *            percent
-		 * @param {number}
-		 *            all
-		 * @return {number}
-		 */
+	     * Convert a percent string to absolute number.
+	     * Returns NaN if percent is not a valid string or number
+	     * @memberOf module:echarts/util/number
+	     * @param {string|number} percent
+	     * @param {number} all
+	     * @return {number}
+	     */
 	    number.parsePercent = function(percent, all) {
 	        switch (percent) {
 	            case 'center':
@@ -3992,12 +3754,10 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * Fix rounding error of float numbers
-		 * 
-		 * @param {number}
-		 *            x
-		 * @return {number}
-		 */
+	     * Fix rounding error of float numbers
+	     * @param {number} x
+	     * @return {number}
+	     */
 	    number.round = function (x, precision) {
 	        if (precision == null) {
 	            precision = 10;
@@ -4014,20 +3774,17 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * Get precision
-		 * 
-		 * @param {number}
-		 *            val
-		 */
+	     * Get precision
+	     * @param {number} val
+	     */
 	    number.getPrecision = function (val) {
 	        val = +val;
 	        if (isNaN(val)) {
 	            return 0;
 	        }
-	        // It is much faster than methods converting number to string as
-			// follows
-	        // var tmp = val.toString();
-	        // return tmp.length - 1 - tmp.indexOf('.');
+	        // It is much faster than methods converting number to string as follows
+	        //      var tmp = val.toString();
+	        //      return tmp.length - 1 - tmp.indexOf('.');
 	        // especially when precision is low
 	        var e = 1;
 	        var count = 0;
@@ -4048,12 +3805,10 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * @param {Array.
-		 *            <number>} dataExtent
-		 * @param {Array.
-		 *            <number>} pixelExtent
-		 * @return {number} precision
-		 */
+	     * @param {Array.<number>} dataExtent
+	     * @param {Array.<number>} pixelExtent
+	     * @return {number}  precision
+	     */
 	    number.getPixelPrecision = function (dataExtent, pixelExtent) {
 	        var log = Math.log;
 	        var LN10 = Math.LN10;
@@ -4069,31 +3824,27 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    number.MAX_SAFE_INTEGER = 9007199254740991;
 
 	    /**
-		 * To 0 - 2 * PI, considering negative radian.
-		 * 
-		 * @param {number}
-		 *            radian
-		 * @return {number}
-		 */
+	     * To 0 - 2 * PI, considering negative radian.
+	     * @param {number} radian
+	     * @return {number}
+	     */
 	    number.remRadian = function (radian) {
 	        var pi2 = Math.PI * 2;
 	        return (radian % pi2 + pi2) % pi2;
 	    };
 
 	    /**
-		 * @param {type}
-		 *            radian
-		 * @return {boolean}
-		 */
+	     * @param {type} radian
+	     * @return {boolean}
+	     */
 	    number.isRadianAroundZero = function (val) {
 	        return val > -RADIAN_EPSILON && val < RADIAN_EPSILON;
 	    };
 
 	    /**
-		 * @param {string|Date|number}
-		 *            value
-		 * @return {Date} date
-		 */
+	     * @param {string|Date|number} value
+	     * @return {Date} date
+	     */
 	    number.parseDate = function (value) {
 	        if (value instanceof Date) {
 	            return value;
@@ -4102,8 +3853,7 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	            // Treat as ISO format. See issue #3623
 	            var ret = new Date(value);
 	            if (isNaN(+ret)) {
-	                // FIXME new Date('1970-01-01') is UTC, new
-					// Date('1970/01/01') is local
+	                // FIXME new Date('1970-01-01') is UTC, new Date('1970/01/01') is local
 	                ret = new Date(new Date(value.replace(/-/g, '/')) - new Date('1970/01/01'));
 	            }
 	            return ret;
@@ -4113,29 +3863,22 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    };
 
 	    /**
-		 * Quantity of a number. e.g. 0.1, 1, 10, 100
-		 * 
-		 * @param {number}
-		 *            val
-		 * @return {number}
-		 */
+	     * Quantity of a number. e.g. 0.1, 1, 10, 100
+	     * @param  {number} val
+	     * @return {number}
+	     */
 	    number.quantity = function (val) {
 	        return Math.pow(10, Math.floor(Math.log(val) / Math.LN10));
 	    };
 
 	    // "Nice Numbers for Graph Labels" of Graphic Gems
 	    /**
-		 * find a “nice” number approximately equal to x. Round the number if
-		 * round = true, take ceiling if round = false The primary observation
-		 * is that the “nicest” numbers in decimal are 1, 2, and 5, and all
-		 * power-of-ten multiples of these numbers.
-		 * 
-		 * @param {number}
-		 *            val
-		 * @param {boolean}
-		 *            round
-		 * @return {number}
-		 */
+	     * find a “nice” number approximately equal to x. Round the number if round = true, take ceiling if round = false
+	     * The primary observation is that the “nicest” numbers in decimal are 1, 2, and 5, and all power-of-ten multiples of these numbers.
+	     * @param  {number} val
+	     * @param  {boolean} round
+	     * @return {number}
+	     */
 	    number.nice = function (val, round) {
 	        var exp10 = number.quantity(val);
 	        var f = val / exp10; // between 1 and 10
@@ -4328,29 +4071,20 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-		 * Show ellipsis if overflow.
-		 * 
-		 * @param {string}
-		 *            text
-		 * @param {string}
-		 *            containerWidth
-		 * @param {string}
-		 *            textFont
-		 * @param {number}
-		 *            [ellipsis='...']
-		 * @param {Object}
-		 *            [options]
-		 * @param {number}
-		 *            [options.maxIterations=3]
-		 * @param {number}
-		 *            [options.minChar=0] If truncate result are less then
-		 *            minChar, ellipsis will not show, which is better for user
-		 *            hint in some cases.
-		 * @param {number}
-		 *            [options.placeholder=''] When all truncated, use the
-		 *            placeholder.
-		 * @return {string}
-		 */
+	     * Show ellipsis if overflow.
+	     *
+	     * @param  {string} text
+	     * @param  {string} containerWidth
+	     * @param  {string} textFont
+	     * @param  {number} [ellipsis='...']
+	     * @param  {Object} [options]
+	     * @param  {number} [options.maxIterations=3]
+	     * @param  {number} [options.minChar=0] If truncate result are less
+	     *                  then minChar, ellipsis will not show, which is
+	     *                  better for user hint in some cases.
+	     * @param  {number} [options.placeholder=''] When all truncated, use the placeholder.
+	     * @return {string}
+	     */
 	    function truncateText(text, containerWidth, textFont, ellipsis, options) {
 	        if (!containerWidth) {
 	            return '';
@@ -4369,13 +4103,9 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        var ascCharWidth = getTextWidth('a', textFont);
 	        var placeholder = retrieve(options.placeholder, '');
 
-	        // Example 1: minChar: 3, text: 'asdfzxcv', truncate result: 'asdf',
-			// but not: 'a...'.
-	        // Example 2: minChar: 3, text: '维度', truncate result: '维', but not:
-			// '...'.
-	        var contentWidth = containerWidth = Math.max(0, containerWidth - 1); // Reserve
-																					// some
-																					// gap.
+	        // Example 1: minChar: 3, text: 'asdfzxcv', truncate result: 'asdf', but not: 'a...'.
+	        // Example 2: minChar: 3, text: '维度', truncate result: '维', but not: '...'.
+	        var contentWidth = containerWidth = Math.max(0, containerWidth - 1); // Reserve some gap.
 	        for (var i = 0; i < minChar && contentWidth >= ascCharWidth; i++) {
 	            contentWidth -= ascCharWidth;
 	        }
@@ -4472,24 +4202,24 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	    var mathAbs = Math.abs;
 	    var mathMax = Math.max;
 	    /**
-		 * @alias module:echarts/core/BoundingRect
-		 */
+	     * @alias module:echarts/core/BoundingRect
+	     */
 	    function BoundingRect(x, y, width, height) {
 	        /**
-			 * @type {number}
-			 */
+	         * @type {number}
+	         */
 	        this.x = x;
 	        /**
-			 * @type {number}
-			 */
+	         * @type {number}
+	         */
 	        this.y = y;
 	        /**
-			 * @type {number}
-			 */
+	         * @type {number}
+	         */
 	        this.width = width;
 	        /**
-			 * @type {number}
-			 */
+	         * @type {number}
+	         */
 	        this.height = height;
 	    }
 
@@ -4498,9 +4228,8 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        constructor: BoundingRect,
 
 	        /**
-			 * @param {module:echarts/core/BoundingRect}
-			 *            other
-			 */
+	         * @param {module:echarts/core/BoundingRect} other
+	         */
 	        union: function (other) {
 	            var x = mathMin(other.x, this.x);
 	            var y = mathMin(other.y, this.y);
@@ -4518,10 +4247,9 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-			 * @param {Array.
-			 *            <number>} m
-			 * @methods
-			 */
+	         * @param {Array.<number>} m
+	         * @methods
+	         */
 	        applyTransform: (function () {
 	            var min = [];
 	            var max = [];
@@ -4548,12 +4276,10 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        })(),
 
 	        /**
-			 * Calculate matrix of transforming from self to target rect
-			 * 
-			 * @param {module:zrender/core/BoundingRect}
-			 *            b
-			 * @return {Array.<number>}
-			 */
+	         * Calculate matrix of transforming from self to target rect
+	         * @param  {module:zrender/core/BoundingRect} b
+	         * @return {Array.<number>}
+	         */
 	        calculateTransform: function (b) {
 	            var a = this;
 	            var sx = b.width / a.width;
@@ -4570,10 +4296,9 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-			 * @param {(module:echarts/core/BoundingRect|Object)}
-			 *            b
-			 * @return {boolean}
-			 */
+	         * @param {(module:echarts/core/BoundingRect|Object)} b
+	         * @return {boolean}
+	         */
 	        intersect: function (b) {
 	            var a = this;
 	            var ax0 = a.x;
@@ -4598,15 +4323,15 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-			 * @return {module:echarts/core/BoundingRect}
-			 */
+	         * @return {module:echarts/core/BoundingRect}
+	         */
 	        clone: function () {
 	            return new BoundingRect(this.x, this.y, this.width, this.height);
 	        },
 
 	        /**
-			 * Copy from another rect
-			 */
+	         * Copy from another rect
+	         */
 	        copy: function (other) {
 	            this.x = other.x;
 	            this.y = other.y;
@@ -4628,23 +4353,19 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        : Float32Array;
 
 	    /**
-		 * @typedef {Float32Array|Array.<number>} Vector2
-		 */
+	     * @typedef {Float32Array|Array.<number>} Vector2
+	     */
 	    /**
-		 * 二维向量类
-		 * 
-		 * @exports zrender/tool/vector
-		 */
+	     * 二维向量类
+	     * @exports zrender/tool/vector
+	     */
 	    var vector = {
 	        /**
-			 * 创建一个向量
-			 * 
-			 * @param {number}
-			 *            [x=0]
-			 * @param {number}
-			 *            [y=0]
-			 * @return {Vector2}
-			 */
+	         * 创建一个向量
+	         * @param {number} [x=0]
+	         * @param {number} [y=0]
+	         * @return {Vector2}
+	         */
 	        create: function (x, y) {
 	            var out = new ArrayCtor(2);
 	            if (x == null) {
@@ -4659,14 +4380,11 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-			 * 复制向量数据
-			 * 
-			 * @param {Vector2}
-			 *            out
-			 * @param {Vector2}
-			 *            v
-			 * @return {Vector2}
-			 */
+	         * 复制向量数据
+	         * @param {Vector2} out
+	         * @param {Vector2} v
+	         * @return {Vector2}
+	         */
 	        copy: function (out, v) {
 	            out[0] = v[0];
 	            out[1] = v[1];
@@ -4674,12 +4392,10 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-			 * 克隆一个向量
-			 * 
-			 * @param {Vector2}
-			 *            v
-			 * @return {Vector2}
-			 */
+	         * 克隆一个向量
+	         * @param {Vector2} v
+	         * @return {Vector2}
+	         */
 	        clone: function (v) {
 	            var out = new ArrayCtor(2);
 	            out[0] = v[0];
@@ -4688,9 +4404,6 @@ return /** *** */ (function(modules) { // webpackBootstrap
 	        },
 
 	        /**
-			 * 设置向量的两个项
-			 * 
-			 * @param {Vector2}
-			 *            out
-			 * @param {
-			 */
+	         * 设置向量的两个项
+	         * @param {Vector2} out
+	         * @param {
