@@ -2,7 +2,6 @@ package org.sunhp.rcampus.util;
 
 
 
-import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +23,8 @@ public class MailUtil {
 		helper.setSubject("邮箱验证的信息");
 		String text="<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'>"
 				+ "</head><body>感谢注册 rcampus，学数据处理，就来rcampus!<br>"
-				+ "<a href='http://www.baidu.com'>"+link+"</a><br>"+"您的Email:"+to+"您的Email将会作为账户名来登录rcampus"
+				+ "<a href="+link+">"+"link"+"</a><br>"+"您的Email:"+to+"<br>您的Email将会作为账户名来登录rcampus"
 				+ "</body></html>";
-		System.out.println(text);
-		//text=new String(text.getBytes("utf-8"),"gbk");
 		helper.setText(text,true);
 		mailSender.send(message);
 	} catch (Exception e) {

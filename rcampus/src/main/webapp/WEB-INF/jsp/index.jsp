@@ -46,11 +46,11 @@
 					type:"post",
 					url:"./signup",
 					dataType:"json",
-					data:"email="+$("#email1").val()+"&password="+$("#password1").val(),
+					data:"email="+$("#email0").val()+"&password="+$("#password0").val(),
 					success:function(json){
 						if(json.flag==1){
-							//$("signin").submit();	 
-							location.href="./home";
+							//$("signin").submit();	
+							$("#message").html("验证链接已发送到邮箱，请前去验证").show();
 						}
 						else{
 							console.log("failure");
@@ -116,16 +116,16 @@
         <div role="tabpanel" class="tab-pane active" id="signin-form">
         <div class="home--sign-up card">
           <h4>Sign In</h4>
-          <form class="new_user" id="signin" action="/users" accept-charset="UTF-8" method="post">
+          <form class="new_user" id="signin" accept-charset="UTF-8" method="post">
           <input name="utf8" type="hidden" value="&#x2713;" />
            <input type="hidden" name="how" id="how" value="inline_form_home_page" />
             <fieldset>
               <i class="fa fa-envelope-o fa-lg inline-icon"></i>
-              <input required="required" placeholder="Email" class="has-inline-icon" type="email" value="" name="user[email]" id="email1" />
+              <input required="required" placeholder="Email" class="has-inline-icon" type="email" value="" name="user[email]" id="email" />
             </fieldset>
             <fieldset>
               <i class="fa fa-lock fa-lg inline-icon"></i>
-              <input required="required" placeholder="Password" class="has-inline-icon" type="password" name="user[password]" id="password1" />
+              <input required="required" placeholder="Password" class="has-inline-icon" type="password" name="user[password]" id="password" />
             </fieldset>
             <input type="submit" name="commit" value="Sign In" class="btn btn-primary home-get-started ml0 mr0 mb0" data-disable-with="Get Started" />
             <div class="form-group">
@@ -156,11 +156,11 @@
             <input type="hidden" name="how" id="how" value="inline_form_home_page" />
             <fieldset>
               <i class="fa fa-envelope-o fa-lg inline-icon"></i>
-              <input required="required" placeholder="Email" class="has-inline-icon" type="email" value="" name="user[email]" id="email" />
+              <input required="required" placeholder="Email" class="has-inline-icon" type="email" value="" name="user[email]" id="email0" />
             </fieldset>
             <fieldset>
               <i class="fa fa-lock fa-lg inline-icon"></i>
-              <input required="required" placeholder="Password" class="has-inline-icon" type="password" name="user[password]" id="password" />
+              <input required="required" placeholder="Password" class="has-inline-icon" type="password" name="user[password]" id="password0" />
             </fieldset>
             <input type="submit" name="commit" value="Get Started" class="btn btn-primary home-get-started ml0 mr0 mb0" data-disable-with="Get Started" />
              <div class="form-group">

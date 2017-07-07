@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+        <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    
 <!DOCTYPE>
 <html>
 <head>
@@ -51,10 +53,11 @@
             <li><a style="font-size:150%;color:#FFFFFF" href="#">Home</a></li>
             <li><a style="font-size:150%;color:#FFFFFF" href="#">Courses</a></li>
             <li>
-            <div class="dropdown">
+  <c:if test="${user!=null}">
+  <div class="dropdown">
   <a class="btn btn-default dropdown-toggle" style="color:#FFFFFF;margin-top:5px;font-size:150%;border:0px;background:#3366CC" 
   type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Dropdown
+   <c:out value="${user.getEmail()}"/>
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" style="width:250px" aria-labelledby="dropdownMenu1">
@@ -66,18 +69,21 @@
     <li>
     <div class="row">
     <div class="col-xs-6"><span style="margin-left:50px"><a href="#">myProfile</a></span></div>
-    <div class="col-xs-6"><span style="margin-left:30px"><a href="#">logout</a></span></div>
+    <div class="col-xs-6"><span style="margin-left:30px"><a href="../logout">logout</a></span></div>
     </div>
     </li>
   </ul>
 </div>
+</c:if>
 </li>
+<c:if test="{user==null}">
 <li><button type="button" class="btn btn-primary btn-lg navbar-btn" style="background:FF9900" data-toggle="modal" data-target="#myModal">
   sign in
 </button></li>
-<li><button type="button" class="btn btn-primary btn-lg navbar-btn" style="background:FF9900" data-toggle="modal" data-target="#myModal">
+<li><a role="button" class="btn btn-primary btn-lg navbar-btn" style="background:FF9900" href="/">
   create free account
-</button></li>
+</a></li>
+</c:if>
  </ul>
     </div>
     </div>
@@ -131,12 +137,14 @@
     <div class="thumbnail">
       <div class="caption">
       <div style="margin-bottom:50px">
-        <h3>Thumbnail label</h3>
+        <h3>Introduction to R</h3>
         </div>
-        <p>Cras justo odio, dapibus ac facilisis in,
-         egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies 
-         vehicula ut id elit.</p>
-        <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+        <p>Master the basis of data analysis by
+        manipulating common data structures such as
+         vectors,matrics and data frames</p>
+        <p>
+        <a href="./courseIntro" class="btn btn-primary" style="background:#FF6600" role="button">Learn More</a> 
+        </p>
       </div>
     </div>
   </div>

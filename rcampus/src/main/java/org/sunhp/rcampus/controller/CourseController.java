@@ -3,16 +3,20 @@ package org.sunhp.rcampus.controller;
 import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.sunhp.rcampus.bean.Course;
 import org.sunhp.rcampus.bean.HttpResult;
 import org.sunhp.rcampus.bean.Judge;
+import org.sunhp.rcampus.bean.User;
 import org.sunhp.rcampus.components.Constants;
 import org.sunhp.rcampus.service.ApiService;
 import org.sunhp.rcampus.service.CourseService;
 import org.sunhp.rcampus.service.JudgeService;
 import org.sunhp.rcampus.util.FileUtils;
+import org.sunhp.rcampus.util.MailUtil;
+import org.sunhp.rcampus.util.Result;
 import org.sunhp.rcampus.vo.ExamResult;
 import org.sunhp.rcampus.vo.OcpuResult;
 import org.sunhp.rcampus.vo.SimpleCourse;
@@ -24,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("course")
+@RequestMapping("courses")
 public class CourseController {
 
 	@Autowired
@@ -35,6 +39,7 @@ public class CourseController {
 
 	@Autowired
 	JudgeService judgeService;
+	
 
 	/**
 	 * 获得某章节的课程列表
@@ -43,8 +48,8 @@ public class CourseController {
 	 * @param chapterId
      * @return
      */
-	@ResponseBody
-	@RequestMapping("list.do")
+	//@ResponseBody
+	@RequestMapping("/")
 	public String getCourseList(HttpServletRequest request, HttpServletResponse response, Long chapterId) {
 		Course course = new Course();
 		course.setChapter(chapterId);
@@ -54,12 +59,26 @@ public class CourseController {
 			SimpleCourse sc = new SimpleCourse(co,0.0);
 			sList.add(sc);
 		}
-		return JSON.toJSONString(sList);
+		//return JSON.toJSONString(sList);
+		return "courses";
 	}
-    @RequestMapping("/courseIntro")
+	@RequestMapping("/test")
+	public String test(HttpServletRequest request){
+		if(request.getParameterMap()==null){
+			request.setAttribute("chapterName","chapterOne");
+			request.setAttribute("courseName","courseOne");
+		}
+		String chapterName=request.getParameter("chapterName");
+		String courseName=request.getParameter("courseName");
+		request.setAttribute("chapterName",chapterName);
+		request.setAttribute("courseName",courseName);
+		return "test";
+	}
+	@RequestMapping("/courseIntro")
 	public String courseIntro(){
 		return "courseIntro";
 	}
+	
 	/**
 	 * 获得某一课程内容
 	 * @param request
@@ -92,7 +111,6 @@ public class CourseController {
 		OcpuResult ocpuResult;
 		//判断用户输入是否符合要求
 		Course course = courseService.get(courseId);
-		System.out.println(course.getCourseName());
 		Judge judge = new Judge();
 		judge.setExamId(courseId);
 		List<Judge> judgeList = judgeService.getAll(judge);
