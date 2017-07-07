@@ -8,7 +8,7 @@ public class ExamResult {
     private OcpuResult ocpuResult;
     private Boolean judgeStatus;
     private String judgeMsg;
-
+    private String ocpuJSON;
     public Boolean getStatus() {
         return status;
     }
@@ -39,5 +39,13 @@ public class ExamResult {
 
     public void setJudgeMsg(String judgeMsg) {
         this.judgeMsg = judgeMsg;
-    }
+	}
+
+	public String getOcpuJSON() {
+		return ocpuJSON;
+	}
+
+	public void setOcpuJSON(String ocpuJSON) {
+		this.ocpuJSON = ocpuJSON;
+	}
 }

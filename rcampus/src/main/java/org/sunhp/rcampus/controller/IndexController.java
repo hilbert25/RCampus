@@ -24,6 +24,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @Controller
 @SessionAttributes("user")
 public class IndexController {
@@ -31,20 +34,27 @@ public class IndexController {
 	ApiService apiService;
 	@Autowired
 	MailUtil mailUtil;
+<<<<<<< HEAD
 	@Autowired
 	UserDaoImpl userDao;
 	@RequestMapping("/")
+=======
+
+	@RequestMapping("/index.do")
+>>>>>>> e81a3cb0e23468e3f0abc89f01249800c87a6ddb
 	public ModelAndView index() {
 		return new ModelAndView("index");
 	}
+
 	@ResponseBody
 	@RequestMapping("/test.do")
 	public String test() throws IOException {
 		return apiService.doGet("http://www.baidu.com");
-//		List<Store> list = new ArrayList<Store>();
-//		list = storeService.getAll(new Store());
-//		return "总共有：" + list.size();
+		// List<Store> list = new ArrayList<Store>();
+		// list = storeService.getAll(new Store());
+		// return "总共有：" + list.size();
 	}
+<<<<<<< HEAD
    @RequestMapping("/home")
    public String home(){
 	   return "home";
@@ -87,6 +97,22 @@ public class IndexController {
 		if(count==0){
 		String link="http://127.0.0.1:8080/rcampus/verify?email="+email+"&password="+password;
 		mailUtil.sendMail(email,link);
+=======
+
+	@RequestMapping("/home")
+	public String home() {
+		return "home";
+	}
+
+	@ResponseBody
+	@RequestMapping("signin")
+	public String signin(HttpServletRequest request,
+			HttpServletResponse response, Long courseId) {
+		String email = request.getParameter("email");
+		String link = "www.baidu.com";
+		mailUtil.sendMail(email, link);
+		Result result = new Result();
+>>>>>>> e81a3cb0e23468e3f0abc89f01249800c87a6ddb
 		result.setStatus("success");
 		result.setFlag(1);
 		return JSON.toJSONString(result);

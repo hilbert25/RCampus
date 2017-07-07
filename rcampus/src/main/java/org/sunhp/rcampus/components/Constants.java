@@ -10,9 +10,9 @@ public final class Constants {
 
 	private Constants() {
 	}
-	
+
 	public static final String NEGATIVE_NUMBER = "-1";
-	
+
 	public static final String POINT = ".";
 
 	/**
@@ -53,19 +53,20 @@ public final class Constants {
 	 * 出现最多的属性值
 	 */
 	public static final String SELECTMOSTATTRIBUTE = "selectMostAttribute";
-	
+
 	/**
 	 * 初始化
 	 */
 	public static final String DELETEALL = "deleteAll";
-	
+
 	public static String UPLOAD_PATH = "file/";
 
 	/**
 	 * openCPU地址
 	 */
-//	public static final String OPENCPU_HOST = "http://10.211.55.11";
-	public static final String OPENCPU_HOST = "http://103.253.146.183";
+	// public static final String OPENCPU_HOST = "http://10.211.55.11";
+	// public static final String OPENCPU_HOST = "http://103.253.146.183";
+	public static final String OPENCPU_HOST = "http://118.89.141.161";
 	/**
 	 * openCPU地址
 	 */

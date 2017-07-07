@@ -17,16 +17,7 @@
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:title" content="Edit Profile" />
-<meta name="twitter:title" content="Edit Profile" />
-<meta name="twitter:description" content="Edit profile of" />
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:site" content="@DataCamp" />
-<meta name="twitter:image"
-	content="https://www.datacamp.com/datacamp-sq.png" />
-<meta name="twitter:image:width" content="300" />
-<meta name="twitter:image:height" content="300" />
-<meta name="twitter:creator" content="@DataCamp" />
-<meta name="twitter:domain" content="www.datacamp.com" />
+
 <link rel="stylesheet" media="all"
 	href="https://cdn.datacamp.com/main-app/assets/application-764c6b8f001bf0f157eebd5c442f20839378fdd8b59b04968c6b9210b7168d07.css" />
 <link rel="shortcut icon" type="image/x-icon"
@@ -39,8 +30,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="fragment" content="!">
-<meta name="google-site-verification"
-	content="ao3s4PdjisD2QsfTbldo7YJx7VX2QLkPEtlDpyFTjo8" />
+
 <link rel="stylesheet"
 	href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
