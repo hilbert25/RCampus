@@ -43,6 +43,7 @@ public class UserController {
 	@RequestMapping(value = "/getUserById")
 	public String getUserById(HttpServletRequest request,
 			HttpServletResponse response, Long userId, Integer currentPage) {
+		System.out.println(userId);
 		int countForEachPage = 5;// 每页5条
 		// 获取user信息
 		userId = userId == null ? 0 : userId;

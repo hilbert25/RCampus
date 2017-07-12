@@ -24,9 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 @Controller
 @SessionAttributes("user")
 public class IndexController {
@@ -34,14 +31,12 @@ public class IndexController {
 	ApiService apiService;
 	@Autowired
 	MailUtil mailUtil;
-<<<<<<< HEAD
 	@Autowired
 	UserDaoImpl userDao;
-	@RequestMapping("/")
-=======
+	@Autowired
+	UserService userService;
 
-	@RequestMapping("/index.do")
->>>>>>> e81a3cb0e23468e3f0abc89f01249800c87a6ddb
+	@RequestMapping("/")
 	public ModelAndView index() {
 		return new ModelAndView("index");
 	}
@@ -54,87 +49,97 @@ public class IndexController {
 		// list = storeService.getAll(new Store());
 		// return "总共有：" + list.size();
 	}
-<<<<<<< HEAD
-   @RequestMapping("/home")
-   public String home(){
-	   return "home";
-   }
-    @ResponseBody
-	@RequestMapping("signin")
-	public String signin(HttpServletRequest request, HttpServletResponse response,Model model) {
-		String email=request.getParameter("email");
-		String password=request.getParameter("password");
-		Pageable<User> pgl=new Pageable<User>();
-		pgl.setSearchProperty("email");
-		pgl.setSearchValue(email);
-		Page<User> page=userDao.findPage(pgl);
-		List<User> users=page.getRows();
-		Result result=new Result();
-		if(users.size()>0){
-		User user=users.get(0);
-		if(user.getPasswd().equals(password)){
-			model.addAttribute("user",user);
-		    result.setStatus("success");
-		    result.setFlag(1);
-		    return JSON.toJSONString(result);
-    }
-}
-		result.setFlag(0);
-		result.setStatus("failure");
-		return JSON.toJSONString(result);
-	}
-    @ResponseBody
-	@RequestMapping("signup")
-	public String signup(HttpServletRequest request, HttpServletResponse response) {
-		String email=request.getParameter("email");
-		System.out.println(email);
-		String password=request.getParameter("password");
-		Pageable<User> pgl=new Pageable<User>();
-		pgl.setSearchProperty("email");
-		pgl.setSearchValue(email);
-		long count=userDao.count(pgl);
-		Result result=new Result();
-		if(count==0){
-		String link="http://127.0.0.1:8080/rcampus/verify?email="+email+"&password="+password;
-		mailUtil.sendMail(email,link);
-=======
 
 	@RequestMapping("/home")
 	public String home() {
 		return "home";
 	}
 
+	@RequestMapping("/adminhome")
+	public String adminhome(HttpServletRequest request,
+			HttpServletResponse response, String email) {
+		HttpSession session = request.getSession();
+		Long userId = (Long) session.getAttribute("userId");
+		User user = userService.get(userId);
+		request.setAttribute("user", user);
+		System.out.println(user.getUserName());
+		return "adminhome";
+	}
+
 	@ResponseBody
 	@RequestMapping("signin")
 	public String signin(HttpServletRequest request,
-			HttpServletResponse response, Long courseId) {
+			HttpServletResponse response, Model model) {
 		String email = request.getParameter("email");
-		String link = "www.baidu.com";
-		mailUtil.sendMail(email, link);
+		String password = request.getParameter("password");
+		Pageable<User> pgl = new Pageable<User>();
+		pgl.setSearchProperty("email");
+		pgl.setSearchValue(email);
+		Page<User> page = userDao.findPage(pgl);
+		List<User> users = page.getRows();
 		Result result = new Result();
->>>>>>> e81a3cb0e23468e3f0abc89f01249800c87a6ddb
-		result.setStatus("success");
-		result.setFlag(1);
+		if (users.size() > 0) {
+			User user = users.get(0);
+			if (user.getPasswd().equals(password)) {
+				model.addAttribute("user", user);
+				result.setStatus("success");
+				HttpSession session = request.getSession();
+				session.setAttribute("userId", user.getUserId());
+				if (user.getUserType() == 1 || user.getUserType() == 0) {// admin
+																			// or
+																			// superadmin
+					result.setFlag(2);
+				} else {
+					result.setFlag(1);
+				}
+				return JSON.toJSONString(result);
+			}
+		}
+		result.setFlag(0);
+		result.setStatus("failure");
 		return JSON.toJSONString(result);
+	}
+
+	@ResponseBody
+	@RequestMapping("signup")
+	public String signup(HttpServletRequest request,
+			HttpServletResponse response) {
+		String email = request.getParameter("email");
+		System.out.println(email);
+		String password = request.getParameter("password");
+		Pageable<User> pgl = new Pageable<User>();
+		pgl.setSearchProperty("email");
+		pgl.setSearchValue(email);
+		long count = userDao.count(pgl);
+		Result result = new Result();
+		if (count == 0) {
+			String link = "http://127.0.0.1:8080/rcampus/verify?email=" + email
+					+ "&password=" + password;
+			mailUtil.sendMail(email, link);
+			result.setStatus("success");
+			result.setFlag(1);
+			return JSON.toJSONString(result);
 		}
 		result.setStatus("failure");
 		result.setFlag(0);
 		return JSON.toJSONString(result);
 	}
-    @RequestMapping("verify")
-    public String verify(HttpServletRequest request,Model model){
-    	String email=request.getParameter("email");
-    	String pwd=request.getParameter("password");
-    	User user=new User();
-    	user.setEmail(email);
-    	user.setPasswd(pwd);
-    	userDao.add(user);
-    	model.addAttribute("user",user);
-    	return "home";
-    }
-    @RequestMapping("/logout")
-    public String logout(HttpSession session){
-    	session.removeAttribute("user");
-    	return "index";
-    }
+
+	@RequestMapping("verify")
+	public String verify(HttpServletRequest request, Model model) {
+		String email = request.getParameter("email");
+		String pwd = request.getParameter("password");
+		User user = new User();
+		user.setEmail(email);
+		user.setPasswd(pwd);
+		userDao.add(user);
+		model.addAttribute("user", user);
+		return "home";
+	}
+
+	@RequestMapping("/logout")
+	public String logout(HttpSession session) {
+		session.removeAttribute("user");
+		return "index";
+	}
 }
