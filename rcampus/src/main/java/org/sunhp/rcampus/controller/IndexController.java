@@ -62,8 +62,7 @@ public class IndexController {
 		Long userId = (Long) session.getAttribute("userId");
 		User user = userService.get(userId);
 		request.setAttribute("user", user);
-		System.out.println(user.getUserName());
-		return "adminhome";
+		return "user_manage";
 	}
 
 	@ResponseBody

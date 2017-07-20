@@ -10,18 +10,22 @@ import org.sunhp.rcampus.bean.Chapter;
 import org.sunhp.rcampus.bean.Course;
 import org.sunhp.rcampus.bean.HttpResult;
 import org.sunhp.rcampus.bean.Judge;
+import org.sunhp.rcampus.bean.User;
 import org.sunhp.rcampus.components.Constants;
-import org.sunhp.rcampus.components.Pageable;
 import org.sunhp.rcampus.service.ApiService;
 import org.sunhp.rcampus.service.ChapterService;
 import org.sunhp.rcampus.service.CourseService;
 import org.sunhp.rcampus.service.JudgeService;
+import org.sunhp.rcampus.service.UserService;
 import org.sunhp.rcampus.util.FileUtils;
 import org.sunhp.rcampus.vo.ExamResult;
 import org.sunhp.rcampus.vo.OcpuResult;
 import org.sunhp.rcampus.vo.SimpleCourse;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +44,8 @@ public class CourseController {
 	JudgeService judgeService;
 	@Autowired
 	ChapterService chapterService;
+	@Autowired
+	UserService userService;
 
 	/**
 	 * 获得某章节的课程列表
@@ -95,15 +101,8 @@ public class CourseController {
 	public String getCourseDetail(HttpServletRequest request,
 			HttpServletResponse response, Long courseId) {
 		Course course = courseService.get(courseId);
-		List<Chapter> chapterList = chapterService.getAll(new Chapter());
-		// if (course != null) {
-		// return JSON.toJSONString(course);
-		// }
-		for (Chapter chapter : chapterList) {
-			Pageable<Course> pageable = new Pageable<Course>();
-			pageable.setSearchProperty("chapter");
-			pageable.setSearchValue(String.valueOf(chapter.getChapterId()));
-			chapter.setCourseList(courseService.findByPager(pageable).getRows());
+		List<Chapter> chapterList = new ArrayList<Chapter>();// 获取这门课的全部章节
+		for (int i = 0; i < chapterList.size(); i++) {
 		}
 		request.setAttribute("chapterList", chapterList);
 		request.setAttribute("course", course);
@@ -125,7 +124,7 @@ public class CourseController {
 	public String getCourseSubmit(HttpServletRequest request,
 			HttpServletResponse response, Long courseId, String code)
 			throws IOException {
-		System.out.println(code);
+
 		ExamResult examResult;
 		OcpuResult ocpuResult;
 		// 判断用户输入是否符合要求
@@ -197,6 +196,16 @@ public class CourseController {
 		examResult.setStatus(true);
 
 		return JSON.toJSONString(examResult);
+	}
+
+	@RequestMapping("course_manage")
+	public String addCourse(HttpServletRequest request,
+			HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		Long userId = (Long) session.getAttribute("userId");
+		User user = userService.get(userId);
+		request.setAttribute("user", user);
+		return "course_manage";
 	}
 
 	@ResponseBody

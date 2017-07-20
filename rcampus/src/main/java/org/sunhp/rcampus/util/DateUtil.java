@@ -115,7 +115,7 @@ public final class DateUtil {
 	}
 
 	/**
-	 * 计算另个日期相差的毫秒数
+	 * 计算两个日期相差的毫秒数
 	 * 
 	 * @param date1
 	 * @param date2
@@ -351,6 +351,28 @@ public final class DateUtil {
 		currentDate.add(Calendar.MILLISECOND, -1);
 		Date date = currentDate.getTime();
 		return date;
+	}
+
+	public static String howLongFromNow(Date date) {
+		long diff = diffMills(new Date(), date);
+		diff /= 1000;
+		long second = diff;
+		if (second < 60)
+			return String.valueOf(second) + "秒钟前";
+		long minute = second / 60;
+		if (minute < 60)
+			return String.valueOf(minute) + "分钟前";
+		long hour = minute / 60;
+		if (hour < 60)
+			return String.valueOf(hour) + "小时前";
+		long day = hour / 24;
+		if (day < 60)
+			return String.valueOf(day) + "天前";
+		long month = day / 30;
+		if (month < 60)
+			return String.valueOf(month) + "月前";
+		else
+			return String.valueOf(month / 12) + "年前";
 	}
 
 	public static void main(String args[]) {

@@ -85,7 +85,8 @@
 									<li>
 										<div class="row">
 											<div class="col-xs-6">
-												<span style="margin-left: 50px"><a href="#">myProfile</a></span>
+												<span style="margin-left: 50px"><a
+													href="/rcampus/user/getUserById?userId=${user.getUserId()}">myProfile</a></span>
 											</div>
 											<div class="col-xs-6">
 												<span style="margin-left: 30px"><a href="./logout">logout</a></span>

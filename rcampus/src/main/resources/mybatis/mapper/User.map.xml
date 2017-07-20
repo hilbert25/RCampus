@@ -207,7 +207,7 @@
 		active_course =
 		#{activeCourse,jdbcType=BIGINT},
 		user_type=
-		#{user_type,jdbcType=BIGINT},
+		#{userType,jdbcType=BIGINT},
 		where user_id =
 		#{userId,jdbcType=BIGINT}
 	</update>
