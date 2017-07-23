@@ -131,6 +131,7 @@ public class IndexController {
 		User user = new User();
 		user.setEmail(email);
 		user.setPasswd(pwd);
+		user.setUserType(Long.valueOf(2));
 		userDao.add(user);
 		model.addAttribute("user", user);
 		return "home";
