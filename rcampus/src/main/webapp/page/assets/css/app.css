@@ -1365,7 +1365,7 @@ ul.tpl-dropdown-content li>a.tpl-dropdown-content-message:last-child {
 
 .tpl-task-remind li .cosA {
     margin-right: 18px;
-    margin-left: 140px;
+    margin-left: 0px;
     margin-top: -25px;
     font-style: italic;
     color: #3bb4f2;

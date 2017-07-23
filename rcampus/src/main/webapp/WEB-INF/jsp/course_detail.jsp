@@ -74,11 +74,11 @@
 						varStatus="chapterIndex">
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown"> <i class="fa fa-fw fa-plus"></i>Chapter
-								${chapter.chaperId} ${chapter.chapterName }<span class="caret"></span>
+								${chapter.chapterId} ${chapter.chapterName }<span class="caret"></span>
 						</a>
 							<ul class="dropdown-menu" role="menu">
 
-								<li class="dropdown-header">这个标签是用来干蛤的？</li>
+								<!-- <li class="dropdown-header">这个标签是用来干蛤的？</li> -->
 								<c:forEach items="${chapter.courseList}" var="course"
 									varStatus="courseIndex">
 									<li><a href="getCourseById?courseId=${course.courseId}">${course.courseName }</a></li>

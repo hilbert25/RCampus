@@ -12,6 +12,8 @@ import org.sunhp.rcampus.bean.HttpResult;
 import org.sunhp.rcampus.bean.Judge;
 import org.sunhp.rcampus.bean.User;
 import org.sunhp.rcampus.components.Constants;
+import org.sunhp.rcampus.components.Page;
+import org.sunhp.rcampus.components.Pageable;
 import org.sunhp.rcampus.service.ApiService;
 import org.sunhp.rcampus.service.ChapterService;
 import org.sunhp.rcampus.service.CourseService;
@@ -101,8 +103,22 @@ public class CourseController {
 	public String getCourseDetail(HttpServletRequest request,
 			HttpServletResponse response, Long courseId) {
 		Course course = courseService.get(courseId);
-		List<Chapter> chapterList = new ArrayList<Chapter>();// 获取这门课的全部章节
-		for (int i = 0; i < chapterList.size(); i++) {
+		// List<Chapter> chapterList = new ArrayList<Chapter>();// 获取这门课的全部章节
+		// for (int i = 0; i < chapterList.size(); i++) {
+		//
+		// }
+		Pageable<Chapter> chapterPageable = new Pageable<Chapter>();
+		chapterPageable.setPageSize(Integer.MAX_VALUE);
+		Page<Chapter> chapterPage = chapterService.findByPager(chapterPageable);
+		List<Chapter> chapterList = chapterPage.getRows();
+		for (Chapter chapter : chapterList) {
+			Long chapterId = chapter.getChapterId();
+			Pageable<Course> coursePageable = new Pageable<Course>();
+			coursePageable.setPageSize(Integer.MAX_VALUE);
+			coursePageable.setSearchProperty("chapter");
+			coursePageable.setSearchValue(String.valueOf(chapterId));
+			chapter.setCourseList(courseService.findByPager(coursePageable)
+					.getRows());
 		}
 		request.setAttribute("chapterList", chapterList);
 		request.setAttribute("course", course);
@@ -205,6 +221,8 @@ public class CourseController {
 		Long userId = (Long) session.getAttribute("userId");
 		User user = userService.get(userId);
 		request.setAttribute("user", user);
+		request.setAttribute("course",
+				courseService.get(request.getParameter("courseId")));
 		return "course_manage";
 	}
 

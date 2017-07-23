@@ -298,7 +298,7 @@ ul {
 							<i
 							class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
 					</a></li>
-					<li class="tpl-left-nav-item"><a href="course/course_manage"
+					<li class="tpl-left-nav-item"><a href="chapter/chapter_manage"
 						class="nav-link active"> <i class="am-icon-home"></i> <span>课程管理</span>
 					</a></li>
 
