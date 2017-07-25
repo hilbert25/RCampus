@@ -10,6 +10,7 @@ import org.sunhp.rcampus.bean.Chapter;
 import org.sunhp.rcampus.bean.Course;
 import org.sunhp.rcampus.bean.HttpResult;
 import org.sunhp.rcampus.bean.Judge;
+import org.sunhp.rcampus.bean.Progress;
 import org.sunhp.rcampus.bean.User;
 import org.sunhp.rcampus.components.Constants;
 import org.sunhp.rcampus.components.Page;
@@ -18,6 +19,7 @@ import org.sunhp.rcampus.service.ApiService;
 import org.sunhp.rcampus.service.ChapterService;
 import org.sunhp.rcampus.service.CourseService;
 import org.sunhp.rcampus.service.JudgeService;
+import org.sunhp.rcampus.service.ProgressService;
 import org.sunhp.rcampus.service.UserService;
 import org.sunhp.rcampus.util.FileUtils;
 import org.sunhp.rcampus.vo.ExamResult;
@@ -30,6 +32,7 @@ import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -48,6 +51,8 @@ public class CourseController {
 	ChapterService chapterService;
 	@Autowired
 	UserService userService;
+	@Autowired
+	ProgressService progressService;
 
 	/**
 	 * 获得某章节的课程列表
@@ -140,18 +145,70 @@ public class CourseController {
 	public String getCourseSubmit(HttpServletRequest request,
 			HttpServletResponse response, Long courseId, String code)
 			throws IOException {
-
+		HttpSession session = request.getSession();
+		Long userId = (Long) session.getAttribute("userId");
+		code = code.replaceAll("#[\\s\\S]*?\n", "");
+		code.replaceAll(" ", "");
+		System.out.println(code);
 		ExamResult examResult;
 		OcpuResult ocpuResult;
 		// 判断用户输入是否符合要求
 		// Course course = courseService.get(courseId);
 		Judge judge = new Judge();
 		judge.setExamId(courseId);
+		String preJudge = "";
+		String[] codeArray = code.split("\n");
 		List<Judge> judgeList = judgeService.getAll(judge);
-		for (Judge j : judgeList)
-			System.out.println(j.getJudgeItem());
-		examResult = judgeService.judegeInput(judgeList, code);
+		int rightCount = 0;// 记录通过的test cast的数目
+		for (int j = 0; j < judgeList.size(); j++) {
+			int i = 0;
+			for (i = 0; i < codeArray.length; i++) {
+				if (codeArray[i].equals(judgeList.get(j).getJudgeItem())) {
+					rightCount++;
+					break;
+				}
+			}
+			if (i == codeArray.length) {// 没有第j个judge
+				preJudge += "you should input "
+						+ judgeList.get(j).getJudgeItem() + " in the "
+						+ String.valueOf(j + 1) + "th test case \n";
+			}
+		}
 
+		examResult = judgeService.judegeInput(judgeList, code);
+		Pageable<Progress> progressPageable = new Pageable<Progress>();
+		progressPageable.setSearchProperty("user_id");
+		progressPageable.setSearchValue(String.valueOf(userId));
+		Page<Progress> progressPage = progressService
+				.findByPager(progressPageable);
+		List<Progress> progressList = progressPage.getRows();
+		int i = 0;
+		int caseCount = judgeList.size();
+		for (i = 0; i < progressList.size(); i++) {
+			if (progressList.get(i).getCourseId() == courseId) {// 找到记录
+				Progress progress = progressList.get(i);
+				progress.setPoint(100*(double) rightCount / caseCount);
+				progress.setUpdateTime(new Date());
+				progressService.update(progress);
+				break;
+			}
+		}
+		if (i == progressList.size()) {// 没找到记录
+			Progress progress=new Progress();
+			progress.setCourseId(courseId);
+			progress.setPoint(100*(double) rightCount / caseCount);
+			progress.setUserId(userId);
+			progress.setCreateTime(new Date());
+			progress.setUpdateTime(new Date());
+			progressService.save(progress);
+		}
+		if (!preJudge.equals("")) {
+			ocpuResult = new OcpuResult(code, preJudge);
+			examResult.setStatus(false);
+			// examResult.setOcpuResult(ocpuResult);
+			examResult.setOcpuJSON(JSON.toJSONString(ocpuResult));
+			return JSON.toJSONString(examResult);
+		}
 		// 将用户输入存入temp.R文件中
 		String excuteFilePath = FileUtils
 				.saveStrToFile(request, "temp.R", code);
@@ -162,14 +219,16 @@ public class CourseController {
 		if (result.getCode() != 201) {
 			ocpuResult = new OcpuResult(code, "R文件上传出错");
 			examResult.setStatus(false);
-			examResult.setOcpuResult(ocpuResult);
+			// examResult.setOcpuResult(ocpuResult);
+			examResult.setOcpuJSON(JSON.toJSONString(ocpuResult));
 			return JSON.toJSONString(examResult);
 		}
 		ocpuResult = new OcpuResult(result.getData());
 		if (ocpuResult.getSessionID() == null) {
 			ocpuResult = new OcpuResult(code, "R文件上传后openCPU结果解析出错");
 			examResult.setStatus(false);
-			examResult.setOcpuResult(ocpuResult);
+			// examResult.setOcpuResult(ocpuResult);
+			examResult.setOcpuJSON(JSON.toJSONString(ocpuResult));
 			return JSON.toJSONString(examResult);
 		}
 		// OpenCPU上执行emp.R
@@ -180,13 +239,15 @@ public class CourseController {
 		if (result.getCode() == 400) {
 			ocpuResult = new OcpuResult(code, result.getData());
 			examResult.setStatus(false);
-			examResult.setOcpuResult(ocpuResult);
+			// examResult.setOcpuResult(ocpuResult);
+			examResult.setOcpuJSON(JSON.toJSONString(ocpuResult));
 			return JSON.toJSONString(examResult);
 		}
 		if (result.getCode() != 201 && result.getCode() != 200) {
 			ocpuResult = new OcpuResult(code, "系统内部错误:" + result.getCode());
 			examResult.setStatus(false);
-			examResult.setOcpuResult(ocpuResult);
+			// examResult.setOcpuResult(ocpuResult);
+			examResult.setOcpuJSON(JSON.toJSONString(ocpuResult));
 			return JSON.toJSONString(examResult);
 		}
 		// 正常情况
@@ -194,7 +255,8 @@ public class CourseController {
 		if (ocpuResult.getSessionID() == null) {
 			ocpuResult = new OcpuResult(code, "R文件执行后openCPU结果解析出错结果解析出错");
 			examResult.setStatus(false);
-			examResult.setOcpuResult(ocpuResult);
+			// examResult.setOcpuResult(ocpuResult);
+			examResult.setOcpuJSON(JSON.toJSONString(ocpuResult));
 			return JSON.toJSONString(examResult);
 		}
 		// 获取执行结果数据

@@ -212,6 +212,7 @@
 											var courseId = document
 													.getElementById("courseId").value;
 											var code = editor.getValue();
+											code = code.replace(/\%/g, "%25");
 											code = code.replace(/\+/g, "%2B");
 											code = code.replace(/\&/g, "%26");
 											if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -228,6 +229,31 @@
 													var result = data['ocpuJSON'];
 													var resultData = JSON
 															.parse(result);
+													spilt_data = resultData['console']
+															.split("\n");
+													var codeout = document
+															.getElementById("codeout");
+													codeout.innerHTML = "";
+													/*for (var i = 0; i < spilt_data.length; i++) {
+														var p = document
+																.createElement("p");
+														if (spilt_data[i]
+																.charAt(0) == '>') {
+															p
+																	.setAttribute(
+																			"style",
+																			"color:#000000;width: 700px;");
+
+														} else {
+															p
+																	.setAttribute(
+																			"style",
+																			"color:#3a00ca;width: 700px;");
+														}
+														p.innerHTML = spilt_data[i];
+														codeout.appendChild(p);
+														codeout.scrollTop=codeout.scrollHeight;
+													}*/
 													document
 															.getElementById("codeout").innerHTML = resultData['console'];
 												}
@@ -248,6 +274,11 @@
 								</article>
 								<button id="submit" name="submit" value="submit"
 									onclick="postCode()" class="btn btn-primary btn-round">Submit</button>
+								<!-- <div id="codeout"
+									style="overflow: auto; width: 750px; height: 400px; float: right;">
+
+
+								</div> -->
 								<textarea name="codeout" id="codeout" style="height: 200px"> </textarea>
 							</div>
 						</section>

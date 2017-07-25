@@ -222,6 +222,7 @@
 														</label>
 														<div class="am-u-sm-9">
 															<select id="chapterOrder" name="chapterOrder">
+																
 																<c:forEach varStatus="i" begin="1" end="40">
 																	<option value="${i.count}">${i.count}</option>
 																</c:forEach>
@@ -271,8 +272,8 @@
 													</div>
 													<button type="button" class="btn btn-default"
 														data-dismiss="modal">关闭</button>
-													<button type="button" class="btn btn-primary" id="submit"
-														name="submit" onclick="addChapter()">提交更改</button>
+													<button type="submit" class="btn btn-primary" id="submit"
+														name="submit">提交更改</button>
 
 												</form>
 
@@ -290,10 +291,9 @@
 
 				<ul class="tpl-task-list tpl-task-remind" id="chapter-list">
 					<li>
-						<div class="cosa">章节号</div>
-						<!-- <div class="cosb">章节名称</div> -->
+						<div class="cosa">章节号</div> <!-- <div class="cosb">章节名称</div> -->
 					</li>
-					
+
 					<!-- <li>
 						<div class="cosB">12分钟前</div>
 						<div class="cosA">fdsfafa</div>
