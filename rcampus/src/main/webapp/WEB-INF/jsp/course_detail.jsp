@@ -60,9 +60,67 @@
 	border: 1px solid black;
 }
 </style>
-
+<script type="text/javascript">
+	function getNextCourse() {
+		var xmlhttp;
+		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var data = JSON.parse(xmlhttp.responseText);
+				var nextA = document.getElementById("next");
+				nextA.setAttribute("href",
+						"/rcampus/course/getCourseById?courseId="
+								+ data["courseId"]);
+			}
+		};
+		xmlhttp.open("POST", "/rcampus/course/getNextCourse?courseId="
+				+ getQueryString("courseId"), true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send();
+	}
+	function isCourseFinish() {
+		var xmlhttp;
+		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var data = JSON.parse(xmlhttp.responseText);
+				var nextA = document.getElementById("next");
+				if (data['result']) {//如果这节课完成了
+					nextA.setAttribute("style", "float: right;");
+				} else {
+					nextA.setAttribute("style", "float: right; display: none;");
+				}
+			}
+		};
+		xmlhttp.open("POST", "/rcampus/course/isFinish?courseId="
+				+ getQueryString("courseId"), true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send();
+	}
+	function getQueryString(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null)
+			return unescape(r[2]);
+		return null;
+	}
+	function init() {
+		getNextCourse();
+		isCourseFinish();
+	}
+</script>
 </head>
-<body data-reactid="32">
+<body data-reactid="32" onload="init();">
 	<div id="main">
 		<div id="wrapper" class="">
 			<div class="overlay" style="display: none;"></div>
@@ -73,15 +131,32 @@
 					<c:forEach items="${chapterList}" var="chapter"
 						varStatus="chapterIndex">
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown"> <i class="fa fa-fw fa-plus"></i>Chapter
-								${chapter.chapterId} ${chapter.chapterName }<span class="caret"></span>
+							data-toggle="dropdown">
+								<c:choose>
+									<c:when test="${ chapter.chapterId le finishChapter}">
+										<i class="fa fa-fw fa-plus" style="color: green;"></i>Chapter ${chapter.chapterId}
+									${chapter.chapterName }<span class="caret"></span>
+									</c:when>
+									<c:when test="${ chapter.chapterId gt finishChapter}">
+										<i class="fa fa-fw fa-plus"></i>Chapter ${chapter.chapterId}
+									${chapter.chapterName }<span class="caret"></span>
+									</c:when>
+								</c:choose>
 						</a>
 							<ul class="dropdown-menu" role="menu">
 
 								<!-- <li class="dropdown-header">这个标签是用来干蛤的？</li> -->
 								<c:forEach items="${chapter.courseList}" var="course"
 									varStatus="courseIndex">
-									<li><a href="getCourseById?courseId=${course.courseId}">${course.courseName }</a></li>
+									<li><c:choose>
+											<c:when test="${course.courseId le finishCourse}">
+												<a href="getCourseById?courseId=${course.courseId}"
+													style="color: green;">${course.courseName }</a>
+											</c:when>
+											<c:when test="${course.courseId gt finishCourse}">
+												<a href="javascript:return false;">${course.courseName }</a>
+											</c:when>
+										</c:choose></li>
 								</c:forEach>
 							</ul></li>
 					</c:forEach>
@@ -209,8 +284,7 @@
 										function postCode() {
 											document.getElementById("codeout").innerHTML = "pending...";
 											var xmlhttp;
-											var courseId = document
-													.getElementById("courseId").value;
+											var courseId = getQueryString("courseId");
 											var code = editor.getValue();
 											code = code.replace(/\%/g, "%25");
 											code = code.replace(/\+/g, "%2B");
@@ -224,6 +298,7 @@
 											xmlhttp.onreadystatechange = function() {
 												if (xmlhttp.readyState == 4
 														&& xmlhttp.status == 200) {
+													isCourseFinish();
 													var data = JSON
 															.parse(xmlhttp.responseText);
 													var result = data['ocpuJSON'];
@@ -274,6 +349,9 @@
 								</article>
 								<button id="submit" name="submit" value="submit"
 									onclick="postCode()" class="btn btn-primary btn-round">Submit</button>
+								<a id="next" name="next" value="Next"
+									class="btn btn-primary btn-round"
+									style="float: right; display: none;">Next Course</a>
 								<!-- <div id="codeout"
 									style="overflow: auto; width: 750px; height: 400px; float: right;">
 
