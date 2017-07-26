@@ -47,8 +47,50 @@
 							}
 						})
 			});
+	function getContinue() {
+		var xmlhttp;
+		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var data = JSON.parse(xmlhttp.responseText);
+				var continueCourse = document.getElementById("continue");
+				continueCourse.setAttribute("href",
+						"course/getCourseById?courseId=" + data['courseId']);
+			}
+		};
+		xmlhttp.open("POST", "/rcampus/course/getContinue", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send();
+	}
+	function getCompleteRate() {
+		var xmlhttp;
+		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				data=JSON.parse(xmlhttp.responseText);
+				document.getElementById("complete_rate").innerHTML = "you have complete "+data['rate']+"%";
+			}
+		};
+		xmlhttp.open("POST", "/rcampus/course/getCompleteRate", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send();
+	}
+	function init() {
+		getContinue();
+		getCompleteRate();
+	}
 </script>
-<body>
+<body onload="init();">
 	<nav class="navbar navbar-default" role="navigation">
 		<div class="container-fluid"
 			style="height: 100px; background: #3366CC">
@@ -172,12 +214,17 @@
 							<div class="caption">
 								<div style="margin-bottom: 50px">
 									<h3>Introduction to R</h3>
+									<h4 id="complete_rate" style="color:#3366CC;">0%</h4>
 								</div>
 								<p>Master the basis of data analysis by manipulating common
 									data structures such as vectors,matrics and data frames</p>
+								
 								<p>
+									<!--  <a href="./courseIntro" class="btn btn-primary"
+										style="background: #FF6600" role="button">Learn More</a>-->
 									<a href="./courseIntro" class="btn btn-primary"
-										style="background: #FF6600" role="button">Learn More</a>
+										style="background: #FF6600" role="button" id="continue">Continue
+										to learn</a>
 								</p>
 							</div>
 						</div>

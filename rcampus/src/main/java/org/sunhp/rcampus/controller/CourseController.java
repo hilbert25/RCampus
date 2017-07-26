@@ -1,6 +1,7 @@
 package org.sunhp.rcampus.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -108,10 +109,6 @@ public class CourseController {
 	public String getCourseDetail(HttpServletRequest request,
 			HttpServletResponse response, Long courseId) {
 		Course course = courseService.get(courseId);
-		// List<Chapter> chapterList = new ArrayList<Chapter>();// 获取这门课的全部章节
-		// for (int i = 0; i < chapterList.size(); i++) {
-		//
-		// }
 		Pageable<Chapter> chapterPageable = new Pageable<Chapter>();
 		chapterPageable.setPageSize(Integer.MAX_VALUE);
 		Page<Chapter> chapterPage = chapterService.findByPager(chapterPageable);
@@ -177,6 +174,7 @@ public class CourseController {
 
 		examResult = judgeService.judegeInput(judgeList, code);
 		Pageable<Progress> progressPageable = new Pageable<Progress>();
+		progressPageable.setPageSize(Integer.MAX_VALUE);
 		progressPageable.setSearchProperty("user_id");
 		progressPageable.setSearchValue(String.valueOf(userId));
 		Page<Progress> progressPage = progressService
@@ -187,16 +185,16 @@ public class CourseController {
 		for (i = 0; i < progressList.size(); i++) {
 			if (progressList.get(i).getCourseId() == courseId) {// 找到记录
 				Progress progress = progressList.get(i);
-				progress.setPoint(100*(double) rightCount / caseCount);
+				progress.setPoint(100 * (double) rightCount / caseCount);
 				progress.setUpdateTime(new Date());
 				progressService.update(progress);
 				break;
 			}
 		}
 		if (i == progressList.size()) {// 没找到记录
-			Progress progress=new Progress();
+			Progress progress = new Progress();
 			progress.setCourseId(courseId);
-			progress.setPoint(100*(double) rightCount / caseCount);
+			progress.setPoint(100 * (double) rightCount / caseCount);
 			progress.setUserId(userId);
 			progress.setCreateTime(new Date());
 			progress.setUpdateTime(new Date());
@@ -302,5 +300,73 @@ public class CourseController {
 			HttpServletResponse response, Long courseId) {
 		courseService.delete(courseId);
 		return JSON.toJSONString("deleted");
+	}
+
+	/**
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("getContinue")
+	public String getContinue(HttpServletRequest request,
+			HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		Long userId = (Long) session.getAttribute("userId");
+		Long courseId = getUserLatestCourse(userId);
+		Course course = courseService.get(courseId);
+		return JSON.toJSONString(course);
+	}
+
+	@ResponseBody
+	@RequestMapping("getCompleteRate")
+	public String getCompleteRate(HttpServletRequest request,
+			HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		Long userId = (Long) session.getAttribute("userId");
+		Pageable<Progress> progressPageable = new Pageable<Progress>();
+		progressPageable.setSearchProperty("user_id");
+		progressPageable.setSearchValue(String.valueOf(userId));
+		progressPageable.setPageNumber(Integer.MAX_VALUE);
+		Page<Progress> progressPage = progressService
+				.findByPager(progressPageable);
+		List<Progress> progressList = progressPage.getRows();
+		int complete = 0;
+		long total = 0;
+		if (progressList.get(progressList.size() - 1).getPoint() == 100) {
+			complete = progressList.size();
+		} else {
+			complete = Math.min(progressList.size(), 0);
+		}
+		Pageable<Course> coursePageable = new Pageable<Course>();
+		coursePageable.setPageSize(Integer.MAX_VALUE);
+		total = courseService.count(coursePageable);
+		double rate = ((double) 100 * complete / total);
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("rate", (int)rate);
+		return JSON.toJSONString(jsonObject);
+	}
+
+	/**
+	 * 获取当前用户最新课程
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public Long getUserLatestCourse(Long userId) {
+		Pageable<Progress> progressPageable = new Pageable<Progress>();
+		progressPageable.setSearchProperty("user_id");
+		progressPageable.setSearchValue(String.valueOf(userId));
+		progressPageable.setPageNumber(Integer.MAX_VALUE);
+		Page<Progress> progressPage = progressService
+				.findByPager(progressPageable);
+		List<Progress> progressList = progressPage.getRows();
+		Long maxId = 0L;
+		for (int i = 0; i < progressList.size(); i++) {
+			if (progressList.get(i).getCourseId() > maxId) {
+				maxId = progressList.get(i).getCourseId();
+			}
+		}
+		return maxId;
 	}
 }
