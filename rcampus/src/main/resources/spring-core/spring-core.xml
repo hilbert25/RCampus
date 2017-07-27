@@ -40,4 +40,5 @@
 		配置一般业务bean，包括service层、manager层等 -->
 	<import resource="classpath:spring-core/spring-http.xml" />
 	<import resource="classpath:spring-core/spring-mail.xml" />
+	
 </beans>

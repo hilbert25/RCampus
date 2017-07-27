@@ -9,6 +9,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
 public class MailUtil {
+	
  private JavaMailSenderImpl mailSender;
  @Autowired
  public void setMailSender(JavaMailSenderImpl mailSender){

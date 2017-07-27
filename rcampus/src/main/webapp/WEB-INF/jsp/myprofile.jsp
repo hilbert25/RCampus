@@ -9,44 +9,23 @@
 <script type="text/javascript">window.NREUM||(NREUM={}),__nr_require=function(e,n,t){function r(t){if(!n[t]){var o=n[t]={exports:{}};e[t][0].call(o.exports,function(n){var o=e[t][1][n];return r(o||n)},o,o.exports)}return n[t].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<t.length;o++)r(t[o]);return r}({1:[function(e,n,t){function r(){}function o(e,n,t){return function(){return i(e,[c.now()].concat(u(arguments)),n?null:this,t),n?void 0:this}}var i=e("handle"),a=e(2),u=e(3),f=e("ee").get("tracer"),c=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(e,n){s[n]=o(d+n,!0,"api")}),s.addPageAction=o(d+"addPageAction",!0),s.setCurrentRouteName=o(d+"routeName",!0),n.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,n){var t={},r=this,o="function"==typeof n;return i(l+"tracer",[c.now(),e,t],r),function(){if(f.emit((o?"":"no-")+"fn-start",[c.now(),r,o],t),o)try{return n.apply(this,arguments)}finally{f.emit("fn-end",[c.now()],t)}}}};a("setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,n){m[n]=o(l+n)}),newrelic.noticeError=function(e){"string"==typeof e&&(e=new Error(e)),i("err",[e,c.now()])}},{}],2:[function(e,n,t){function r(e,n){var t=[],r="",i=0;for(r in e)o.call(e,r)&&(t[i]=n(r,e[r]),i+=1);return t}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],3:[function(e,n,t){function r(e,n,t){n||(n=0),"undefined"==typeof t&&(t=e?e.length:0);for(var r=-1,o=t-n||0,i=Array(o<0?0:o);++r<o;)i[r]=e[n+r];return i}n.exports=r},{}],4:[function(e,n,t){n.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,n,t){function r(){}function o(e){function n(e){return e&&e instanceof r?e:e?f(e,u,i):i()}function t(t,r,o,i){if(!d.aborted||i){e&&e(t,r,o);for(var a=n(o),u=m(t),f=u.length,c=0;c<f;c++)u[c].apply(a,r);var p=s[y[t]];return p&&p.push([b,t,r,a]),a}}function l(e,n){v[e]=m(e).concat(n)}function m(e){return v[e]||[]}function w(e){return p[e]=p[e]||o(t)}function g(e,n){c(e,function(e,t){n=n||"feature",y[t]=n,n in s||(s[n]=[])})}var v={},y={},b={on:l,emit:t,get:w,listeners:m,context:n,buffer:g,abort:a,aborted:!1};return b}function i(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var u="nr@context",f=e("gos"),c=e(2),s={},p={},d=n.exports=o();d.backlog=s},{}],gos:[function(e,n,t){function r(e,n,t){if(o.call(e,n))return e[n];var r=t();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,n,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return e[n]=r,r}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],handle:[function(e,n,t){function r(e,n,t,r){o.buffer([e],r),o.emit(e,n,t)}var o=e("ee").get("handle");n.exports=r,r.ee=o},{}],id:[function(e,n,t){function r(e){var n=typeof e;return!e||"object"!==n&&"function"!==n?-1:e===window?0:a(e,i,function(){return o++})}var o=1,i="nr@id",a=e("gos");n.exports=r},{}],loader:[function(e,n,t){function r(){if(!x++){var e=h.info=NREUM.info,n=d.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&n))return s.abort();c(y,function(n,t){e[n]||(e[n]=t)}),f("mark",["onload",a()+h.offset],null,"api");var t=d.createElement("script");t.src="https://"+e.agent,n.parentNode.insertBefore(t,n)}}function o(){"complete"===d.readyState&&i()}function i(){f("mark",["domContent",a()+h.offset],null,"api")}function a(){return E.exists&&performance.now?Math.round(performance.now()):(u=Math.max((new Date).getTime(),u))-h.offset}var u=(new Date).getTime(),f=e("handle"),c=e(2),s=e("ee"),p=window,d=p.document,l="addEventListener",m="attachEvent",w=p.XMLHttpRequest,g=w&&w.prototype;NREUM.o={ST:setTimeout,SI:p.setImmediate,CT:clearTimeout,XHR:w,REQ:p.Request,EV:p.Event,PR:p.Promise,MO:p.MutationObserver};var v=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1039.min.js"},b=w&&g&&g[l]&&!/CriOS/.test(navigator.userAgent),h=n.exports={offset:u,now:a,origin:v,features:{},xhrWrappable:b};e(1),d[l]?(d[l]("DOMContentLoaded",i,!1),p[l]("load",r,!1)):(d[m]("onreadystatechange",o),p[m]("onload",r)),f("mark",["firstbyte",u],null,"api");var x=0,E=e(4)},{}]},{},["loader"]);</script>
 <title>Edit Profile</title>
 <meta name="description" content="Edit profile of" />
-<link rel="author" href="https://plus.google.com/u/0/+Datacamp/" />
-<meta property="og:image"
-	content="https://www.datacamp.com/datacamp.png" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta property="og:title" content="Edit Profile" />
-<meta name="twitter:title" content="Edit Profile" />
-<meta name="twitter:description" content="Edit profile of" />
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:site" content="@DataCamp" />
-<meta name="twitter:image"
-	content="https://www.datacamp.com/datacamp-sq.png" />
-<meta name="twitter:image:width" content="300" />
-<meta name="twitter:image:height" content="300" />
-<meta name="twitter:creator" content="@DataCamp" />
-<meta name="twitter:domain" content="www.datacamp.com" />
 <link rel="stylesheet" media="all"
-	href="https://cdn.datacamp.com/main-app/assets/application-764c6b8f001bf0f157eebd5c442f20839378fdd8b59b04968c6b9210b7168d07.css" />
+	href="../../rcampus/page/assets/css/application-764c6b8f001bf0f157eebd5c442f20839378fdd8b59b04968c6b9210b7168d07.css" />
 <link rel="shortcut icon" type="image/x-icon"
-	href="https://cdn.datacamp.com/main-app/assets/favicon-335cd0394b32102a39221d79e5fd7e51078e6d32a0c8aea59676a6869f84e9d8.ico" />
-<meta name="csrf-param" content="authenticity_token" />
-<meta name="csrf-token"
-	content="TYRkUfoJr6IzilULK7jKr5PsvYN/qpa+uYLVR5I0/kscGu2FDx/jakSo0qEjETZblmaYkD3EAkyWHekWjSjEHQ==" />
-
+	href="../../rcampus/page/assets/img/favicon-335cd0394b32102a39221d79e5fd7e51078e6d32a0c8aea59676a6869f84e9d8.ico" />
 <base href="/">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="fragment" content="!">
-<meta name="google-site-verification"
-	content="ao3s4PdjisD2QsfTbldo7YJx7VX2QLkPEtlDpyFTjo8" />
 <link rel="stylesheet"
-	href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	href="../../rcampus/page/assets/css/font-awesome.min.css">
+<script src="../../rcampus/page/assets/js/jquery.js"></script>
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  })(window,document,'script','../../rcampus/page/assets/js/analytics.js','ga');
   ga('create', 'UA-39297847-1', 'auto');
   ga('require', 'GTM-TVZ7BNH');
 </script>
@@ -256,7 +235,8 @@ ul {
 									<!-- <a href="rcampus/user/getCourseById">${courseList[loop.count-1].courseName}</a> -->
 								</h5>
 								<p class="m0 text-tertiary">
-									<a href="rcampus/course/getCourseById?courseId=${courseList[loop.count-1].courseId}">${courseList[loop.count-1].courseName}</a>
+									<a
+										href="rcampus/course/getCourseById?courseId=${courseList[loop.count-1].courseId}">${courseList[loop.count-1].courseName}</a>
 									${progress.point}/100分
 								</p>
 								<div class="row">
@@ -308,8 +288,6 @@ ul {
 			<div class="container clearfix">
 				<div class="navbar--title">
 					<a class="clearfix no-link-style" href="/"></a>
-					<div class="logo-title">DataCamp</div>
-					<a class="small-link" href="/careers">We&#39;re hiring!</a>
 				</div>
 				<ul class="inline clearfix hidden-xs">
 					<li><a target="_blank" href="http://www.r-fiddle.org/">R
@@ -317,16 +295,6 @@ ul {
 					<li><a target="_blank" href="https://www.rdocumentation.org">RDocumentation</a></li>
 					<li><a href="/about">About</a></li>
 				</ul>
-				<div class="social-icons clearfix">
-					<a target="_blank" href="https://twitter.com/datacamp"><i
-						class="fa fa-twitter fa-2x"></i></a> <a target="_blank"
-						href="https://www.facebook.com/pages/DataCamp/726282547396228"><i
-						class="fa fa-facebook fa-2x"></i></a> <a target="_blank"
-						href="https://www.linkedin.com/company/datamind-org"><i
-						class="fa fa-linkedin fa-2x"></i></a> <a target="_blank"
-						href="https://www.youtube.com/channel/UC79Gv3mYp6zKiSwYemEik9A"><i
-						class="fa fa-youtube fa-2x"></i></a>
-				</div>
 			</div>
 		</div>
 
@@ -334,11 +302,12 @@ ul {
 
 
 	</div>
-	<script src="https://js.braintreegateway.com/v2/braintree.js"></script>
-	<script src="https://js.braintreegateway.com/v1/braintree-data.js"></script>
+	<script src="../../rcampus/page/assets/js/braintree.js"></script>
+	<script src="../../rcampus/page/assets/js/braintree-data.js"></script>
 	<script
-		src="https://cdn.datacamp.com/main-app/assets/application-9ae4e5dc43cf000c36896200ab20dff5fbf6ab8b59016251f65c5df85f9f0a6f.js"></script>
-	<script src="https://cdn.datacamp.com/datacamp-analytics-1.1.7.min.js"></script>
+		src="../../rcampus/page/assets/js/application-9ae4e5dc43cf000c36896200ab20dff5fbf6ab8b59016251f65c5df85f9f0a6f.js"></script>
+	<script
+		src="../../rcampus/page/assets/js/datacamp-analytics-1.1.7.min.js"></script>
 	<script type="text/javascript">
       window.DC = window.DC || {}
       window.DC.analytics = new DCAnalytics({"api_domain": "https://www.datacamp.com", "collection": "main", "autotrack_utm": true, "autotrack_data_attr": true });
@@ -356,18 +325,14 @@ ul {
 </script>
 
 	<!-- Google Tag Manager -->
-	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-TGGWB2P');</script>
+
 	<!-- End Google Tag Manager -->
 
 	<script type="text/javascript">
   (function(i,s,o,g,r,a,m){i['ProfitWellObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
-  })(window,document,'script','https://dna8twue3dlxq.cloudfront.net/js/profitwell.js','profitwell');
+  })(window,document,'script','../../rcampus/page/assets/js/profitwell.js','profitwell');
 
   profitwell('auth_token', 'f5649c7f778dc2ce6e1e59b28fa7e8d0');
     profitwell('user_email', 'xjtuhht@163.com');
@@ -382,7 +347,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     }));
   </script>
 
-	<script src="//static.tapfiliate.com/tapfiliate.js"
+	<script src="../../rcampus/page/assets/js/tapfiliate.js"
 		type="text/javascript" async></script>
 	<script type="text/javascript">
   window['TapfiliateObject'] = i = 'tap';
