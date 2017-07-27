@@ -72,7 +72,11 @@
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 				var data = JSON.parse(xmlhttp.responseText);
 				var nextA = document.getElementById("next");
+				var nextCourse = document.getElementById("next_course");
 				nextA.setAttribute("href",
+						"/rcampus/course/getCourseById?courseId="
+								+ data["courseId"]);
+				nextCourse.setAttribute("href",
 						"/rcampus/course/getCourseById?courseId="
 								+ data["courseId"]);
 			}
@@ -96,6 +100,8 @@
 				var nextA = document.getElementById("next");
 				if (data['result']) {//如果这节课完成了
 					nextA.setAttribute("style", "float: right;");
+					document.getElementById("finish_area").setAttribute(
+							"style", "width:100%; height: 100%;");
 				} else {
 					nextA.setAttribute("style", "float: right; display: none;");
 				}
@@ -114,6 +120,10 @@
 			return unescape(r[2]);
 		return null;
 	}
+	function closeFinishArea() {
+		document.getElementById("finish_area").setAttribute("style",
+				"width:100%; height: 100%;display:none;");
+	}
 	function init() {
 		getNextCourse();
 		isCourseFinish();
@@ -131,8 +141,7 @@
 					<c:forEach items="${chapterList}" var="chapter"
 						varStatus="chapterIndex">
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown">
-								<c:choose>
+							data-toggle="dropdown"> <c:choose>
 									<c:when test="${ chapter.chapterId le finishChapter}">
 										<i class="fa fa-fw fa-plus" style="color: green;"></i>Chapter ${chapter.chapterId}
 									${chapter.chapterName }<span class="caret"></span>
@@ -221,6 +230,142 @@
 				<section id="navigation" class="bg-navigation" data-reactid="2">
 				</section>
 				<div class="exercise-area " data-reactid="34">
+
+
+
+
+					<div class="lm_item lm_stack"
+						style="width: 100%; height: 100%; display: none;" id="finish_area">
+						<div class="lm_items" style="width: 100%; height: 100%;">
+							<div class="lm_item_container" style="width: 40%; height: 526px;">
+								<div class="lm_content" style="width: 100%; height: 100%;">
+									<div data-reactroot="" id="gl-aside" class="gl-content">
+										<aside class="exercise--sidebar">
+											<div class="exercise--sidebar-content">
+												<div class="exercise--assignment exercise--typography"
+													data-onboarding="assignment">
+													<h1 class="exercise--title">How it works</h1>
+													<div class="skills-tooltip">
+														<!-- react-text: 7 -->
+														100
+														<!-- /react-text -->
+														<!-- react-text: 8 -->
+														xp
+														<!-- /react-text -->
+													</div>
+													<div>
+														<div>
+															<p>In the editor on the right you should type R code
+																to solve the exercises. When you hit the 'Submit Answer'
+																button, every line of code is interpreted and executed
+																by R and you get a message whether or not your code was
+																correct. The output of your R code is shown in the
+																console in the lower right corner.</p>
+
+															<p>
+																R makes use of the
+																<code>#</code>
+																sign to add comments, so that you and others can
+																understand what the R code is about. Just like Twitter!
+																Comments are not run as R code, so they will not
+																influence your result. For example, <em>Calculate 3
+																	+ 4</em> in the editor on the right is a comment.
+															</p>
+
+
+														</div>
+													</div>
+												</div>
+												<div class="">
+													<div class="exercise--instructions-title">
+														<h2>Instructions</h2>
+													</div>
+													<div data-onboarding="instructions"
+														class="exercise--instructions exercise--typography">
+														<div>
+															<div class="exercise--instructions__content">
+																<ul>
+																	<li>In the editor on the right there is already
+																		some sample code. Can you see which lines are actual R
+																		code and which are comments?</li>
+																	<li>Add a line of code that calculates the sum of
+																		6 and 12, and hit the 'Submit Answer' button.</li>
+																</ul>
+															</div>
+														</div>
+														<div class="sct-feedback" style="position: relative;">
+															<div
+																style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+																class=" react-resize-detector">
+																<div
+																	style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;">
+																	<div
+																		style="position: absolute; left: 0px; top: 0px; width: 299px; height: 31px;"></div>
+																</div>
+																<div
+																	style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;">
+																	<div
+																		style="position: absolute; left: 0px; top: 0px; width: 200%; height: 200%;"></div>
+																</div>
+															</div>
+															<ul class="content--tab mono">
+																<div data-tip="true" data-for="tp-hint"
+																	style="display: inline-block;" currentitem="false">
+																	<div
+																		class="__react_component_tooltip place-top type-dark "
+																		data-id="tooltip"></div>
+																	<a class="exercise--show-hint"
+																		href="https://campus.datacamp.com/courses/free-introduction-to-r/chapter-1-intro-to-basics-1?ex=1"><i
+																		class="fa fa-lightbulb-o"></i><span> <!-- react-text: 29 -->Take
+																			Hint<!-- /react-text --> <!-- react-text: 30 --> (-<!-- /react-text -->
+																			<!-- react-text: 31 -->30<!-- /react-text --> <!-- react-text: 32 -->xp)<!-- /react-text -->
+																	</span></a>
+																</div>
+															</ul>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="sidebar-overlay">
+												<a class="modal--close" href="#"
+													onclick="closeFinishArea();"><i
+													class="fa fa-times-thin"></i></a>
+												<div class="sidebar-overlay--content text-center">
+													<h4>
+														<!-- react-text: 38 -->
+														Exercise Completed
+														<!-- /react-text -->
+														<div class="progress-tooltip inbetween completed">
+															<span><i class="fa fa-check"></i> <!-- react-text: 42 -->100<!-- /react-text -->
+																<!-- react-text: 43 -->xp<!-- /react-text --></span>
+														</div>
+													</h4>
+													<div></div>
+													<div>
+														<p>Awesome! See how the console shows the result of
+															the R code you submitted? Now that you're familiar with
+															the interface, let's get down to R business!</p>
+													</div>
+													<div class="sidebar-overlay__continue">
+														<span>PRESS ENTER TO </span>
+														<div tabindex="-1">
+															<a
+																class="btn btn-small btn-primary next-exercise animation--shake"
+																id="next_course"
+																href="https://campus.datacamp.com/courses/free-introduction-to-r/chapter-1-intro-to-basics-1?ex=2">Next
+																Course</a>
+														</div>
+													</div>
+												</div>
+
+											</div>
+										</aside>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
 					<div data-reactid="35">
 						<aside class="exercise--sidebar" style="width: 40%;"
 							data-reactid="36">
