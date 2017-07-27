@@ -1,12 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!-- 红配蓝，狗都嫌 -->
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://"
+            + request.getServerName() + ":" + request.getServerPort()
+            + path + "/";
+%>
 <!doctype html>
 <html>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<base href="<%=basePath%>"></base>
 <title>Amaze UI Admin index Examples</title>
 <meta name="description" content="这是一个 index 页面">
 <meta name="keywords" content="index">
@@ -14,17 +20,38 @@
 <meta name="renderer" content="webkit">
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 <meta name="apple-mobile-web-app-title" content="Amaze UI" />
-<link rel="stylesheet" href="../page/assets/css/amazeui.min.css" />
-<link rel="stylesheet" href="../page/assets/css/admin.css">
-<link rel="stylesheet" href="../page/assets/css/app.css">
-<link rel="stylesheet" href="../page/assets/css/bootstrap.min.css">
-<script src="../page/assets/js/jquery.min.js"></script>
-<script src="../page/assets/js/amazeui.min.js"></script>
-<script src="../page/assets/js/app.js"></script>
-<script src="../page/assets/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="page/assets/css/amazeui.min.css" />
+<link rel="stylesheet" href="page/assets/css/admin.css">
+<link rel="stylesheet" href="page/assets/css/app.css">
+<link rel="stylesheet" href="page/assets/css/bootstrap.min.css">
+<script src="page/assets/js/jquery.min.js"></script>
+<script src="page/assets/js/amazeui.min.js"></script>
+<script src="page/assets/js/app.js"></script>
+<script src="page/assets/js/bootstrap.min.js"></script>
 <style>
 </style>
 <script type="text/javascript">
+    $(document).ready(function(){
+    	$("#generate").click(function(){
+    		$.get("course/generate",function(data,status){
+    			alert(data);
+    		});
+    	});
+    	$("#judgeSubmit").click(function(){
+    		console.log($("courseOrder").val());
+    		console.log($("judgeItem").val());
+    		$.post("judge/add.do",
+    			    {
+    			        examId:$("#courseOrder").val(),
+    			        judgeItem:$("#judgeItem").val(),
+    			        judgeType:$("#judgeType").val(),
+    			        judgeTips:$("#judgeTips").val()
+    			    },
+    			        function(data,status){
+    			        alert("状态: " + status);
+    			    });
+    	});
+    });
 	function getUnDealCount() {
 		var xmlhttp;
 		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -95,7 +122,7 @@
 		var chapter_name = document.createElement("a");
 		chapter_name.setAttribute("class", "cosA");
 		chapter_name.setAttribute("href",
-				"../chapter/chapter_detail?chapterId=" + chapterId);
+				"chapter/chapter_detail?chapterId=" + chapterId);
 		chapter_name.innerHTML = chapterName;
 		if (i % 2 == 0) {
 			ul.setAttribute("style", "background:#CDCDC1;");
@@ -159,11 +186,11 @@
 		<div class="tpl-left-nav tpl-left-nav-hover">
 			<div class="tpl-left-nav-list">
 				<ul class="tpl-left-nav-menu">
-					<li class="tpl-left-nav-item"><a href="/adminhome"
+					<li class="tpl-left-nav-item"><a href="adminhome"
 						class="nav-link active"> <i class="am-icon-home"></i> <span>用户管理</span>
 
 					</a></li>
-					<li class="tpl-left-nav-item"><a href="chapter_manage"
+					<li class="tpl-left-nav-item"><a href="chapter/chapter_manage"
 						class="nav-link active"> <i class="am-icon-home"></i> <span>课程管理</span><i
 							class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
 					</a></li>
@@ -197,12 +224,19 @@
 							<div class="am-btn-group am-btn-group-xs">
 								<button type="button"
 									class="am-btn am-btn-default am-btn-success"
-									data-toggle="modal" data-target="#myModal">
-									<span class="am-icon-plus"></span> 新增
+									data-toggle="modal" data-target="#courseModal">
+									<span class="am-icon-plus"></span> 新增chapter
 								</button>
-
-								<!-- 模态框（Modal） -->
-								<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+								<button type="button"
+									class="am-btn am-btn-default am-btn-success"
+									style="margin-left:10px" data-toggle="modal" data-target="#judgeModal">
+									<span class="am-icon-plus"></span> 新增judge
+								</button>
+                             <button id="generate" type="button" class="am-btn am-btn-default am-btn-success" style="margin-left:10px">
+                             生成课程页</button>
+                            <p id="show"></p>
+								<!-- course模态框（Modal） -->
+								<div class="modal fade" id="courseModal" tabindex="-1" role="dialog"
 									aria-labelledby="myModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">
@@ -214,7 +248,7 @@
 											<div class="modal-body">添加章节</div>
 											<div class="modal-footer">
 												<form class="am-form tpl-form-line-form"
-													action="../chapter/add" method="post" id="chapterForm"
+													action="chapter/add" method="post" id="chapterForm"
 													name="chapterForm">
 													<div class="am-form-group">
 														<label for="user-name" class="am-u-sm-3 am-form-label">章节号
@@ -274,7 +308,10 @@
 														data-dismiss="modal">关闭</button>
 													<button type="submit" class="btn btn-primary" id="submit"
 														name="submit">提交更改</button>
+<<<<<<< HEAD
+=======
 
+>>>>>>> 37fc3d5f5138b014c7a812d742d5ddc99683891a
 												</form>
 
 											</div>
@@ -283,7 +320,91 @@
 									</div>
 									<!-- /.modal -->
 								</div>
+                              <!-- judge模态框（Modal） -->
+								<div class="modal fade" id="judgeModal" tabindex="-1" role="dialog"
+									aria-labelledby="myModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal"></button>
+												<h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
+											</div>
 
+											<div class="modal-body">添加章节</div>
+											<div class="modal-footer">
+												<form class="am-form tpl-form-line-form"
+													action="judge/add.do" method="post" id="judgeForm"
+													name="judgeForm">
+													<div class="am-form-group">
+														<label for="courseOrder" class="am-u-sm-3 am-form-label">courseOrder
+														</label>
+														<div class="am-u-sm-9">
+															<select id="courseOrder" name="courseOrder">
+																<c:forEach varStatus="i" begin="1" end="40">
+																	<option value="${i.count}">${i.count}</option>
+																</c:forEach>
+															</select>
+														</div>
+													</div>
+													<div class="am-form-group">
+														<label for="judgeItem" class="am-u-sm-3 am-form-label">judgeItem
+														</label>
+														<div class="am-u-sm-9">
+															<input type="text" class="tpl-form-input"
+																id="judgeItem" name="judgeItem" placeholder="请输入..."
+																required="required"> <small></small>
+														</div>
+													</div>
+                                                    <div class="am-form-group">
+														<label for="judgeType" class="am-u-sm-3 am-form-label">judgeType
+														</label>
+														<div class="am-u-sm-9">
+															<input type="text" class="tpl-form-input"
+																id="judgeType" name="judgeType" placeholder="请输入..."
+																required="required"> <small></small>
+														</div>
+													</div>
+													<!-- <div class="am-form-group">
+														<label for="user-email" class="am-u-sm-3 am-form-label">发布时间
+															<span class="tpl-form-line-small-title">Time</span>
+														</label>
+														<div class="am-u-sm-9">
+															<input type="text" class="am-form-field tpl-form-no-bg"
+																placeholder="发布时间" data-am-datepicker="" readonly /> <small>发布时间为必填</small>
+														</div>
+													</div> -->
+													<!-- <div class="am-form-group">
+														<label for="user-phone" class="am-u-sm-3 am-form-label">作者
+															<span class="tpl-form-line-small-title">Author</span>
+														</label>
+														<div class="am-u-sm-9">
+															<select class="sel">
+																<option value="a">${user.userName }</option>
+															</select>
+														</div>
+													</div> -->
+
+
+													<div class="am-form-group">
+														<label for="judgeTips" class="am-u-sm-3 am-form-label">judgeTips</label>
+														<div class="am-u-sm-9">
+															<textarea class="" rows="10" id="judgeTips"
+																name="judgeTips" placeholder="请输入简介提示..."
+																required="required"></textarea>
+														</div>
+													</div>
+													<button type="button" class="btn btn-default"
+														data-dismiss="modal">关闭</button>
+													<button type="button" class="btn btn-primary" id="judgeSubmit"
+														name="judgeSubmit">提交更改</button>
+												</form>
+
+											</div>
+										</div>
+										<!-- /.modal-content -->
+									</div>
+									<!-- /.modal -->
+									</div>
 							</div>
 						</div>
 					</div>

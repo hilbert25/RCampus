@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.sunhp.rcampus.bean.Chapter;
@@ -23,6 +24,7 @@ import org.sunhp.rcampus.service.JudgeService;
 import org.sunhp.rcampus.service.ProgressService;
 import org.sunhp.rcampus.service.UserService;
 import org.sunhp.rcampus.util.FileUtils;
+import org.sunhp.rcampus.util.JspToHtml;
 import org.sunhp.rcampus.vo.ExamResult;
 import org.sunhp.rcampus.vo.OcpuResult;
 import org.sunhp.rcampus.vo.SimpleCourse;
@@ -33,8 +35,13 @@ import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.ArrayList;
+<<<<<<< HEAD
+import java.util.HashMap;
+=======
 import java.util.Date;
+>>>>>>> 37fc3d5f5138b014c7a812d742d5ddc99683891a
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("course")
@@ -52,9 +59,12 @@ public class CourseController {
 	ChapterService chapterService;
 	@Autowired
 	UserService userService;
+<<<<<<< HEAD
+=======
 	@Autowired
 	ProgressService progressService;
 
+>>>>>>> 37fc3d5f5138b014c7a812d742d5ddc99683891a
 	/**
 	 * 获得某章节的课程列表
 	 * 
@@ -93,7 +103,7 @@ public class CourseController {
 	}
 
 	@RequestMapping("/courseIntro")
-	public String courseIntro() {
+	public String courseIntro(ModelMap map) {
 		return "courseIntro";
 	}
 
@@ -105,9 +115,22 @@ public class CourseController {
 	 * @param courseId
 	 * @return
 	 */
-	@RequestMapping(value = "/getCourseById")
-	public String getCourseDetail(HttpServletRequest request,
+	@RequestMapping(value = "/getCourseDetail")
+	public void getCourseDetail(HttpServletRequest request,
 			HttpServletResponse response, Long courseId) {
+<<<<<<< HEAD
+		// List<Chapter> chapterList = new ArrayList<Chapter>();// 获取这门课的全部章节
+		// for (int i = 0; i < chapterList.size(); i++) {
+		//
+		// }
+		String page=courseId+".html";
+		try {
+			response.sendRedirect(page);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+=======
 		HttpSession session = request.getSession();
 		Long userId = (Long) session.getAttribute("userId");
 		Course course = courseService.get(courseId);
@@ -164,8 +187,8 @@ public class CourseController {
 		request.setAttribute("course", course);
 		request.setAttribute("finishCourse", finishCourse);
 		return "course_detail";
+>>>>>>> 37fc3d5f5138b014c7a812d742d5ddc99683891a
 	}
-
 	/**
 	 * 提交课程作业
 	 * 
@@ -315,7 +338,6 @@ public class CourseController {
 		examResult.setOcpuJSON(JSON.toJSONString(ocpuResult));
 		// examResult.setOcpuResult(ocpuResult);
 		examResult.setStatus(true);
-
 		return JSON.toJSONString(examResult);
 	}
 
@@ -330,15 +352,70 @@ public class CourseController {
 				courseService.get(request.getParameter("courseId")));
 		return "course_manage";
 	}
-
+	@RequestMapping("generate")
 	@ResponseBody
-	@RequestMapping("add.do")
-	public String addCourse(HttpServletRequest request,
+	public String generateCourseContent(HttpServletRequest request,HttpServletResponse response){
+		Pageable<Course> pageable=new Pageable<Course>();
+		pageable.setOrderProperty("course_order");
+		Page<Course> page=courseService.findByPager(pageable);
+		List<Course> courseList=page.getRows();
+		Pageable<Chapter> chapterPg=new Pageable<Chapter>();
+		chapterPg.setOrderProperty("chapter_order");
+		Page<Chapter> chapterPage=chapterService.findByPager(chapterPg);
+		List<Chapter> chapterList=chapterPage.getRows();
+		Map<Chapter,List<Course>> ccMap=new HashMap<Chapter,List<Course>>();
+		int loop1=0;
+		int loop2=0;
+		while(loop1<chapterList.size()){
+			loop1++;
+			List<Course> cList=new ArrayList<Course>();
+			while(loop2<courseList.size()){
+				if(loop2<(courseList.size()-1)&&courseList.get(loop2).getChapter()!=courseList.get(loop2+1).getChapter()){
+					cList.add(courseList.get(loop2));
+					loop2++;
+					break;
+				}
+			    cList.add(courseList.get(loop2));
+				loop2++;
+			}
+			ccMap.put(chapterList.get(loop1-1),cList);
+		}
+		request.setAttribute("chapterList",chapterList);
+		request.setAttribute("ccMap",ccMap);
+		String jspPath="../WEB-INF/jsp/courseContent.jsp";
+		String target=request.getServletContext().getRealPath("\\")+"page\\courseContent.html";
+		String result=JspToHtml.jsp2Html(jspPath, request, response,target);
+		return JSON.toJSONString(result);
+	}
+	@RequestMapping("add")
+	public void addCourse(HttpServletRequest request,
 			HttpServletResponse response, Course course) {
 		courseService.save(course);
-		return JSON.toJSONString(course);
+		Pageable<Chapter> chapterPageable = new Pageable<Chapter>();
+		chapterPageable.setPageSize(Integer.MAX_VALUE);
+		Page<Chapter> chapterPage = chapterService.findByPager(chapterPageable);
+		List<Chapter> chapterList = chapterPage.getRows();
+		for (Chapter chapter : chapterList) {
+			Long chapterId = chapter.getChapterId();
+			Pageable<Course> coursePageable = new Pageable<Course>();
+			coursePageable.setPageSize(Integer.MAX_VALUE);
+			coursePageable.setSearchProperty("chapter");
+			coursePageable.setSearchValue(String.valueOf(chapterId));
+			chapter.setCourseList(courseService.findByPager(coursePageable)
+					.getRows());
+		}
+		request.setAttribute("chapterList", chapterList);
+		request.setAttribute("course", course);
+		String jspPath="..\\WEB-INF\\jsp\\course_detail.jsp";
+		String target=request.getServletContext().getRealPath("\\")+"page\\courses\\"+course.getCourseId()+".html";
+		JspToHtml.jsp2Html(jspPath, request, response, target);
+		try {
+			response.sendRedirect("../chapter/chapter_manage");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-
 	@ResponseBody
 	@RequestMapping("delete.do")
 	public String addCourse(HttpServletRequest request,

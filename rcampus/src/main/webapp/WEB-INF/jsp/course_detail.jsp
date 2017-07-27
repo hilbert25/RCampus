@@ -1,9 +1,16 @@
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://"
+            + request.getServerName() + ":" + request.getServerPort()
+            + path + "/";
+%>
 <!doctype html>
 <html lang="en" data-reactroot="" data-reactid="1"
 	data-react-checksum="913391198">
 <head data-reactid="2">
+<base href="<%=basePath%>"></base>
 <title data-reactid="3">${course.courseName }</title>
 <meta charset="utf-8" data-reactid="4" />
 <!-- react-text: 5 -->
@@ -22,39 +29,39 @@
 	content="Here is an example of Variable assignment (3): Every tasty fruit basket needs oranges, so you decide to add six oranges."
 	data-reactid="11" />
 <link type="text/css" rel="stylesheet"
-	href="../../rcampus/page/assets/css/style-41f68dcc06bbfb7a38938712996401e4.css" />
+	href="page/assets/css/style-41f68dcc06bbfb7a38938712996401e4.css" />
 <link rel="stylesheet"
-	href="../../rcampus/page/assets/css/bootstrap.min.css"
+	href="page/assets/css/bootstrap.min.css"
 	data-reactid="27" />
 <link rel="icon" type="image/png"
-	href="../../rcampus/page/assets/img/favicon.ico" data-reactid="24" />
-<link href="../../rcampus/page/assets/img/apple-icon.png"
+	href="page/assets/img/favicon.ico" data-reactid="24" />
+<link href="page/assets/img/apple-icon.png"
 	rel="apple-touch-icon" data-reactid="25" />
-<link href="../../rcampus/page/assets/img/apple-icon.png"
+<link href="page/assets/img/apple-icon.png"
 	rel="apple-touch-icon-precomposed" data-reactid="26" />
 
-<link rel='stylesheet' href='../page/assets/css/style.css'>
+<link rel='stylesheet' href='page/assets/css/style.css'>
 <link rel="stylesheet"
-	href="../../rcampus/page/assets/css/font-awesome.min.css"
+	href="page/assets/css/font-awesome.min.css"
 	data-reactid="28" />
 <link rel="stylesheet"
-	href="../../rcampus/page/assets/css/codemirror/icecoder.css">
+	href="page/assets/css/codemirror/icecoder.css">
 <link type="text/css" rel="stylesheet"
-	href="../../rcampus/page/assets/css/codemirror/codemirror.css" />
+	href="page/assets/css/codemirror/codemirror.css" />
 
 <link type="text/css" rel="stylesheet"
-	href="../../rcampus/page/assets/css/codemirror/show-hint.css" />
+	href="page/assets/css/codemirror/show-hint.css" />
 <script type="text/javascript"
-	src="../../rcampus/page/assets/js/codemirror/codemirror.js"></script>
+	src="page/assets/js/codemirror/codemirror.js"></script>
 <script type="text/javascript"
-	src="../../rcampus/page/assets/js/codemirror/show-hint.js"></script>
+	src="page/assets/js/codemirror/show-hint.js"></script>
 <script type="text/javascript"
-	src="../../rcampus/page/assets/js/codemirror/r.js"></script>
+	src="page/assets/js/codemirror/r.js"></script>
 <script type="text/javascript"
-	src="../../rcampus/page/assets/js/jquery.js"></script>
+	src="page/assets/js/jquery.js"></script>
 <script type="text/javascript"
-	src="../../rcampus/page/assets/js/codemirror/r-hint.js"></script>
-<script src='../page/assets/js/bootstrap.min.js'></script>
+	src="page/assets/js/codemirror/r-hint.js"></script>
+<script src='page/assets/js/bootstrap.min.js'></script>
 <style>
 .CodeMirror {
 	border: 1px solid black;
@@ -158,6 +165,9 @@
 								<!-- <li class="dropdown-header">这个标签是用来干蛤的？</li> -->
 								<c:forEach items="${chapter.courseList}" var="course"
 									varStatus="courseIndex">
+<<<<<<< HEAD
+									<li><a href="page/courses/${course.courseId}.html">${course.courseName }</a></li>
+=======
 									<li><c:choose>
 											<c:when test="${course.courseId le finishCourse}">
 												<a href="getCourseById?courseId=${course.courseId}"
@@ -167,6 +177,7 @@
 												<a href="javascript:return false;">${course.courseName }</a>
 											</c:when>
 										</c:choose></li>
+>>>>>>> 37fc3d5f5138b014c7a812d742d5ddc99683891a
 								</c:forEach>
 							</ul></li>
 					</c:forEach>

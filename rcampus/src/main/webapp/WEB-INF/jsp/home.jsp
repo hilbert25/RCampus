@@ -4,6 +4,7 @@
 <!DOCTYPE>
 <html>
 <head>
+<title>home</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" href="./page/assets/css/bootstrap.min.css">
 <link href="./page/assets/css/bootstrap-responsive.min.css"
@@ -104,52 +105,41 @@
 				<ul class="nav navbar-nav navbar-right" style="margin-right: 100px">
 					<li><a style="font-size: 150%; color: #FFFFFF" href="/">Home</a></li>
 					<li><a style="font-size: 150%; color: #FFFFFF"
-						href="./courses/">Courses</a></li>
-					<li><c:if test="${user!=null}">
-							<div class="dropdown">
-								<a class="btn btn-default dropdown-toggle"
-									style="color: #FFFFFF; margin-top: 5px; font-size: 150%; border: 0px; background: #3366CC"
-									type="button" id="dropdownMenu1" data-toggle="dropdown"
-									aria-haspopup="true" aria-expanded="false"> <c:out
-										value="${user.getEmail()}" /> <span class="caret"></span>
-								</a>
-								<ul class="dropdown-menu" style="width: 250px"
-									aria-labelledby="dropdownMenu1">
-									<li><div class="row">
-											<div class="col-xs-6">
-												<img class="img-circle" style="margin-left: 30px"
-													src="./page/assets/img/placeholder.png">
-											</div>
-											<div class="col-xs-6">
-												<span style="margin-left: -10px">ayahui3@126.com</span>
-											</div>
-										</div></li>
-									<li><a href="#" class="btn btn-primary btn-lg"
-										role="button">Update Profile</a></li>
-									<li>
-										<div class="row">
-											<div class="col-xs-6">
-												<span style="margin-left: 50px"><a
-													href="/rcampus/user/getUserById?userId=${user.getUserId()}">myProfile</a></span>
-											</div>
-											<div class="col-xs-6">
-												<span style="margin-left: 30px"><a href="./logout">logout</a></span>
-											</div>
-										</div>
-									</li>
-								</ul>
-							</div>
-						</c:if></li>
-					<c:if test="{user==null}">
-						<li><button type="button"
-								class="btn btn-primary btn-lg navbar-btn"
-								style="background: FF9900" data-toggle="modal"
-								data-target="#myModal">sign in</button></li>
-						<li><button type="button"
-								class="btn btn-primary btn-lg navbar-btn"
-								style="background: FF9900" data-toggle="modal"
-								data-target="#myModal">create free account</button></li>
-					</c:if>
+						href="./course/">Courses</a></li>
+					<c:choose>
+            <c:when test="${user!=null}">
+            <li>
+  <div class="dropdown">
+  <a class="btn btn-default dropdown-toggle" style="color:#FFFFFF;margin-top:5px;font-size:150%;border:0px;background:#3366CC" 
+  type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <c:out value="${user.getEmail()}"/>
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" style="width:250px" aria-labelledby="dropdownMenu1">
+    <li><div class="row">
+    <div class="col-xs-6"><img class="img-circle" style="margin-left:30px" src="./page/assets/img/placeholder.png"></div>
+    <div class="col-xs-6"><span style="margin-left:-10px">ayahui3@126.com</span></div>
+    </div></li>
+    <li><a href="user/toSetUserInfo/?userId=${user.getUserId()}" class="btn btn-primary btn-lg" role="button">Update Profile</a></li>
+    <li>
+    <div class="row">
+    <div class="col-xs-6"><span style="margin-left:50px"><a href="user/getUserById/?userId=${user.getUserId()}">myProfile</a></span></div>
+    <div class="col-xs-6"><span style="margin-left:30px"><a href="logout">logout</a></span></div>
+    </div>
+    </li>
+  </ul>
+</div>
+</li>
+</c:when>
+<c:otherwise>
+<li><button type="button" class="btn btn-primary btn-lg navbar-btn" style="background:FF9900" data-toggle="modal" data-target="#myModal">
+  sign in
+</button></li>
+<li><button type="button" class="btn btn-primary btn-lg navbar-btn" style="background:FF9900" data-toggle="modal" data-target="#myModal">
+  create free account
+</button></li>
+  </c:otherwise>
+</c:choose>
 				</ul>
 			</div>
 		</div>
