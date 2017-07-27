@@ -113,6 +113,7 @@
 				"application/x-www-form-urlencoded");
 		xmlhttp.send();
 	}
+
 	function getQueryString(name) {
 		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
 		var r = window.location.search.substr(1).match(reg);
@@ -226,14 +227,61 @@
 	<div id="main">
 		<div id="root" data-reactid="33">
 			<div data-reactroot="" data-reactid="1"
-				data-react-checksum="576685586">
+				data-react-checksum="-2128556104">
 				<section id="navigation" class="bg-navigation" data-reactid="2">
+					<div class="clearfix" data-reactid="3">
+						<div data-reactid="7">
+							<div class="__react_component_tooltip place-top type-dark "
+								data-id="tooltip" data-reactid="8"></div>
+							<div
+								class="__react_component_tooltip place-bottom type-dark bottom tooltip"
+								data-id="tooltip" data-reactid="9"
+								style="left: 456px; top: 40px;">
+								<div class="tooltip-inner">Ctrl+O</div>
+							</div>
+							<div class="__react_component_tooltip place-top type-dark "
+								data-id="tooltip" data-reactid="10"></div>
+
+						</div>
+						<div class="navigation--buttons-right" data-reactid="20">
+							<div data-tip="true" data-for="tp-notifications"
+								data-reactid="25">
+								<div class="__react_component_tooltip place-top type-dark "
+									data-id="tooltip" data-reactid="26"></div>
+								<i class="fa fa-bell-o hover-icon" data-reactid="27"
+									data-toggle="modal" data-target="#report">report issues</i>
+							</div>
+						</div>
+					</div>
 				</section>
+				<div class="modal fade" class="modal fade" id="report" tabindex="-1"
+					role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-backdrop fade in"></div>
+					<div role="dialog" class="modal modal-window in modal-dialog">
+						<div>
+							<div class="modal-content" id="report-exercise">
+								<div class="modal-header">
+									<h4 class="modal-title">Report an Issue</h4>
+								</div>
+								<div class="modal-body">
+									<div class="form-group">
+										<textarea placeholder="Provide more information"
+											name="report_text" id="report_text"></textarea>
+
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button class="btn btn-secondary btn-small pull-left m0"
+										data-dismiss="modal">Cancel</button>
+									<button class="btn btn-primary btn-small pull-right m0"
+										onclick="postReport();" data-dismiss="modal">Submit</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<iframe id="fake" src="about:blank"></iframe>
+				</div>
 				<div class="exercise-area " data-reactid="34">
-
-
-
-
 					<div class="lm_item lm_stack"
 						style="width: 100%; height: 100%; display: none;" id="finish_area">
 						<div class="lm_items" style="width: 100%; height: 100%;">
@@ -510,5 +558,26 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+		function postReport() {
+			var xmlhttp;
+			if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+				xmlhttp = new XMLHttpRequest();
+			} else {// code for IE6, IE5
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			xmlhttp.onreadystatechange = function() {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					var data = JSON.parse(xmlhttp.responseText);
+                    alert("您的举报已被受理。");
+				}
+			};
+			xmlhttp.open("POST", "/rcampus/message/addMessage", true);
+			xmlhttp.setRequestHeader("Content-type",
+					"application/x-www-form-urlencoded");
+			xmlhttp.send("content="
+					+ document.getElementById("report_text").value);
+		}
+	</script>
 </body>
 </html>
