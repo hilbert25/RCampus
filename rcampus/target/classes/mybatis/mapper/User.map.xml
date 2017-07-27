@@ -39,7 +39,7 @@
 			and #{activeCourse,jdbcType=BIGINT}
 		</if>
 		<if test="userType != null">
-			and #{userType,jdbcType=INT}
+			and #{userType,jdbcType=BIGINT}
 		</if>
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
@@ -111,7 +111,7 @@
 		#{userName,jdbcType=VARCHAR},
 		#{email,jdbcType=VARCHAR},
 		#{passwd,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR},
-		#{activeCourse,jdbcType=BIGINT}, #{user_type,jdbcType=BIGINT}
+		#{activeCourse,jdbcType=BIGINT}, #{userType,jdbcType=BIGINT}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="org.sunhp.rcampus.bean.User">

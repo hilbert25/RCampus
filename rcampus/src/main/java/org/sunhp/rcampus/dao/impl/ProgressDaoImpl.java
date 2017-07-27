@@ -1,4 +1,3 @@
-
 package org.sunhp.rcampus.dao.impl;
 
 import org.springframework.stereotype.Repository;
@@ -7,8 +6,10 @@ import org.sunhp.rcampus.dao.ProgressDao;
 
 /**
  * @author fuyufeng
- *
+ * 
  */
 @Repository("progressDao")
-public class ProgressDaoImpl extends BaseDaoImpl<Progress> implements ProgressDao {
+public class ProgressDaoImpl extends BaseDaoImpl<Progress> implements
+		ProgressDao {
+
 }

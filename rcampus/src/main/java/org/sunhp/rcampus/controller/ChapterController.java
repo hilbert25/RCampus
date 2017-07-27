@@ -1,6 +1,7 @@
 package org.sunhp.rcampus.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.sunhp.rcampus.bean.Chapter;
 import org.sunhp.rcampus.bean.Course;
+import org.sunhp.rcampus.bean.Progress;
 import org.sunhp.rcampus.bean.User;
 import org.sunhp.rcampus.components.Page;
 import org.sunhp.rcampus.components.Pageable;
@@ -28,6 +30,8 @@ public class ChapterController {
 	UserService userService;
 	@Autowired
 	CourseService courseService;
+	@Autowired
+	ProgressService progressService;
 
 	/**
 	 * 获得章节列表
@@ -99,4 +103,50 @@ public class ChapterController {
 		request.setAttribute("courseList", pagePage.getRows());
 		return "chapter_detail_manage";
 	}
+
+	/**
+	 * 获取当前用户最新chapter
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("getCompleteChapter")
+	public String getUserLatestChapter(HttpServletRequest request,
+			HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		Long userId = (Long) session.getAttribute("userId");
+		Pageable<Progress> progressPageable = new Pageable<Progress>();
+		progressPageable.setSearchProperty("user_id");
+		progressPageable.setSearchValue(String.valueOf(userId));
+		progressPageable.setPageNumber(Integer.MAX_VALUE);
+		Page<Progress> progressPage = progressService
+				.findByPager(progressPageable);
+		List<Progress> progressList = progressPage.getRows();
+		Long maxId = 0L;
+		int index = 0;// 记录下progress方便查看
+		for (int i = 0; i < progressList.size(); i++) {
+			if (progressList.get(i).getCourseId() > maxId) {
+				maxId = progressList.get(i).getCourseId();
+				index = i;
+			}
+		}
+		Course course = courseService.get(maxId);// progress表的最后一个课程
+
+		Pageable<Course> coursePageable = new Pageable<Course>();
+		coursePageable.setSearchProperty("chapter");
+		coursePageable.setSearchValue(String.valueOf(course.getChapter()));
+		coursePageable.setPageSize(Integer.MAX_VALUE);
+		Page<Course> coursePage = courseService.findByPager(coursePageable);
+		List<Course> courseList = coursePage.getRows();
+		JSONObject jsonObject = new JSONObject();
+		if (courseList.get(courseList.size() - 1).getCourseId() == course
+				.getChapter() && progressList.get(index).getPoint() == 100) {// 最后一条记录是这一chapter的最后一节而且是100分
+			jsonObject.put("latestChapter", course.getChapter());
+		} else {// 否则就是前一章
+			jsonObject.put("latestChapter", course.getChapter() - 1);
+		}
+		return JSON.toJSONString(jsonObject);
+	}
+
 }

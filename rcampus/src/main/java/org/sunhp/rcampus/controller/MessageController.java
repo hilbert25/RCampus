@@ -3,7 +3,12 @@
  */
 package org.sunhp.rcampus.controller;
 
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,6 +49,20 @@ public class MessageController {
 		Pageable<Message> pageable = new Pageable<Message>();
 		pageable.setPageSize(Integer.MAX_VALUE);
 		return JSON.toJSONString(messageService.count(pageable));
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/addMessage")
+	public String addMessage(HttpServletRequest request,
+			HttpServletResponse response, String content) {
+		HttpSession session = request.getSession();
+		Long userId = (Long) session.getAttribute("userId");
+		Message message = new Message();
+		message.setCreateTime(new Date());
+		message.setMessageContent(content);
+		message.setUserId(userId);
+		messageService.save(message);
+		return JSON.toJSONString("");
 	}
 
 	@ResponseBody

@@ -45,7 +45,7 @@ body,html {
 }
 
 #wrapper.toggled #sidebar-wrapper {
-	width: 220px;
+	width: 255px;
 }
 
 #wrapper.toggled #page-content-wrapper {
@@ -85,7 +85,7 @@ body,html {
 	padding: 0;
 	position: absolute;
 	top: 0;
-	width: 220px;
+	width: 255px;
 }
 
 .sidebar-nav li {
@@ -109,9 +109,12 @@ body,html {
 }
 
 .sidebar-nav li:first-child a {
-	width: 3px;
+	/*width: 3px;*/
 	background-color: #1a1a1a;
 	color: #ffffff;
+	text-overflow:ellipsis;
+	 white-space:nowrap; 
+	  overflow: hidden; 
 }
 
 .sidebar-nav li:nth-child(2):before {
@@ -196,7 +199,7 @@ body,html {
 	border: none;
 	display: block;
 	height: 32px;
-	margin-left: 15px;
+	margin-left: 37px;
 	position: fixed;
 	top: 20px;
 	width: 32px;

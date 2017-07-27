@@ -1,6 +1,7 @@
 package org.sunhp.rcampus.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.sunhp.rcampus.bean.Chapter;
 import org.sunhp.rcampus.bean.Course;
 import org.sunhp.rcampus.bean.HttpResult;
 import org.sunhp.rcampus.bean.Judge;
+import org.sunhp.rcampus.bean.Progress;
 import org.sunhp.rcampus.bean.User;
 import org.sunhp.rcampus.components.Constants;
 import org.sunhp.rcampus.components.Page;
@@ -19,6 +21,7 @@ import org.sunhp.rcampus.service.ApiService;
 import org.sunhp.rcampus.service.ChapterService;
 import org.sunhp.rcampus.service.CourseService;
 import org.sunhp.rcampus.service.JudgeService;
+import org.sunhp.rcampus.service.ProgressService;
 import org.sunhp.rcampus.service.UserService;
 import org.sunhp.rcampus.util.FileUtils;
 import org.sunhp.rcampus.util.JspToHtml;
@@ -32,7 +35,11 @@ import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.ArrayList;
+<<<<<<< HEAD
 import java.util.HashMap;
+=======
+import java.util.Date;
+>>>>>>> 37fc3d5f5138b014c7a812d742d5ddc99683891a
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +59,12 @@ public class CourseController {
 	ChapterService chapterService;
 	@Autowired
 	UserService userService;
+<<<<<<< HEAD
+=======
+	@Autowired
+	ProgressService progressService;
+
+>>>>>>> 37fc3d5f5138b014c7a812d742d5ddc99683891a
 	/**
 	 * 获得某章节的课程列表
 	 * 
@@ -105,6 +118,7 @@ public class CourseController {
 	@RequestMapping(value = "/getCourseDetail")
 	public void getCourseDetail(HttpServletRequest request,
 			HttpServletResponse response, Long courseId) {
+<<<<<<< HEAD
 		// List<Chapter> chapterList = new ArrayList<Chapter>();// 获取这门课的全部章节
 		// for (int i = 0; i < chapterList.size(); i++) {
 		//
@@ -116,6 +130,64 @@ public class CourseController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+=======
+		HttpSession session = request.getSession();
+		Long userId = (Long) session.getAttribute("userId");
+		Course course = courseService.get(courseId);
+		Pageable<Chapter> chapterPageable = new Pageable<Chapter>();
+		chapterPageable.setPageSize(Integer.MAX_VALUE);
+		Page<Chapter> chapterPage = chapterService.findByPager(chapterPageable);
+		List<Chapter> chapterList = chapterPage.getRows();
+		for (Chapter chapter : chapterList) {
+			Long chapterId = chapter.getChapterId();
+			Pageable<Course> coursePageable = new Pageable<Course>();
+			coursePageable.setPageSize(Integer.MAX_VALUE);
+			coursePageable.setSearchProperty("chapter");
+			coursePageable.setSearchValue(String.valueOf(chapterId));
+			chapter.setCourseList(courseService.findByPager(coursePageable)
+					.getRows());
+		}
+		Long finishCourse = 0L;
+		Pageable<Progress> progressPageable = new Pageable<Progress>();
+		progressPageable.setSearchProperty("user_id");
+		progressPageable.setSearchValue(String.valueOf(userId));
+		progressPageable.setPageNumber(Integer.MAX_VALUE);
+		Page<Progress> progressPage = progressService
+				.findByPager(progressPageable);
+		List<Progress> progressList = progressPage.getRows();
+		for (Progress progress : progressList) {
+			if (progress.getPoint() == 100)
+				finishCourse = progress.getCourseId();
+		}
+		Long maxId = 0L;
+		int index = 0;
+		for (int i = 0; i < progressList.size(); i++) {
+			if (progressList.get(i).getCourseId() > maxId) {
+				maxId = progressList.get(i).getCourseId();
+				index = i;
+			}
+		}
+		Course latestCourse = courseService.get(maxId);// progress表的最后一个课程
+		System.out.println("ch" + latestCourse.getChapter() + " "
+				+ latestCourse.getCourseId());
+		Pageable<Course> coursePageable = new Pageable<Course>();
+		coursePageable.setSearchProperty("chapter");
+		coursePageable
+				.setSearchValue(String.valueOf(latestCourse.getChapter()));
+		coursePageable.setPageSize(Integer.MAX_VALUE);
+		Page<Course> coursePage = courseService.findByPager(coursePageable);
+		List<Course> courseList = coursePage.getRows();// 该chapter下全部课程
+		if (courseList.get(courseList.size() - 1).getCourseId() == latestCourse
+				.getCourseId() && progressList.get(index).getPoint() == 100) {// 最后一条记录是这一chapter的最后一节而且是100分
+			request.setAttribute("finishChapter", latestCourse.getChapter());
+		} else {// 否则就是前一章
+			request.setAttribute("finishChapter", latestCourse.getChapter() - 1);
+		}
+		request.setAttribute("chapterList", chapterList);
+		request.setAttribute("course", course);
+		request.setAttribute("finishCourse", finishCourse);
+		return "course_detail";
+>>>>>>> 37fc3d5f5138b014c7a812d742d5ddc99683891a
 	}
 	/**
 	 * 提交课程作业
@@ -132,18 +204,77 @@ public class CourseController {
 	public String getCourseSubmit(HttpServletRequest request,
 			HttpServletResponse response, Long courseId, String code)
 			throws IOException {
-
+		HttpSession session = request.getSession();
+		Long userId = (Long) session.getAttribute("userId");
+		code = code.replaceAll("#[\\s\\S]*?\n", "");
+		code = code.replace(" ", "");
 		ExamResult examResult;
 		OcpuResult ocpuResult;
 		// 判断用户输入是否符合要求
 		// Course course = courseService.get(courseId);
-		Judge judge = new Judge();
-		judge.setExamId(courseId);
-		List<Judge> judgeList = judgeService.getAll(judge);
-		for (Judge j : judgeList)
-			System.out.println(j.getJudgeItem());
-		examResult = judgeService.judegeInput(judgeList, code);
+		// Judge judge = new Judge();
+		// judge.setExamId(courseId);
+		String preJudge = "";
+		String[] codeArray = code.split("\n");
+		Pageable<Judge> judgePageable = new Pageable<Judge>();
+		judgePageable.setSearchProperty("exam_id");
+		judgePageable.setSearchValue(String.valueOf(courseId));
+		judgePageable.setPageSize(Integer.MAX_VALUE);
+		List<Judge> judgeList = judgeService.findByPager(judgePageable)
+				.getRows();// 获取当前course的judge
+		int rightCount = 0;// 记录通过的test cast的数目
+		for (int j = 0; j < judgeList.size(); j++) {
+			boolean find = false;
+			int i = 0;
+			for (i = 0; i < codeArray.length; i++) {
+				if (codeArray[i].equals(judgeList.get(j).getJudgeItem())) {
+					rightCount++;
+					find = true;
+					break;
+				}
+			}
+			if (!find) {// 没找到e
+				preJudge += "you should input "
+						+ judgeList.get(j).getJudgeItem() + " in the "
+						+ String.valueOf(j + 1) + "th test case \n";
+			}
+		}
 
+		examResult = judgeService.judegeInput(judgeList, code);
+		Pageable<Progress> progressPageable = new Pageable<Progress>();
+		progressPageable.setPageSize(Integer.MAX_VALUE);
+		progressPageable.setSearchProperty("user_id");
+		progressPageable.setSearchValue(String.valueOf(userId));
+		Page<Progress> progressPage = progressService
+				.findByPager(progressPageable);
+		List<Progress> progressList = progressPage.getRows();
+		int i = 0;
+		int caseCount = judgeList.size();
+		for (i = 0; i < progressList.size(); i++) {
+			if (progressList.get(i).getCourseId() == courseId) {// 找到记录
+				Progress progress = progressList.get(i);
+				progress.setPoint(100 * (double) rightCount / caseCount);
+				progress.setUpdateTime(new Date());
+				progressService.update(progress);
+				break;
+			}
+		}
+		if (i == progressList.size()) {// 没找到记录
+			Progress progress = new Progress();
+			progress.setCourseId(courseId);
+			progress.setPoint(100 * (double) rightCount / caseCount);
+			progress.setUserId(userId);
+			progress.setCreateTime(new Date());
+			progress.setUpdateTime(new Date());
+			progressService.save(progress);
+		}
+		if (!preJudge.equals("")) {
+			ocpuResult = new OcpuResult(code, preJudge);
+			examResult.setStatus(false);
+			// examResult.setOcpuResult(ocpuResult);
+			examResult.setOcpuJSON(JSON.toJSONString(ocpuResult));
+			return JSON.toJSONString(examResult);
+		}
 		// 将用户输入存入temp.R文件中
 		String excuteFilePath = FileUtils
 				.saveStrToFile(request, "temp.R", code);
@@ -154,14 +285,16 @@ public class CourseController {
 		if (result.getCode() != 201) {
 			ocpuResult = new OcpuResult(code, "R文件上传出错");
 			examResult.setStatus(false);
-			examResult.setOcpuResult(ocpuResult);
+			// examResult.setOcpuResult(ocpuResult);
+			examResult.setOcpuJSON(JSON.toJSONString(ocpuResult));
 			return JSON.toJSONString(examResult);
 		}
 		ocpuResult = new OcpuResult(result.getData());
 		if (ocpuResult.getSessionID() == null) {
 			ocpuResult = new OcpuResult(code, "R文件上传后openCPU结果解析出错");
 			examResult.setStatus(false);
-			examResult.setOcpuResult(ocpuResult);
+			// examResult.setOcpuResult(ocpuResult);
+			examResult.setOcpuJSON(JSON.toJSONString(ocpuResult));
 			return JSON.toJSONString(examResult);
 		}
 		// OpenCPU上执行emp.R
@@ -172,13 +305,15 @@ public class CourseController {
 		if (result.getCode() == 400) {
 			ocpuResult = new OcpuResult(code, result.getData());
 			examResult.setStatus(false);
-			examResult.setOcpuResult(ocpuResult);
+			// examResult.setOcpuResult(ocpuResult);
+			examResult.setOcpuJSON(JSON.toJSONString(ocpuResult));
 			return JSON.toJSONString(examResult);
 		}
 		if (result.getCode() != 201 && result.getCode() != 200) {
 			ocpuResult = new OcpuResult(code, "系统内部错误:" + result.getCode());
 			examResult.setStatus(false);
-			examResult.setOcpuResult(ocpuResult);
+			// examResult.setOcpuResult(ocpuResult);
+			examResult.setOcpuJSON(JSON.toJSONString(ocpuResult));
 			return JSON.toJSONString(examResult);
 		}
 		// 正常情况
@@ -186,7 +321,8 @@ public class CourseController {
 		if (ocpuResult.getSessionID() == null) {
 			ocpuResult = new OcpuResult(code, "R文件执行后openCPU结果解析出错结果解析出错");
 			examResult.setStatus(false);
-			examResult.setOcpuResult(ocpuResult);
+			// examResult.setOcpuResult(ocpuResult);
+			examResult.setOcpuJSON(JSON.toJSONString(ocpuResult));
 			return JSON.toJSONString(examResult);
 		}
 		// 获取执行结果数据
@@ -286,5 +422,123 @@ public class CourseController {
 			HttpServletResponse response, Long courseId) {
 		courseService.delete(courseId);
 		return JSON.toJSONString("deleted");
+	}
+
+	/**
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("getContinue")
+	public String getContinue(HttpServletRequest request,
+			HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		Long userId = (Long) session.getAttribute("userId");
+		Long courseId = getUserLatestCourse(userId);
+		Course course = courseService.get(courseId);
+		return JSON.toJSONString(course);
+	}
+
+	/**
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("getNextCourse")
+	public String getNextCourse(HttpServletRequest request,
+			HttpServletResponse response, Long courseId) {
+		List<Course> courseList = courseService.getAll(new Course());
+		int next = 0;
+		int i = 0;
+		while (courseList.get(i).getCourseId() != courseId) {
+			i++;
+		}
+		next = Math.min(i + 1, courseList.size() - 1);
+		return JSON.toJSONString(courseService.get(courseList.get(next)
+				.getCourseId()));
+	}
+
+	/**
+	 * 这门课是否完成
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("isFinish")
+	public String isFinish(HttpServletRequest request,
+			HttpServletResponse response, Long courseId) {
+		Pageable<Progress> progressAble = new Pageable<Progress>();
+		progressAble.setSearchProperty("user_id");
+		HttpSession session = request.getSession();
+		Long userId = (Long) session.getAttribute("userId");
+		progressAble.setSearchValue(String.valueOf(userId));
+		Page<Progress> progressPage = progressService.findByPager(progressAble);
+		List<Progress> progressList = progressPage.getRows();
+		JSONObject jsonObject = new JSONObject();
+
+		for (int i = 0; i < progressList.size(); i++) {
+			if (progressList.get(i).getCourseId() == courseId) {
+				if (progressList.get(i).getPoint() == 100) {
+					jsonObject.put("result", true);
+					return JSON.toJSONString(jsonObject);
+				} else {
+					jsonObject.put("result", false);
+					return JSON.toJSONString(jsonObject);
+				}
+			}
+		}
+		jsonObject.put("result", false);
+		return JSON.toJSONString(jsonObject);
+	}
+
+	@ResponseBody
+	@RequestMapping("getCompleteRate")
+	public String getCompleteRate(HttpServletRequest request,
+			HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		Long userId = (Long) session.getAttribute("userId");
+		Pageable<Progress> progressPageable = new Pageable<Progress>();
+		progressPageable.setSearchProperty("user_id");
+		progressPageable.setSearchValue(String.valueOf(userId));
+		progressPageable.setPageNumber(Integer.MAX_VALUE);
+		Page<Progress> progressPage = progressService
+				.findByPager(progressPageable);
+		List<Progress> progressList = progressPage.getRows();
+		int complete = 0;
+		long total = 0;
+		if (progressList.get(progressList.size() - 1).getPoint() == 100) {
+			complete = progressList.size();
+		} else {
+			complete = Math.min(progressList.size(), 0);
+		}
+		Pageable<Course> coursePageable = new Pageable<Course>();
+		coursePageable.setPageSize(Integer.MAX_VALUE);
+		total = courseService.count(coursePageable);
+		double rate = ((double) 100 * complete / total);
+		System.out.println(rate);
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("rate", (int) rate);
+		return JSON.toJSONString(jsonObject);
+	}
+
+	/**
+	 * 获取当前用户最新课程
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public Long getUserLatestCourse(Long userId) {
+		Pageable<Progress> progressPageable = new Pageable<Progress>();
+		progressPageable.setSearchProperty("user_id");
+		progressPageable.setSearchValue(String.valueOf(userId));
+		progressPageable.setPageNumber(Integer.MAX_VALUE);
+		Page<Progress> progressPage = progressService
+				.findByPager(progressPageable);
+		List<Progress> progressList = progressPage.getRows();
+		return progressList.get(progressList.size() - 1).getCourseId();
 	}
 }
