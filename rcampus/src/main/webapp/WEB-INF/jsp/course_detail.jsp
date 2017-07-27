@@ -243,13 +243,16 @@
 								data-id="tooltip" data-reactid="10"></div>
 
 						</div>
+
 						<div class="navigation--buttons-right" data-reactid="20">
+
 							<div data-tip="true" data-for="tp-notifications"
 								data-reactid="25">
 								<div class="__react_component_tooltip place-top type-dark "
 									data-id="tooltip" data-reactid="26"></div>
 								<i class="fa fa-bell-o hover-icon" data-reactid="27"
-									data-toggle="modal" data-target="#report">report issues</i>
+									data-toggle="modal" data-target="#report">report issues</i> <a
+									href="/rcampus">index</a>
 							</div>
 						</div>
 					</div>
@@ -569,7 +572,7 @@
 			xmlhttp.onreadystatechange = function() {
 				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 					var data = JSON.parse(xmlhttp.responseText);
-                    alert("您的举报已被受理。");
+					alert("您的举报已被受理。");
 				}
 			};
 			xmlhttp.open("POST", "/rcampus/message/addMessage", true);
