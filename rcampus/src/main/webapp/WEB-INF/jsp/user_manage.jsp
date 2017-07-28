@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="./page/assets/css/app.css">
 <script src="./page/assets/js/echarts.min.js"></script>
 <script type="text/javascript">
+	//获取用户数量
 	function getUserCount() {
 		var xmlhttp;
 		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -35,6 +36,7 @@
 				"application/x-www-form-urlencoded");
 		xmlhttp.send();
 	}
+	//获取管理员数量
 	function getAdminCount() {
 		var xmlhttp;
 		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -52,6 +54,7 @@
 				"application/x-www-form-urlencoded");
 		xmlhttp.send();
 	}
+	//获取用户列表
 	function getUserList(page, type) {
 		var xmlhttp;
 		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -73,6 +76,7 @@
 				"application/x-www-form-urlencoded");
 		xmlhttp.send("page=" + page + "&type=" + type);
 	}
+	//添加用户条目
 	function addUserItem(photo, name, email, type, useroradmin) {
 		var div = document.getElementById(useroradmin + "list");
 		var tr = document.createElement("tr");
@@ -101,6 +105,7 @@
 		tr.appendChild(typetd);
 		div.appendChild(tr);//插入到div内
 	};
+	//获取未处理消息
 	function getUnDealCount() {
 		var xmlhttp;
 		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -127,6 +132,7 @@
 				"application/x-www-form-urlencoded");
 		xmlhttp.send();
 	}
+	//获取消息列表
 	function getShortMessageList() {
 		var xmlhttp;
 		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -151,6 +157,7 @@
 				"application/x-www-form-urlencoded");
 		xmlhttp.send();
 	}
+	//添加消息条目
 	function addMessageItem(userId, userPhoto, userName, messageContent,
 			datetime) {
 		var div = document.getElementById("message_list");
@@ -182,9 +189,49 @@
 		li.appendChild(a);
 		div.appendChild(li);
 	}
+	//获取课程数量
+	function getCourseCount() {
+		var xmlhttp;
+		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var data = JSON.parse(xmlhttp.responseText);
+				document.getElementById("courseCount").innerHTML = data['courseCount'];
+			}
+		};
+		xmlhttp.open("POST", "/rcampus/course/getCourseCount", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send();
+	}
+	//获取题目数量
+	function getJudgeCount() {
+		var xmlhttp;
+		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var data = JSON.parse(xmlhttp.responseText);
+				document.getElementById("judgeCount").innerHTML = data['judgeCount'];
+			}
+		};
+		xmlhttp.open("POST", "/rcampus/judge/getJudgeCount", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send();
+	}
 	function init() {
 		getUserCount();
 		getAdminCount();
+		getCourseCount();
+		getJudgeCount();
 		getUserList(0, 'admin');
 		getUserList(0, 'user');
 		getUnDealCount();
@@ -347,7 +394,7 @@ ul {
 							<i class="am-icon-apple"></i>
 						</div>
 						<div class="details">
-							<div class="number">653</div>
+							<div class="number" id="courseCount">0</div>
 							<div class="desc">课程数量</div>
 						</div>
 					</div>
@@ -358,7 +405,7 @@ ul {
 							<i class="am-icon-android"></i>
 						</div>
 						<div class="details">
-							<div class="number">786</div>
+							<div class="number" id="judgeCount">0</div>
 							<div class="desc">题目数量</div>
 						</div>
 					</div>

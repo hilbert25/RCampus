@@ -62,6 +62,7 @@
 <script type="text/javascript"
 	src="page/assets/js/codemirror/r-hint.js"></script>
 <script src='page/assets/js/bootstrap.min.js'></script>
+<script src="page/assets/js/string-deal.js"></script>
 <style>
 .CodeMirror {
 	border: 1px solid black;
@@ -165,9 +166,8 @@
 								<!-- <li class="dropdown-header">这个标签是用来干蛤的？</li> -->
 								<c:forEach items="${chapter.courseList}" var="course"
 									varStatus="courseIndex">
-<<<<<<< HEAD
+
 									<li><a href="page/courses/${course.courseId}.html">${course.courseName }</a></li>
-=======
 									<li><c:choose>
 											<c:when test="${course.courseId le finishCourse}">
 												<a href="getCourseById?courseId=${course.courseId}"
@@ -177,7 +177,6 @@
 												<a href="javascript:return false;">${course.courseName }</a>
 											</c:when>
 										</c:choose></li>
->>>>>>> 37fc3d5f5138b014c7a812d742d5ddc99683891a
 								</c:forEach>
 							</ul></li>
 					</c:forEach>
@@ -493,6 +492,7 @@
 											var xmlhttp;
 											var courseId = getQueryString("courseId");
 											var code = editor.getValue();
+											code=stringPredetail(code);
 											code = code.replace(/\%/g, "%25");
 											code = code.replace(/\+/g, "%2B");
 											code = code.replace(/\&/g, "%26");

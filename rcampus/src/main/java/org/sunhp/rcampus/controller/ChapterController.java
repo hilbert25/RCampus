@@ -51,29 +51,35 @@ public class ChapterController {
 	@ResponseBody
 	@RequestMapping("add.do")
 	public String addChapter(HttpServletRequest request,
-			HttpServletResponse response, Chapter chapter) {
-		chapterService.save(chapter);
-		return JSON.toJSONString(chapter);
+			HttpServletResponse response, String chapterOrder,
+			String chapterName, String chapterDescribe) {
+		System.out.println(chapterOrder + " " + chapterDescribe + " "
+				+ chapterName);
+		Chapter chapter = new Chapter();
+		chapter.setChapterDescrbe(chapterDescribe);
+		chapter.setChapterName(chapterName);
+		chapter.setChapterOrder(Integer.valueOf(chapterOrder));
+		Pageable<Chapter> chapterPageable = new Pageable<Chapter>();
+		chapterPageable.setSearchProperty("chapter_order");
+		chapterPageable.setSearchValue(chapterOrder);
+		Page<Chapter> chapterPage = chapterService.findByPager(chapterPageable);
+		if (chapterPage.getRows().size() != 0) {// 章节号重复
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("result", "已经存在第" + chapterOrder + "章,请勿重复添加");
+			return JSON.toJSONString(jsonObject);
+		} else {
+			chapterService.save(chapter);
+			return JSON.toJSONString(chapter);
+		}
+
 	}
 
 	@ResponseBody
-	@RequestMapping("delete.do")
-	public String addChapter(HttpServletRequest request,
+	@RequestMapping("delete")
+	public String deleteChapter(HttpServletRequest request,
 			HttpServletResponse response, Long chapterId) {
 		chapterService.delete(chapterId);
 		return JSON.toJSONString("deleted");
-	}
-
-	@RequestMapping("add")
-	public String addChapter(HttpServletRequest request,
-			HttpServletResponse response) {
-		Chapter chapter = new Chapter();
-		chapter.setChapterDescrbe(request.getParameter("chapterDescribe"));
-		chapter.setChapterName(request.getParameter("chapterName"));
-		chapter.setChapterOrder(Integer.valueOf(request
-				.getParameter("chapterOrder")));
-		chapterService.save(chapter);
-		return "course_manage";
 	}
 
 	@RequestMapping("chapter_manage")
@@ -147,6 +153,47 @@ public class ChapterController {
 			jsonObject.put("latestChapter", course.getChapter() - 1);
 		}
 		return JSON.toJSONString(jsonObject);
+	}
+
+	/**
+	 * 获取chapter by id
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("getChapterbyId")
+	public String getChapterbyId(HttpServletRequest request,
+			HttpServletResponse response, String chapterId) {
+		Chapter chapter = chapterService.get(Long.valueOf(chapterId));
+		return JSON.toJSONString(chapter);
+	}
+
+	@ResponseBody
+	@RequestMapping("modifyChapter")
+	public String modifyChapter(HttpServletRequest request,
+			HttpServletResponse response, String chapterId,
+			String chapterOrder, String chapterName, String chapterDescribe) {
+		System.out.println(chapterDescribe);
+		Chapter chapter = chapterService.get(Long.valueOf(chapterId));
+		chapter.setChapterDescrbe(chapterDescribe);
+		chapter.setChapterName(chapterName);
+		chapter.setChapterOrder(Integer.valueOf(chapterOrder));
+		Pageable<Chapter> chapterPageable = new Pageable<Chapter>();
+		chapterPageable.setSearchProperty("chapter_order");
+		chapterPageable.setSearchValue(chapterOrder);
+		Page<Chapter> chapterPage = chapterService.findByPager(chapterPageable);
+		List<Chapter> chapterList = chapterPage.getRows();
+		if (chapterList.size() != 0
+				&& chapterList.get(0).getChapterId() != Long.valueOf(chapterId)) {// 章节号重复并且重复章节不是待修改的
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("result", "已经存在第" + chapterOrder + "章,请勿重复添加");
+			return JSON.toJSONString(jsonObject);
+		} else {
+			chapterService.update(chapter);
+			return JSON.toJSONString(chapter);
+		}
+
 	}
 
 }

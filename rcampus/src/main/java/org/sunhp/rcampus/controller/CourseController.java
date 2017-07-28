@@ -35,11 +35,8 @@ import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.HashMap;
-=======
 import java.util.Date;
->>>>>>> 37fc3d5f5138b014c7a812d742d5ddc99683891a
 import java.util.List;
 import java.util.Map;
 
@@ -59,12 +56,9 @@ public class CourseController {
 	ChapterService chapterService;
 	@Autowired
 	UserService userService;
-<<<<<<< HEAD
-=======
 	@Autowired
 	ProgressService progressService;
 
->>>>>>> 37fc3d5f5138b014c7a812d742d5ddc99683891a
 	/**
 	 * 获得某章节的课程列表
 	 * 
@@ -116,21 +110,15 @@ public class CourseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/getCourseDetail")
-	public void getCourseDetail(HttpServletRequest request,
+	public String getCourseDetail(HttpServletRequest request,
 			HttpServletResponse response, Long courseId) {
-<<<<<<< HEAD
-		// List<Chapter> chapterList = new ArrayList<Chapter>();// 获取这门课的全部章节
-		// for (int i = 0; i < chapterList.size(); i++) {
-		//
-		// }
-		String page=courseId+".html";
+		String page = courseId + ".html";
 		try {
 			response.sendRedirect(page);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-=======
 		HttpSession session = request.getSession();
 		Long userId = (Long) session.getAttribute("userId");
 		Course course = courseService.get(courseId);
@@ -187,8 +175,8 @@ public class CourseController {
 		request.setAttribute("course", course);
 		request.setAttribute("finishCourse", finishCourse);
 		return "course_detail";
->>>>>>> 37fc3d5f5138b014c7a812d742d5ddc99683891a
 	}
+
 	/**
 	 * 提交课程作业
 	 * 
@@ -352,44 +340,71 @@ public class CourseController {
 				courseService.get(request.getParameter("courseId")));
 		return "course_manage";
 	}
+
 	@RequestMapping("generate")
 	@ResponseBody
-	public String generateCourseContent(HttpServletRequest request,HttpServletResponse response){
-		Pageable<Course> pageable=new Pageable<Course>();
+	public String generateCourseContent(HttpServletRequest request,
+			HttpServletResponse response) {
+		System.out.println("generate");
+		Pageable<Course> pageable = new Pageable<Course>();
 		pageable.setOrderProperty("course_order");
-		Page<Course> page=courseService.findByPager(pageable);
-		List<Course> courseList=page.getRows();
-		Pageable<Chapter> chapterPg=new Pageable<Chapter>();
+		Page<Course> page = courseService.findByPager(pageable);
+		List<Course> courseList = page.getRows();
+		Pageable<Chapter> chapterPg = new Pageable<Chapter>();
 		chapterPg.setOrderProperty("chapter_order");
-		Page<Chapter> chapterPage=chapterService.findByPager(chapterPg);
-		List<Chapter> chapterList=chapterPage.getRows();
-		Map<Chapter,List<Course>> ccMap=new HashMap<Chapter,List<Course>>();
-		int loop1=0;
-		int loop2=0;
-		while(loop1<chapterList.size()){
+		Page<Chapter> chapterPage = chapterService.findByPager(chapterPg);
+		List<Chapter> chapterList = chapterPage.getRows();
+		Map<Chapter, List<Course>> ccMap = new HashMap<Chapter, List<Course>>();
+		int loop1 = 0;
+		int loop2 = 0;
+		while (loop1 < chapterList.size()) {
 			loop1++;
-			List<Course> cList=new ArrayList<Course>();
-			while(loop2<courseList.size()){
-				if(loop2<(courseList.size()-1)&&courseList.get(loop2).getChapter()!=courseList.get(loop2+1).getChapter()){
+			List<Course> cList = new ArrayList<Course>();
+			while (loop2 < courseList.size()) {
+				if (loop2 < (courseList.size() - 1)
+						&& courseList.get(loop2).getChapter() != courseList
+								.get(loop2 + 1).getChapter()) {
 					cList.add(courseList.get(loop2));
 					loop2++;
 					break;
 				}
-			    cList.add(courseList.get(loop2));
+				cList.add(courseList.get(loop2));
 				loop2++;
 			}
-			ccMap.put(chapterList.get(loop1-1),cList);
+			ccMap.put(chapterList.get(loop1 - 1), cList);
 		}
-		request.setAttribute("chapterList",chapterList);
-		request.setAttribute("ccMap",ccMap);
-		String jspPath="../WEB-INF/jsp/courseContent.jsp";
-		String target=request.getServletContext().getRealPath("\\")+"page\\courseContent.html";
-		String result=JspToHtml.jsp2Html(jspPath, request, response,target);
+		request.setAttribute("chapterList", chapterList);
+		request.setAttribute("ccMap", ccMap);
+		String jspPath = "../WEB-INF/jsp/courseContent.jsp";
+		String target = request.getServletContext().getRealPath("\\")
+				+ "page\\courseContent.html";
+		String result = JspToHtml.jsp2Html(jspPath, request, response, target);
 		return JSON.toJSONString(result);
 	}
+
 	@RequestMapping("add")
-	public void addCourse(HttpServletRequest request,
-			HttpServletResponse response, Course course) {
+	@ResponseBody
+	public String addCourse(HttpServletRequest request,
+			HttpServletResponse response, String courseName, String courseNote,
+			String courseOrder, String belongChapter) {
+		Course course = new Course();
+		course.setChapter(Long.valueOf(belongChapter));
+		course.setCourseName(courseName);
+		course.setCourseNote(courseNote);
+		course.setCourseOrder(Integer.valueOf(courseOrder));
+		Pageable<Course> tempCoursePageable = new Pageable<Course>();
+		tempCoursePageable.setSearchProperty("course_order");
+		tempCoursePageable.setSearchValue(courseOrder);
+		Page<Course> tempCoursePage = courseService
+				.findByPager(tempCoursePageable);
+		List<Course> courseList = tempCoursePage.getRows();
+		if (courseList.size() > 0
+				&& courseList.get(0).getChapter() == Long
+						.valueOf(belongChapter)) {// 存在重复章节号
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("result", "已经存在第" + courseOrder + "节,请勿重复添加");
+			return JSON.toJSONString(jsonObject);
+		}
 		courseService.save(course);
 		Pageable<Chapter> chapterPageable = new Pageable<Chapter>();
 		chapterPageable.setPageSize(Integer.MAX_VALUE);
@@ -406,8 +421,9 @@ public class CourseController {
 		}
 		request.setAttribute("chapterList", chapterList);
 		request.setAttribute("course", course);
-		String jspPath="..\\WEB-INF\\jsp\\course_detail.jsp";
-		String target=request.getServletContext().getRealPath("\\")+"page\\courses\\"+course.getCourseId()+".html";
+		String jspPath = "..\\WEB-INF\\jsp\\course_detail.jsp";
+		String target = request.getServletContext().getRealPath("\\")
+				+ "page\\courses\\" + course.getCourseId() + ".html";
 		JspToHtml.jsp2Html(jspPath, request, response, target);
 		try {
 			response.sendRedirect("../chapter/chapter_manage");
@@ -415,7 +431,9 @@ public class CourseController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return JSON.toJSONString(course);
 	}
+
 	@ResponseBody
 	@RequestMapping("delete.do")
 	public String addCourse(HttpServletRequest request,
@@ -519,7 +537,6 @@ public class CourseController {
 		coursePageable.setPageSize(Integer.MAX_VALUE);
 		total = courseService.count(coursePageable);
 		double rate = ((double) 100 * complete / total);
-		System.out.println(rate);
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("rate", (int) rate);
 		return JSON.toJSONString(jsonObject);
@@ -540,5 +557,22 @@ public class CourseController {
 				.findByPager(progressPageable);
 		List<Progress> progressList = progressPage.getRows();
 		return progressList.get(progressList.size() - 1).getCourseId();
+	}
+
+	/**
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("getCourseCount")
+	public String getCourseCount(HttpServletRequest request,
+			HttpServletResponse response) {
+		Pageable<Course> coursePageable = new Pageable<Course>();
+		coursePageable.setPageNumber(Integer.MAX_VALUE);
+		JSONObject jsonObject = new JSONObject();
+		System.out.println(courseService.count(coursePageable));
+		jsonObject.put("courseCount", courseService.count(coursePageable));
+		return JSON.toJSONString(jsonObject);
 	}
 }

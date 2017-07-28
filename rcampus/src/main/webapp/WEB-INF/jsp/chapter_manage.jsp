@@ -2,10 +2,10 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
-    String path = request.getContextPath();
-    String basePath = request.getScheme() + "://"
-            + request.getServerName() + ":" + request.getServerPort()
-            + path + "/";
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
 %>
 <!doctype html>
 <html>
@@ -13,7 +13,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <base href="<%=basePath%>"></base>
-<title>Amaze UI Admin index Examples</title>
+<title>课程管理</title>
 <meta name="description" content="这是一个 index 页面">
 <meta name="keywords" content="index">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,30 +28,29 @@
 <script src="page/assets/js/amazeui.min.js"></script>
 <script src="page/assets/js/app.js"></script>
 <script src="page/assets/js/bootstrap.min.js"></script>
+<script src="page/assets/js/string-deal.js"></script>
 <style>
 </style>
 <script type="text/javascript">
-    $(document).ready(function(){
-    	$("#generate").click(function(){
-    		$.get("course/generate",function(data,status){
-    			alert(data);
-    		});
-    	});
-    	$("#judgeSubmit").click(function(){
-    		console.log($("courseOrder").val());
-    		console.log($("judgeItem").val());
-    		$.post("judge/add.do",
-    			    {
-    			        examId:$("#courseOrder").val(),
-    			        judgeItem:$("#judgeItem").val(),
-    			        judgeType:$("#judgeType").val(),
-    			        judgeTips:$("#judgeTips").val()
-    			    },
-    			        function(data,status){
-    			        alert("状态: " + status);
-    			    });
-    	});
-    });
+	$(document).ready(function() {
+		$("#generate").click(function() {
+			$.get("course/generate", function(data, status) {
+				alert(data);
+			});
+		});
+		$("#judgeSubmit").click(function() {
+			console.log($("courseOrder").val());
+			console.log($("judgeItem").val());
+			$.post("judge/add.do", {
+				examId : $("#courseOrder").val(),
+				judgeItem : $("#judgeItem").val(),
+				judgeType : $("#judgeType").val(),
+				judgeTips : $("#judgeTips").val()
+			}, function(data, status) {
+				alert("状态: " + status);
+			});
+		});
+	});
 	function getUnDealCount() {
 		var xmlhttp;
 		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -107,7 +106,7 @@
 		btn_modify.setAttribute("class",
 				"am-btn am-btn-default am-btn-secondary");
 		btn_modify.innerHTML = "修改";
-		btn_modify.setAttribute("onclick", "modify_chapter(" + chapterId + ")");
+		btn_modify.setAttribute("onclick", "getChapterById(" + chapterId + ")");
 
 		var btn_delete = document.createElement("button");
 		btn_delete.setAttribute("class", "am-btn am-btn-default am-btn-danger");
@@ -121,8 +120,8 @@
 		//chapter_name.innerHTML = chapterName;
 		var chapter_name = document.createElement("a");
 		chapter_name.setAttribute("class", "cosA");
-		chapter_name.setAttribute("href",
-				"chapter/chapter_detail?chapterId=" + chapterId);
+		chapter_name.setAttribute("href", "chapter/chapter_detail?chapterId="
+				+ chapterId);
 		chapter_name.innerHTML = chapterName;
 		if (i % 2 == 0) {
 			ul.setAttribute("style", "background:#CDCDC1;");
@@ -134,11 +133,111 @@
 		ul.appendChild(content_li);
 		div.appendChild(ul);
 	}
-	function modify_chapter(chapter_id) {
-		alert("modify" + chapter_id);
+
+	function addChapter() {
+		var xmlhttp;
+		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var data = JSON.parse(xmlhttp.responseText);
+				if (data['result'])
+					alert(data['result']);
+				else {
+					window.location.reload();
+				}
+			}
+		};
+		xmlhttp.open("POST", "/rcampus/chapter/add.do", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		var chapterOrder = stringPredetail(document
+				.getElementById("chapterOrder").value);
+		var chapterName = stringPredetail(document
+				.getElementById("chapterName").value);
+		var chapterDescribe = stringPredetail(document
+				.getElementById("chapterDescribe").value);
+		xmlhttp.send("chapterOrder=" + chapterOrder + "&chapterName="
+				+ chapterName + "&chapterDescribe=" + chapterDescribe);
 	}
-	function delete_chapter(chapter_id) {
-		alert("delete" + chapter_id);
+	//设置修改模态框的数据
+	function getChapterById(chapterId) {
+		var xmlhttp;
+		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var data = JSON.parse(xmlhttp.responseText);
+				$('#courseModal').modal('show');
+				document.getElementById("chapterOrder").value = data['chapterOrder'];
+				document.getElementById("chapterName").innerHTML = data['chapterName'];
+				document.getElementById("chapterDescribe").innerHTML = data['chapterDescrbe'];
+				document.getElementById("submit").setAttribute("onclick",
+						"modify_chapter(" + chapterId + ");");
+			}
+		};
+		xmlhttp.open("POST", "/rcampus/chapter/getChapterbyId", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("chapterId=" + chapterId);
+	}
+	//修改章节信息
+	function modify_chapter(chapterId) {
+		document.getElementById("submit").setAttribute("onclick",
+				"addChapter();");
+		var xmlhttp;
+		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var data = JSON.parse(xmlhttp.responseText);
+				if (data['result'])
+					alert(data['result']);
+				else {
+					window.location.reload();
+				}
+			}
+		};
+		xmlhttp.open("POST", "/rcampus/chapter/modifyChapter", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		var chapterOrder = stringPredetail(document
+				.getElementById("chapterOrder").value);
+		var chapterName = stringPredetail(document
+				.getElementById("chapterName").value);
+		var chapterDescribe = stringPredetail(document
+				.getElementById("chapterDescribe").value);
+		xmlhttp.send("chapterId=" + chapterId + "&chapterOrder=" + chapterOrder
+				+ "&chapterName=" + chapterName + "&chapterDescribe="
+				+ chapterDescribe);
+	}
+	//删除章节
+	function delete_chapter(chapterId) {
+		var xmlhttp;
+		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var data = JSON.parse(xmlhttp.responseText);
+				window.location.reload();
+			}
+		};
+		xmlhttp.open("POST", "/rcampus/chapter/delete", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("chapterId=" + chapterId);
 	}
 	function init() {
 		getUnDealCount();
@@ -225,24 +324,26 @@
 								<button type="button"
 									class="am-btn am-btn-default am-btn-success"
 									data-toggle="modal" data-target="#courseModal">
-									<span class="am-icon-plus"></span> 新增chapter
+									<span class="am-icon-plus"></span> 新增
 								</button>
 								<button type="button"
 									class="am-btn am-btn-default am-btn-success"
-									style="margin-left:10px" data-toggle="modal" data-target="#judgeModal">
+									style="margin-left: 10px" data-toggle="modal"
+									data-target="#judgeModal">
 									<span class="am-icon-plus"></span> 新增judge
 								</button>
-                             <button id="generate" type="button" class="am-btn am-btn-default am-btn-success" style="margin-left:10px">
-                             生成课程页</button>
-                            <p id="show"></p>
+								<button id="generate" type="button"
+									class="am-btn am-btn-default am-btn-success"
+									style="margin-left: 10px">生成课程页</button>
+								<p id="show"></p>
 								<!-- course模态框（Modal） -->
-								<div class="modal fade" id="courseModal" tabindex="-1" role="dialog"
-									aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal fade" id="courseModal" tabindex="-1"
+									role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header">
 												<button type="button" class="close" data-dismiss="modal"></button>
-												<h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
+												<h4 class="modal-title" id="myModalLabel"></h4>
 											</div>
 
 											<div class="modal-body">添加章节</div>
@@ -256,7 +357,7 @@
 														</label>
 														<div class="am-u-sm-9">
 															<select id="chapterOrder" name="chapterOrder">
-																
+
 																<c:forEach varStatus="i" begin="1" end="40">
 																	<option value="${i.count}">${i.count}</option>
 																</c:forEach>
@@ -269,9 +370,9 @@
 															<span class="tpl-form-line-small-title">Title</span>
 														</label>
 														<div class="am-u-sm-9">
-															<input type="text" class="tpl-form-input"
-																id="chapterName" name="chapterName" placeholder="请输入标题"
-																required="required"> <small></small>
+															<textarea class="" rows="1" id="chapterName"
+																name="chapterName" placeholder="请输入标题"
+																required="required"></textarea>
 														</div>
 													</div>
 
@@ -304,25 +405,21 @@
 																required="required"></textarea>
 														</div>
 													</div>
-													<button type="button" class="btn btn-default"
-														data-dismiss="modal">关闭</button>
-													<button type="submit" class="btn btn-primary" id="submit"
-														name="submit">提交更改</button>
-<<<<<<< HEAD
-=======
 
->>>>>>> 37fc3d5f5138b014c7a812d742d5ddc99683891a
 												</form>
-
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">关闭</button>
+												<button type="button" class="btn btn-primary" id="submit"
+													name="submit" data-dismiss="modal" onclick="addChapter();">提交更改</button>
 											</div>
 										</div>
 										<!-- /.modal-content -->
 									</div>
 									<!-- /.modal -->
 								</div>
-                              <!-- judge模态框（Modal） -->
-								<div class="modal fade" id="judgeModal" tabindex="-1" role="dialog"
-									aria-labelledby="myModalLabel" aria-hidden="true">
+								<!-- judge模态框（Modal） -->
+								<div class="modal fade" id="judgeModal" tabindex="-1"
+									role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header">
@@ -350,17 +447,17 @@
 														<label for="judgeItem" class="am-u-sm-3 am-form-label">judgeItem
 														</label>
 														<div class="am-u-sm-9">
-															<input type="text" class="tpl-form-input"
-																id="judgeItem" name="judgeItem" placeholder="请输入..."
+															<input type="text" class="tpl-form-input" id="judgeItem"
+																name="judgeItem" placeholder="请输入..."
 																required="required"> <small></small>
 														</div>
 													</div>
-                                                    <div class="am-form-group">
+													<div class="am-form-group">
 														<label for="judgeType" class="am-u-sm-3 am-form-label">judgeType
 														</label>
 														<div class="am-u-sm-9">
-															<input type="text" class="tpl-form-input"
-																id="judgeType" name="judgeType" placeholder="请输入..."
+															<input type="text" class="tpl-form-input" id="judgeType"
+																name="judgeType" placeholder="请输入..."
 																required="required"> <small></small>
 														</div>
 													</div>
@@ -395,8 +492,8 @@
 													</div>
 													<button type="button" class="btn btn-default"
 														data-dismiss="modal">关闭</button>
-													<button type="button" class="btn btn-primary" id="judgeSubmit"
-														name="judgeSubmit">提交更改</button>
+													<button type="button" class="btn btn-primary"
+														id="judgeSubmit" name="judgeSubmit">提交更改</button>
 												</form>
 
 											</div>
@@ -404,7 +501,7 @@
 										<!-- /.modal-content -->
 									</div>
 									<!-- /.modal -->
-									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -412,7 +509,7 @@
 
 				<ul class="tpl-task-list tpl-task-remind" id="chapter-list">
 					<li>
-						<div class="cosa">章节号</div> <!-- <div class="cosb">章节名称</div> -->
+						<div class="cosa">章节名称</div> <!-- <div class="cosb">章节号</div> -->
 					</li>
 
 					<!-- <li>

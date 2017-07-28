@@ -23,6 +23,7 @@
 <script src="../page/assets/js/amazeui.min.js"></script>
 <script src="../page/assets/js/app.js"></script>
 <script src="../page/assets/js/bootstrap.min.js"></script>
+<script src="../page/assets/js/string-deal.js"></script>
 <style>
 </style>
 <script type="text/javascript">
@@ -70,9 +71,6 @@
 		var chapter_id = document.createElement("div");
 		chapter_id.setAttribute("class", "cosB");
 		chapter_id.innerHTML = chapterOrder;
-		//var chapter_name = document.createElement("div");
-		//chapter_name.setAttribute("class", "cosA");
-		//chapter_name.innerHTML = chapterName;
 		var chapter_name = document.createElement("a");
 		chapter_name.setAttribute("class", "cosA");
 		chapter_name.setAttribute("href", "/chapter/chapter_detail?cchapterId="
@@ -87,6 +85,37 @@
 		content_li.appendChild(chapter_name);
 		ul.appendChild(content_li);
 		div.appendChild(ul);
+	}
+
+	//添加课程
+	function addCourse() {
+		var xmlhttp;
+		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var data = JSON.parse(xmlhttp.responseText);
+				if (data['result'])
+					alert(data['result']);
+				else {
+					window.location.reload();
+				}
+			}
+		};
+		xmlhttp.open("POST", "/rcampus/course/add", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		var courseOrder = stringPredetail(document
+				.getElementById("courseOrder").value);
+		var courseName = stringPredetail(document.getElementById("courseName").value);
+		var courseNote = stringPredetail(document.getElementById("courseNote").value);
+		var belongChapter = stringPredetail(document.getElementById("chapter").value);
+		xmlhttp.send("courseOrder=" + courseOrder + "&courseName=" + courseName
+				+ "&courseNote=" + courseNote + "&belongChapter="
+				+ belongChapter);
 	}
 	function modify_course(chapter_id) {
 		alert("modify" + chapter_id);
@@ -188,7 +217,7 @@
 										<div class="modal-content">
 											<div class="modal-header">
 												<button type="button" class="close" data-dismiss="modal"></button>
-												<h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
+												<h4 class="modal-title" id="myModalLabel"></h4>
 											</div>
 
 											<div class="modal-body">添加课程</div>
@@ -214,63 +243,30 @@
 															<span class="tpl-form-line-small-title">Title</span>
 														</label>
 														<div class="am-u-sm-9">
-															<input type="text" class="tpl-form-input"
-																id="courseName" name="courseName" placeholder="请输入标题"
+															<input type="text" class="tpl-form-input" id="courseName"
+																name="courseName" placeholder="请输入标题"
 																required="required"> <small></small>
 														</div>
 													</div>
-				
+
 
 
 													<div class="am-form-group">
 														<label for="user-intro" class="am-u-sm-3 am-form-label">CourseNote</label>
 														<div class="am-u-sm-9">
 															<textarea class="" rows="10" id="courseNote"
-																name="courseNote" placeholder="请输入简介内容"
+																name="courseNote" placeholder="请输入课程内容"
 																required="required"></textarea>
 														</div>
 													</div>
-													<div class="am-form-group">
-														<label for="user-intro" class="am-u-sm-3 am-form-label">ExamIntro</label>
-														<div class="am-u-sm-9">
-															<textarea class="" rows="10" id="examIntro"
-																name="examIntro" placeholder="请输入examInfo"
-																required="required"></textarea>
-														</div>
-													</div>
-													<div class="am-form-group">
-														<label for="user-intro" class="am-u-sm-3 am-form-label">ExamPage</label>
-														<div class="am-u-sm-9">
-															<textarea class="" rows="10" id="examPage"
-																name="examPage" placeholder="请输入ExamPage"
-																required="required"></textarea>
-														</div>
-													</div>
-													<div class="am-form-group">
-														<label for="user-intro" class="am-u-sm-3 am-form-label">ExamSolution</label>
-														<div class="am-u-sm-9">
-															<textarea class="" rows="10" id="examSolution"
-																name="examSolution" placeholder="请输入examSolution"
-																required="required"></textarea>
-														</div>
-													</div>
-													<div class="am-form-group">
-														<label for="user-intro" class="am-u-sm-3 am-form-label">ExamNote</label>
-														<div class="am-u-sm-9">
-															<textarea class="" rows="10" id="ExamNote"
-																name="ExamNote" placeholder="请输入ExamNote"
-																required="required"></textarea>
-														</div>
-													</div>
-													<div class="am-form-group" style="display:none">
-															<textarea class="" rows="10" id="chapter"
-																name="chapter" placeholder="请输入ExamNote"
-																required="required">${chapter.chapterId }</textarea>
+													<div class="am-form-group" style="display: none">
+														<textarea class="" rows="10" id="chapter" name="chapter"
+															required="required">${chapter.chapterId }</textarea>
 													</div>
 													<button type="button" class="btn btn-default"
 														data-dismiss="modal">关闭</button>
 													<button type="submit" class="btn btn-primary" id="submit"
-														name="submit">提交更改</button>
+														name="submit" data-dismiss="modal" onclick="addCourse();">提交更改</button>
 
 												</form>
 
@@ -287,12 +283,23 @@
 				</div>
 				<ul class="tpl-task-list tpl-task-remind" id="chapter-list">
 					<li>
-						<div class="cosa">课程名称</div>
-						<!-- <div class="cosb">课程号</div> -->
+						<div class="cosa">课程名称</div> <!-- <div class="cosb">课程号</div> -->
 					</li>
 					<c:forEach items="${courseList}" var="course" varStatus="loop">
-						<li><a class="cosA">${course.courseName }</a> <a class="cosB">${course.courseOrder }</a>
-						</li>
+						<c:choose>
+							<c:when test="${loop.count%2 ne 0}">
+								<li style="background: #CDCDC1;"><button
+										class="am-btn am-btn-default am-btn-secondary" onclick="">修改</button>
+									<button class="am-btn am-btn-default am-btn-danger" onclick="">删除</button>
+									<a class="cosA">${course.courseName }</a> <a class="cosB">${course.courseOrder }</a></li>
+							</c:when>
+							<c:when test="${loop.count%2 eq 0}">
+								<li><button class="am-btn am-btn-default am-btn-secondary"
+										onclick="">修改</button>
+									<button class="am-btn am-btn-default am-btn-danger" onclick="">删除</button>
+									<a class="cosA">${course.courseName }</a> <a class="cosB">${course.courseOrder }</a></li>
+							</c:when>
+						</c:choose>
 					</c:forEach>
 				</ul>
 			</div>
