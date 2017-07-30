@@ -33,21 +33,6 @@ public class ChapterController {
 	@Autowired
 	ProgressService progressService;
 
-	/**
-	 * 获得章节列表
-	 * 
-	 * @param request
-	 * @param response
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping("list.do")
-	public String getChapterList(HttpServletRequest request,
-			HttpServletResponse response) {
-		List<Chapter> list = chapterService.getAll(new Chapter());
-		return JSON.toJSONString(list);
-	}
-
 	@ResponseBody
 	@RequestMapping("add.do")
 	public String addChapter(HttpServletRequest request,
@@ -196,4 +181,22 @@ public class ChapterController {
 
 	}
 
+	/**
+	 * 管理员获取chapter列表
+	 * 
+	 * @param request
+	 * @param response
+	 * @param chapterId
+	 * @param chapterOrder
+	 * @param chapterName
+	 * @param chapterDescribe
+	 * @return
+	 */
+	@RequestMapping("getChapterList")
+	public String getChapterList(HttpServletRequest request,
+			HttpServletResponse response) {
+		request.setAttribute("chapterList",
+				chapterService.getAll(new Chapter()));
+		return "chapter_manage";
+	}
 }

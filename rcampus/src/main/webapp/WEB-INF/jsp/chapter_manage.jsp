@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -77,63 +78,6 @@
 				"application/x-www-form-urlencoded");
 		xmlhttp.send();
 	}
-	function getChapterList() {
-		var xmlhttp;
-		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-			xmlhttp = new XMLHttpRequest();
-		} else {// code for IE6, IE5
-			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.onreadystatechange = function() {
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				var data = JSON.parse(xmlhttp.responseText);
-				for (var i = 0; i < data.length; i++) {
-					addChapterItem(data[i]['chapterName'],
-							data[i]['chapterOrder'], data[i]['chapterId'], i);
-				}
-			}
-		};
-		xmlhttp.open("POST", "/rcampus/chapter/list.do", true);
-		xmlhttp.setRequestHeader("Content-type",
-				"application/x-www-form-urlencoded");
-		xmlhttp.send();
-	}
-	function addChapterItem(chapterName, chapterOrder, chapterId, i) {
-		var div = document.getElementById("chapter-list");
-		var ul = document.createElement("ul");
-		var content_li = document.createElement("li");
-		var btn_modify = document.createElement("button");
-		btn_modify.setAttribute("class",
-				"am-btn am-btn-default am-btn-secondary");
-		btn_modify.innerHTML = "修改";
-		btn_modify.setAttribute("onclick", "getChapterById(" + chapterId + ")");
-
-		var btn_delete = document.createElement("button");
-		btn_delete.setAttribute("class", "am-btn am-btn-default am-btn-danger");
-		btn_delete.innerHTML = "删除";
-		btn_delete.setAttribute("onclick", "delete_chapter(" + chapterId + ")");
-		var chapter_id = document.createElement("div");
-		chapter_id.setAttribute("class", "cosB");
-		chapter_id.innerHTML = chapterOrder;
-		//var chapter_name = document.createElement("div");
-		//chapter_name.setAttribute("class", "cosA");
-		//chapter_name.innerHTML = chapterName;
-		var chapter_name = document.createElement("a");
-		chapter_name.setAttribute("class", "cosA");
-		chapter_name.setAttribute("href", "chapter/chapter_detail?chapterId="
-				+ chapterId);
-		chapter_name.innerHTML = chapterName;
-		if (i % 2 == 0) {
-			ul.setAttribute("style", "background:#CDCDC1;");
-		}
-		content_li.appendChild(btn_modify);
-		content_li.appendChild(btn_delete);
-		content_li.appendChild(chapter_id);
-		content_li.appendChild(chapter_name);
-		ul.appendChild(content_li);
-		div.appendChild(ul);
-	}
-
 	function addChapter() {
 		var xmlhttp;
 		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -285,7 +229,7 @@
 		<div class="tpl-left-nav tpl-left-nav-hover">
 			<div class="tpl-left-nav-list">
 				<ul class="tpl-left-nav-menu">
-					<li class="tpl-left-nav-item"><a href="adminhome"
+					<li class="tpl-left-nav-item"><a href="rcampus/adminhome"
 						class="nav-link active"> <i class="am-icon-home"></i> <span>用户管理</span>
 
 					</a></li>
@@ -307,6 +251,8 @@
 		<div class="tpl-content-page-title">课程列表</div>
 		<div class="tpl-portlet-components">
 			<div class="portlet-title">
+				<a style="text-align: center;"
+					href="/rcampus/chapter/getChapterList">R Campus</a>
 				<div class="tpl-portlet-input tpl-fz-ml">
 					<div class="portlet-input input-small input-inline">
 						<div class="input-icon right">
@@ -326,12 +272,12 @@
 									data-toggle="modal" data-target="#courseModal">
 									<span class="am-icon-plus"></span> 新增
 								</button>
-								<button type="button"
+								<!-- 	<button type="button"
 									class="am-btn am-btn-default am-btn-success"
 									style="margin-left: 10px" data-toggle="modal"
 									data-target="#judgeModal">
 									<span class="am-icon-plus"></span> 新增judge
-								</button>
+								</button> -->
 								<button id="generate" type="button"
 									class="am-btn am-btn-default am-btn-success"
 									style="margin-left: 10px">生成课程页</button>
@@ -506,17 +452,32 @@
 						</div>
 					</div>
 				</div>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>操作1</th>
+							<th>操作2</th>
+							<th>章节号</th>
+							<th style="text-align: center;">章节名称</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="i" begin="1" end="${fn:length(chapterList)}"
+							step="1">
+							<tr>
+								<th width="10%"><button
+										class="am-btn am-btn-default am-btn-secondary" onclick="">修改</button></th>
+								<th width="10%">
+									<button class="am-btn am-btn-default am-btn-danger" onclick="">删除</button>
+								</th>
+								<th style="text-align: center;" width="10%"><a>${chapterList[i-1].chapterOrder }</a></th>
+								<th style="text-align: center;"><a
+									href="../rcampus/course/getCourseList?chapterId=${chapterList[i-1].chapterId}">${chapterList[i-1].chapterName }</a></th>
+							<tr>
+						</c:forEach>
+					</tbody>
+				</table>
 
-				<ul class="tpl-task-list tpl-task-remind" id="chapter-list">
-					<li>
-						<div class="cosa">章节名称</div> <!-- <div class="cosb">章节号</div> -->
-					</li>
-
-					<!-- <li>
-						<div class="cosB">12分钟前</div>
-						<div class="cosA">fdsfafa</div>
-					</li> -->
-				</ul>
 			</div>
 		</div>
 	</div>

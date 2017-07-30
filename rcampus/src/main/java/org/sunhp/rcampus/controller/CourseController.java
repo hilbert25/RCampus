@@ -109,16 +109,17 @@ public class CourseController {
 	 * @param courseId
 	 * @return
 	 */
-	@RequestMapping(value = "/getCourseDetail")
+	@RequestMapping(value = "/getCourseById")
 	public String getCourseDetail(HttpServletRequest request,
 			HttpServletResponse response, Long courseId) {
-		String page = courseId + ".html";
+		//下边是用的静态页
+		/*String page = courseId + ".html";
 		try {
 			response.sendRedirect(page);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		HttpSession session = request.getSession();
 		Long userId = (Long) session.getAttribute("userId");
 		Course course = courseService.get(courseId);
@@ -425,12 +426,12 @@ public class CourseController {
 		String target = request.getServletContext().getRealPath("\\")
 				+ "page\\courses\\" + course.getCourseId() + ".html";
 		JspToHtml.jsp2Html(jspPath, request, response, target);
-		try {
-			response.sendRedirect("../chapter/chapter_manage");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		// try {
+		// response.sendRedirect("../chapter/chapter_manage");
+		// } catch (IOException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 		return JSON.toJSONString(course);
 	}
 
@@ -575,4 +576,20 @@ public class CourseController {
 		jsonObject.put("courseCount", courseService.count(coursePageable));
 		return JSON.toJSONString(jsonObject);
 	}
+
+	@RequestMapping("getCourseList")
+	public String getCourseList(HttpServletRequest request,
+			HttpServletResponse response) {
+		String chapterId=request.getParameter("chapterId");
+		Pageable<Course> coursePageable = new Pageable<Course>();
+		coursePageable.setSearchProperty("chapter");
+		coursePageable.setSearchValue(chapterId);
+		coursePageable.setPageNumber(Integer.MAX_VALUE);
+		request.setAttribute("chapter",
+				chapterService.get(Long.valueOf(chapterId)));
+		request.setAttribute("courseList",
+				courseService.findByPager(coursePageable).getRows());
+		return "chapter_detail_manage";
+	}
+
 }

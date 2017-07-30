@@ -140,16 +140,17 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 
 	/**
 	 * 构造基础的queryMap
-	 *
+	 * 
 	 * @param pageable
 	 * @return
 	 */
 	protected Map<String, Object> constructBaseQueryMap(Pageable<T> pageable) {
 		Map<String, Object> queryMap = new HashMap<String, Object>();
+		String searchProperty = pageable.getSearchProperty();
+		String searchValue = pageable.getSearchValue();
 		if (pageable != null) {
-
-			String searchProperty = pageable.getSearchProperty();
-			String searchValue = pageable.getSearchValue();
+			searchProperty = pageable.getSearchProperty();
+			searchValue = pageable.getSearchValue();}
 			queryMap.put("searchProperty", searchProperty);
 			queryMap.put("searchValue", searchValue);
 			String orderProperty = pageable.getOrderProperty();
@@ -175,7 +176,6 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 					}
 				}
 			}
-		}
 		return queryMap;
 	}
 }

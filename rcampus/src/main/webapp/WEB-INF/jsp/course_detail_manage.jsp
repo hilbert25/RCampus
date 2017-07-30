@@ -53,8 +53,7 @@
 				"application/x-www-form-urlencoded");
 		xmlhttp.send();
 	}
-
-	//添加课程
+	/*添加题目*/
 	function addJudge() {
 		var xmlhttp;
 		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -64,7 +63,7 @@
 		}
 		xmlhttp.onreadystatechange = function() {
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				var data = JSON.parse(xmlhttp.responseText);
+				var data = xmlhttp.responseText;
 				if (data['result'])
 					alert(data['result']);
 				else {
@@ -73,22 +72,20 @@
 				}
 			}
 		};
-		xmlhttp.open("POST", "/rcampus/course/add", true);
+		xmlhttp.open("POST", "/rcampus/judge/add.do", true);
 		xmlhttp.setRequestHeader("Content-type",
 				"application/x-www-form-urlencoded");
-		var courseOrder = stringPredetail(document
-				.getElementById("courseOrder").value);
-		var courseName = stringPredetail(document.getElementById("courseName").value);
-		var courseNote = stringPredetail(document.getElementById("courseNote").value);
-		var belongChapter = stringPredetail(document.getElementById("chapter").value);
-		xmlhttp.send("courseOrder=" + courseOrder + "&courseName=" + courseName
-				+ "&courseNote=" + courseNote + "&belongChapter="
-				+ belongChapter);
+		var courseId = "${course.courseId}";
+		var examPage = document.getElementById("examPage").value;
+		var judgeTips = document.getElementById("judgeTips").value;
+		var judgeItem = document.getElementById("judgeItem").value;
+		xmlhttp.send("courseId=" + courseId + "&&examPage=" + examPage
+				+ "&judgeTips=" + judgeTips + "&judgeItem=" + judgeItem);
 	}
-	function modify_course(chapter_id) {
+	function modify_course(judge_id) {
 		alert("modify" + chapter_id);
 	}
-	function delete_course(chapter_id) {
+	function delete_course(judge_id) {
 		alert("delete" + chapter_id);
 	}
 	function init() {
@@ -132,6 +129,7 @@
 		</div>
 	</header>
 	<div class="tpl-page-container tpl-page-header-fixed">
+
 		<div class="tpl-left-nav tpl-left-nav-hover">
 			<div class="tpl-left-nav-list">
 				<ul class="tpl-left-nav-menu">
@@ -154,11 +152,14 @@
 		</div>
 	</div>
 	<div class="tpl-content-wrapper">
-		<div class="tpl-content-page-title">课程列表</div>
+		<div class="tpl-content-page-title">题目列表</div>
 		<div class="tpl-portlet-components">
 			<div class="portlet-title">
-				<a style="text-align: center;" href="../../rcampus/chapter/getChapterList">R
-					Campus</a> <a href="javascript:volid(0);">  >>>  </a><a>${chapter.chapterName }</a>
+				<a style="text-align: center;"
+					href="../../rcampus/chapter/getChapterList">R Campus</a> <a
+					href="javascript:volid(0);"> >>> </a><a
+					href="../../rcampus/course/getCourseList?chapterId=${chapter.chapterId }">${chapter.chapterName }</a>
+				<a href="javascript:volid(0);"> >>> </a><a>${course.courseName }</a>
 				<div class="tpl-portlet-input tpl-fz-ml">
 					<div class="portlet-input input-small input-inline">
 						<div class="input-icon right">
@@ -189,47 +190,37 @@
 												<h4 class="modal-title" id="myModalLabel"></h4>
 											</div>
 
-											<div class="modal-body">添加课程</div>
+											<div class="modal-body">添加题目</div>
 											<div class="modal-footer">
 												<form class="am-form tpl-form-line-form"
 													action="../course/add" method="post" id="courseForm"
 													name="courseForm">
+
 													<div class="am-form-group">
-														<label for="user-name" class="am-u-sm-3 am-form-label">课程号
-															<span class="tpl-form-line-small-title">Order</span>
+														<label for="user-name" class="am-u-sm-3 am-form-label">题目
+															<span class="tpl-form-line-small-title">Exam</span>
 														</label>
 														<div class="am-u-sm-9">
-															<select id="courseOrder" name="courseOrder">
-																<c:forEach varStatus="i" begin="1" end="40">
-																	<option value="${i.count}">${i.count}</option>
-																</c:forEach>
-															</select>
-														</div>
-
-													</div>
-													<div class="am-form-group">
-														<label for="user-name" class="am-u-sm-3 am-form-label">标题
-															<span class="tpl-form-line-small-title">Title</span>
-														</label>
-														<div class="am-u-sm-9">
-															<input type="text" class="tpl-form-input" id="courseName"
-																name="courseName" placeholder="请输入标题"
-																required="required"> <small></small>
+															<textarea class="" rows="10" id="examPage"
+																name="examPage" placeholder="请输入题目" required="required"></textarea>
 														</div>
 													</div>
-
-
-
 													<div class="am-form-group">
-														<label for="user-intro" class="am-u-sm-3 am-form-label">CourseNote</label>
+														<label for="user-intro" class="am-u-sm-3 am-form-label">答案</label>
 														<div class="am-u-sm-9">
-															<textarea class="" rows="10" id="courseNote"
-																name="courseNote" placeholder="请输入课程内容"
-																required="required"></textarea>
+															<textarea class="" rows="3" id="judgeItem"
+																name="judgeItem" placeholder="请输入答案" required="required"></textarea>
+														</div>
+													</div>
+													<div class="am-form-group">
+														<label for="user-intro" class="am-u-sm-3 am-form-label">提示</label>
+														<div class="am-u-sm-9">
+															<textarea class="" rows="3" id="judgeTips"
+																name="judgeTips" placeholder="请输入提示" required="required"></textarea>
 														</div>
 													</div>
 													<div class="am-form-group" style="display: none">
-														<textarea class="" rows="10" id="chapter" name="chapter"
+														<textarea class="" rows="3" id="chapter" name="chapter"
 															required="required">${chapter.chapterId }</textarea>
 													</div>
 													<button type="button" class="btn btn-default"
@@ -250,31 +241,60 @@
 						</div>
 					</div>
 				</div>
+				<!-- <ul class="tpl-task-list tpl-task-remind" id="chapter-list">
+					<li>
+						<div class="cosa">题目</div> 
+				<div class="cosa">答案</div>
+				<div class="cosb">提示</div>
+				</li>
+				<c:forEach var="i" begin="0" end="${fn:length(judgeList)-1}"
+					step="1">
+					<c:choose>
+						<c:when test="${i%2 ne 0}">
+							<li style="background: #CDCDC1;"><button
+									class="am-btn am-btn-default am-btn-secondary" onclick="">修改</button>
+								<button class="am-btn am-btn-default am-btn-danger" onclick="">删除</button>
+								<a class="cosA">${examPageList[i]}</a><a class="cosA">${judgeList[i].judgeItem }</a>
+								<a class="cosB">${judgeList[i].judgeTips }</a></li>
+						</c:when>
+						<c:when test="${i%2 eq 0}">
+							<li><button class="am-btn am-btn-default am-btn-secondary"
+									onclick="">修改</button>
+								<button class="am-btn am-btn-default am-btn-danger" onclick="">删除</button>
+								<a class="cosA">${examPageList[i] }</a> <a class="cosA">${judgeList[i].judgeItem }</a>
+								<a class="cosB">${judgeList[i].judgeTips  }</a></li>
+						</c:when>
+					</c:choose>
+				</c:forEach>
+				</ul>
+				-->
 				<table class="table table-striped">
 					<thead>
 						<tr>
 							<th>操作1</th>
 							<th>操作2</th>
-							<th>课程号</th>
-							<th style="text-align: center;">课程名称</th>
+							<th>题目</th>
+							<th>答案</th>
+							<th>提示</th>
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="i" begin="1" end="${fn:length(courseList)}"
+						<c:forEach var="i" begin="0" end="${fn:length(judgeList)-1}"
 							step="1">
 							<tr>
-								<th width="10%"><button
-										class="am-btn am-btn-default am-btn-secondary" onclick="">修改</button></th>
-								<th width="10%">
+								<th><button class="am-btn am-btn-default am-btn-secondary"
+										onclick="">修改</button></th>
+								<th>
 									<button class="am-btn am-btn-default am-btn-danger" onclick="">删除</button>
 								</th>
-								<th style="text-align: center;" width="10%"><a>${courseList[i-1].courseOrder }</a></th>
-								<th style="text-align: center;"><a
-									href="../judge/getJudgeList?courseId=${courseList[i-1].courseId}">${courseList[i-1].courseName }</a></th>
+								<th><a>${examPageList[i] }</a></th>
+								<th><a>${judgeList[i].judgeItem }</a></th>
+								<th><a>${judgeList[i].judgeTips  }</a></th>
 							<tr>
 						</c:forEach>
 					</tbody>
 				</table>
+
 			</div>
 		</div>
 	</div>
