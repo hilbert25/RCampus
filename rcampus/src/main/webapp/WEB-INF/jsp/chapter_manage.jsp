@@ -123,7 +123,7 @@
 				document.getElementById("chapterName").innerHTML = data['chapterName'];
 				document.getElementById("chapterDescribe").innerHTML = data['chapterDescrbe'];
 				document.getElementById("submit").setAttribute("onclick",
-						"modify_chapter(" + chapterId + ");");
+						"modifyChapter(" + chapterId + ");");
 			}
 		};
 		xmlhttp.open("POST", "/rcampus/chapter/getChapterbyId", true);
@@ -132,7 +132,7 @@
 		xmlhttp.send("chapterId=" + chapterId);
 	}
 	//修改章节信息
-	function modify_chapter(chapterId) {
+	function modifyChapter(courseId) {
 		document.getElementById("submit").setAttribute("onclick",
 				"addChapter();");
 		var xmlhttp;
@@ -162,10 +162,10 @@
 				.getElementById("chapterDescribe").value);
 		xmlhttp.send("chapterId=" + chapterId + "&chapterOrder=" + chapterOrder
 				+ "&chapterName=" + chapterName + "&chapterDescribe="
-				+ chapterDescribe);
+				+ chapterDescribe+"&courseId="+courseId);
 	}
 	//删除章节
-	function delete_chapter(chapterId) {
+	function deleteChapter(chapterId) {
 		var xmlhttp;
 		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
 			xmlhttp = new XMLHttpRequest();
@@ -174,7 +174,6 @@
 		}
 		xmlhttp.onreadystatechange = function() {
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				var data = JSON.parse(xmlhttp.responseText);
 				window.location.reload();
 			}
 		};
@@ -185,7 +184,6 @@
 	}
 	function init() {
 		getUnDealCount();
-		getChapterList();
 	}
 </script>
 
@@ -466,9 +464,9 @@
 							step="1">
 							<tr>
 								<th width="10%"><button
-										class="am-btn am-btn-default am-btn-secondary" onclick="">修改</button></th>
+										class="am-btn am-btn-default am-btn-secondary" onclick="getChapterById(${chapterList[i-1].chapterId});">修改</button></th>
 								<th width="10%">
-									<button class="am-btn am-btn-default am-btn-danger" onclick="">删除</button>
+									<button class="am-btn am-btn-default am-btn-danger" onclick="deleteChapter(${chapterList[i-1].chapterId});">删除</button>
 								</th>
 								<th style="text-align: center;" width="10%"><a>${chapterList[i-1].chapterOrder }</a></th>
 								<th style="text-align: center;"><a

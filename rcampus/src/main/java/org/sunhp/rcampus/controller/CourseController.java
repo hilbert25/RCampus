@@ -102,7 +102,7 @@ public class CourseController {
 	}
 
 	/**
-	 * 获得某一课程内容
+	 * 获得某一课程内容,这个是用户做题用的
 	 * 
 	 * @param request
 	 * @param response
@@ -112,14 +112,12 @@ public class CourseController {
 	@RequestMapping(value = "/getCourseById")
 	public String getCourseDetail(HttpServletRequest request,
 			HttpServletResponse response, Long courseId) {
-		//下边是用的静态页
-		/*String page = courseId + ".html";
-		try {
-			response.sendRedirect(page);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+		// 下边是用的静态页
+		/*
+		 * String page = courseId + ".html"; try { response.sendRedirect(page);
+		 * } catch (IOException e) { // TODO Auto-generated catch block
+		 * e.printStackTrace(); }
+		 */
 		HttpSession session = request.getSession();
 		Long userId = (Long) session.getAttribute("userId");
 		Course course = courseService.get(courseId);
@@ -436,7 +434,7 @@ public class CourseController {
 	}
 
 	@ResponseBody
-	@RequestMapping("delete.do")
+	@RequestMapping("delete")
 	public String addCourse(HttpServletRequest request,
 			HttpServletResponse response, Long courseId) {
 		courseService.delete(courseId);
@@ -580,7 +578,7 @@ public class CourseController {
 	@RequestMapping("getCourseList")
 	public String getCourseList(HttpServletRequest request,
 			HttpServletResponse response) {
-		String chapterId=request.getParameter("chapterId");
+		String chapterId = request.getParameter("chapterId");
 		Pageable<Course> coursePageable = new Pageable<Course>();
 		coursePageable.setSearchProperty("chapter");
 		coursePageable.setSearchValue(chapterId);
@@ -592,4 +590,55 @@ public class CourseController {
 		return "chapter_detail_manage";
 	}
 
+	/**
+	 * 这个是后台管理员用的
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("getCourseInfo")
+	@ResponseBody
+	public String getCourseInfo(HttpServletRequest request,
+			HttpServletResponse response) {
+		Course course = courseService.get(Long.valueOf(request
+				.getParameter("courseId")));
+		return JSON.toJSONString(course);
+	}
+
+	/**
+	 * 这个是后台管理员用的
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("modifyCourseInfo")
+	@ResponseBody
+	public String modifyCourseInfo(HttpServletRequest request,
+			HttpServletResponse response) {
+		int courseOrder = Integer.valueOf(request.getParameter("courseOrder"));
+		long courseId = Long.valueOf(request.getParameter("courseId"));
+		String courseName = request.getParameter("courseName");
+		String courseNote = request.getParameter("courseNote");
+		Pageable<Course> coursePageable = new Pageable<Course>();
+		coursePageable.setSearchProperty("course_order");
+		coursePageable.setSearchValue(String.valueOf(courseOrder));
+		Course tempCourse = courseService.findByPager(coursePageable).getRows()
+				.get(0);
+		if (tempCourse.getCourseOrder() == courseOrder
+				&& tempCourse.getCourseId() != courseId) {// 存在order相同
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("result", "已经存在第" + courseOrder + "节,请勿重复添加");
+			return JSON.toJSONString(jsonObject);
+		}
+		System.out.println("courseName"+courseName);
+		System.out.println("courseNote"+courseNote);
+		Course course = courseService.get(courseId);
+		course.setCourseName(courseName);
+		course.setCourseNote(courseNote);
+		course.setCourseOrder(courseOrder);
+		courseService.update(course);
+		return JSON.toJSONString(course);
+	}
 }

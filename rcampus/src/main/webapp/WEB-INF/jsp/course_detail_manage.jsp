@@ -76,17 +76,76 @@
 		xmlhttp.setRequestHeader("Content-type",
 				"application/x-www-form-urlencoded");
 		var courseId = "${course.courseId}";
-		var examPage = document.getElementById("examPage").value;
-		var judgeTips = document.getElementById("judgeTips").value;
-		var judgeItem = document.getElementById("judgeItem").value;
+		var examPage = stringPredetail(document.getElementById("examPage").value);
+		var judgeTips = stringPredetail(document.getElementById("judgeTips").value);
+		var judgeItem = stringPredetail(document.getElementById("judgeItem").value);
 		xmlhttp.send("courseId=" + courseId + "&&examPage=" + examPage
 				+ "&judgeTips=" + judgeTips + "&judgeItem=" + judgeItem);
 	}
-	function modify_course(judge_id) {
-		alert("modify" + chapter_id);
+
+	function deleteJudge(judgeId) {
+		var xmlhttp;
+		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					window.location.reload();
+			}
+		};
+		var order=document.getElementById("order"+judgeId).innerHTML;
+		xmlhttp.open("POST", "/rcampus/judge/delete", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("judgeId="+judgeId+"&order="+order+"&courseId="+"${course.courseId}");
 	}
-	function delete_course(judge_id) {
-		alert("delete" + chapter_id);
+	//设置修改模态框的数据
+	function getJudgeById(judgeId) {
+		var xmlhttp;
+		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var data = JSON.parse(xmlhttp.responseText);
+				$('#judgeModal').modal('show');
+				document.getElementById("examPage").value=document.getElementById("judge"+judgeId).innerHTML;
+				document.getElementById("judgeTips").value=data['judgeTips'];
+				document.getElementById("judgeItem").value=data['judgeItem'];
+				document.getElementById("submit").setAttribute("onclick",
+						"modifyJudge(" + judgeId + ");");
+			}
+		};
+		xmlhttp.open("POST", "/rcampus/judge/getJudgeById", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("judgeId=" +judgeId);
+	}
+	function modifyJudge(judgeId) {
+		var xmlhttp;
+		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					window.location.reload();
+			}
+		};
+		var examPage=stringPredetail(document.getElementById("examPage").value);
+		var judgeTips=stringPredetail(document.getElementById("judgeTips").value);
+		var judgeItem=stringPredetail(document.getElementById("judgeItem").value);
+		var courseId= "${course.courseId}";
+		var order=document.getElementById("order"+judgeId).innerHTML;
+		xmlhttp.open("POST", "/rcampus/judge/modifyJudge", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("order="+order+"&examPage="+examPage+"&judgeTips="+judgeTips+"&judgeItem="+judgeItem+"&courseId="+courseId+"&judgeId="+judgeId);
 	}
 	function init() {
 		getUnDealCount();
@@ -142,11 +201,15 @@
 							class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
 					</a></li>
 
-					<li class="tpl-left-nav-item"><a href="login.html"
-						class="nav-link tpl-left-nav-link-list"> <i
-							class="am-icon-key"></i> <span>其余</span>
-
-					</a></li>
+					<li><div class="text-primary">
+							<p>第${chapter.chapterOrder}章 ${chapter.chapterName}</p>
+						</div></li>
+					<li><div class="text-primary">
+							<p>第${course.courseOrder}节 ${course.courseName}</p>
+						</div></li>
+					<li><div class="text-success">
+							<p>${course.courseNote}</p>
+						</div></li>
 				</ul>
 			</div>
 		</div>
@@ -176,13 +239,13 @@
 							<div class="am-btn-group am-btn-group-xs">
 								<button type="button"
 									class="am-btn am-btn-default am-btn-success"
-									data-toggle="modal" data-target="#myModal">
+									data-toggle="modal" data-target="#judgeModal">
 									<span class="am-icon-plus"></span> 新增
 								</button>
 
 								<!-- 模态框（Modal） -->
-								<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-									aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal fade" id="judgeModal" tabindex="-1"
+									role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header">
@@ -283,13 +346,15 @@
 							step="1">
 							<tr>
 								<th><button class="am-btn am-btn-default am-btn-secondary"
-										onclick="">修改</button></th>
+										onclick="getJudgeById(${judgeList[i].judgeId})">修改</button></th>
 								<th>
-									<button class="am-btn am-btn-default am-btn-danger" onclick="">删除</button>
+									<button class="am-btn am-btn-default am-btn-danger"
+										onclick="deleteJudge(${judgeList[i].judgeId})">删除</button>
 								</th>
-								<th><a>${examPageList[i] }</a></th>
+								<th><a id="judge${judgeList[i].judgeId}">${examPageList[i] }</a></th>
 								<th><a>${judgeList[i].judgeItem }</a></th>
-								<th><a>${judgeList[i].judgeTips  }</a></th>
+								<th><a>${judgeList[i].judgeTips  }</a><a
+									id="order${judgeList[i].judgeId}" style="display: none;">${i}</a></th>
 							<tr>
 						</c:forEach>
 					</tbody>

@@ -1,13 +1,9 @@
 package org.sunhp.rcampus.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,10 +59,17 @@ public class JudgeController {
 	}
 
 	@ResponseBody
-	@RequestMapping("delete.do")
+	@RequestMapping("delete")
 	public String addCourse(HttpServletRequest request,
-			HttpServletResponse response, Long judgeId) {
-		judgeService.delete(judgeId);
+			HttpServletResponse response) {
+		judgeService.delete(Long.valueOf(request.getParameter("judgeId")));
+		Course course = courseService.get(Long.valueOf(request
+				.getParameter("courseId")));
+		List<String> examPageList = getExamPageList(course.getExamPage());
+		int order = Integer.valueOf(request.getParameter("order"));
+		examPageList.remove(order);
+		course.setExamPage(getExamPage(examPageList));
+		courseService.update(course);
 		return JSON.toJSONString("deleted");
 	}
 
@@ -118,4 +121,74 @@ public class JudgeController {
 		return "course_detail_manage";
 	}
 
+	/**
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("getJudgeById")
+	public String getJudge(HttpServletRequest request,
+			HttpServletResponse response) {
+		return JSON.toJSONString(judgeService.get(Long.valueOf(request
+				.getParameter("judgeId"))));
+	}
+
+	/**
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("modifyJudge")
+	public String modifyJudge(HttpServletRequest request,
+			HttpServletResponse response) {
+		long courseId = Long.valueOf(request.getParameter("courseId"));
+		long judgeId = Long.valueOf(request.getParameter("judgeId"));
+		String examPage = request.getParameter("examPage");
+		if (examPage.charAt(0) != '#')
+			examPage = "#" + examPage;
+		String judgeTips = request.getParameter("judgeTips");
+		String judgeItem = request.getParameter("judgeItem");
+		int order = Integer.valueOf(request.getParameter("order"));
+		Course course = courseService.get(courseId);
+		List<String> examPageList = getExamPageList(course.getExamPage());
+		examPageList.set(order, examPage);
+		course.setExamPage(getExamPage(examPageList));
+		courseService.update(course);
+		Judge judge = judgeService.get(judgeId);
+		judge.setJudgeItem(judgeItem);
+		judge.setJudgeTips(judgeTips);
+		judgeService.update(judge);
+		return JSON.toJSONString(null);
+	}
+
+	/**
+	 * examPage转成list方便处理
+	 * 
+	 * @return
+	 */
+	public List<String> getExamPageList(String examPage) {
+		List<String> examPageList = new ArrayList<String>();
+		String[] exmaPageArr = examPage.split("\n");
+		for (String e : exmaPageArr) {
+			if (!e.equals(""))
+				examPageList.add(e);
+		}
+		return examPageList;
+	}
+
+	/**
+	 * examList转成string方便存储
+	 * 
+	 * @param examPageList
+	 * @return
+	 */
+	public String getExamPage(List<String> examPageList) {
+		String examPage = "";
+		for (String s : examPageList) {
+			examPage += s + "\n";
+		}
+		return examPage;
+	}
 }

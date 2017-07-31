@@ -55,7 +55,7 @@
 	}
 
 	//添加课程
-	function addJudge() {
+	function addCourse() {
 		var xmlhttp;
 		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
 			xmlhttp = new XMLHttpRequest();
@@ -85,11 +85,68 @@
 				+ "&courseNote=" + courseNote + "&belongChapter="
 				+ belongChapter);
 	}
-	function modify_course(chapter_id) {
-		alert("modify" + chapter_id);
+	//设置修改模态框的数据
+	function getChapterById(courseId) {
+		var xmlhttp;
+		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var data = JSON.parse(xmlhttp.responseText);
+				$('#courseModal').modal('show');
+				document.getElementById("courseOrder").value = data['courseOrder'];
+				document.getElementById("courseName").value = data['courseName'];
+				document.getElementById("courseNote").innerHTML = data['courseNote'];
+				document.getElementById("submit").setAttribute("onclick",
+						"modifyCourse(" + courseId + ");");
+			}
+		};
+		xmlhttp.open("POST", "/rcampus/course/getCourseInfo", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("courseId=" +courseId);
 	}
-	function delete_course(chapter_id) {
-		alert("delete" + chapter_id);
+	function modifyCourse(courseId) {
+		var xmlhttp;
+		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+				var data = JSON.parse(xmlhttp.responseText);
+				if (data['result'])
+					alert(data['result']);
+				else {
+					window.location.reload();
+				}
+
+			};
+		var courseOrder=document.getElementById("courseOrder").value ;
+		var courseName= stringPredetail(document.getElementById("courseName").value) ;
+		var courseNote=stringPredetail(document.getElementById("courseNote").innerHTML) ;
+		xmlhttp.open("POST", "/rcampus/course/modifyCourseInfo", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("courseOrder=" +courseOrder+"&courseName="+courseName+"&courseNote="+courseNote+"&courseId="+courseId);
+	}
+	function deleteCourse(courseId) {
+		var xmlhttp;
+		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+					window.location.reload();
+			};
+		xmlhttp.open("POST", "/rcampus/course/delete", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("courseId="+courseId);
 	}
 	function init() {
 		getUnDealCount();
@@ -144,11 +201,13 @@
 							class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
 					</a></li>
 
-					<li class="tpl-left-nav-item"><a href="login.html"
-						class="nav-link tpl-left-nav-link-list"> <i
-							class="am-icon-key"></i> <span>其余</span>
 
-					</a></li>
+					<li><div class="text-primary">
+							<p>第${chapter.chapterOrder}章 ${chapter.chapterName}</p>
+						</div></li>
+					<li><div class="text-success">
+							<p>${chapter.chapterDescrbe}</p>
+						</div></li>
 				</ul>
 			</div>
 		</div>
@@ -157,8 +216,9 @@
 		<div class="tpl-content-page-title">课程列表</div>
 		<div class="tpl-portlet-components">
 			<div class="portlet-title">
-				<a style="text-align: center;" href="../../rcampus/chapter/getChapterList">R
-					Campus</a> <a href="javascript:volid(0);">  >>>  </a><a>${chapter.chapterName }</a>
+				<a style="text-align: center;"
+					href="../../rcampus/chapter/getChapterList">R Campus</a> <a
+					href="javascript:volid(0);"> >>> </a><a>${chapter.chapterName }</a>
 				<div class="tpl-portlet-input tpl-fz-ml">
 					<div class="portlet-input input-small input-inline">
 						<div class="input-icon right">
@@ -180,20 +240,17 @@
 								</button>
 
 								<!-- 模态框（Modal） -->
-								<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-									aria-labelledby="myModalLabel" aria-hidden="true">
-									<div class="modal-dialog">
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal"></button>
-												<h4 class="modal-title" id="myModalLabel"></h4>
-											</div>
-
-											<div class="modal-body">添加课程</div>
-											<div class="modal-footer">
-												<form class="am-form tpl-form-line-form"
-													action="../course/add" method="post" id="courseForm"
-													name="courseForm">
+								<div class="modal fade" id="courseModal" tabindex="-1"
+									role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+									<form class="am-form tpl-form-line-form" action="course/add"
+										method="post" id="courseForm" name="courseForm">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal"></button>
+													<h4 class="modal-title" id="myModalLabel"></h4>
+												</div>
+												<div class="modal-footer">
 													<div class="am-form-group">
 														<label for="user-name" class="am-u-sm-3 am-form-label">课程号
 															<span class="tpl-form-line-small-title">Order</span>
@@ -232,51 +289,50 @@
 														<textarea class="" rows="10" id="chapter" name="chapter"
 															required="required">${chapter.chapterId }</textarea>
 													</div>
-													<button type="button" class="btn btn-default"
-														data-dismiss="modal">关闭</button>
-													<button type="submit" class="btn btn-primary" id="submit"
-														name="submit" data-dismiss="modal" onclick="addJudge();">提交更改</button>
-
-												</form>
-
-											</div>
-										</div>
-										<!-- /.modal-content -->
-									</div>
-									<!-- /.modal -->
+									</form>
+									<button type="button" class="btn btn-default"
+										data-dismiss="modal">关闭</button>
+									<button type="submit" class="btn btn-primary" id="submit"
+										name="submit" data-dismiss="modal" onclick="addCourse();">提交更改</button>
 								</div>
-
 							</div>
+							<!-- /.modal-content -->
 						</div>
+						<!-- /.modal -->
 					</div>
+
 				</div>
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>操作1</th>
-							<th>操作2</th>
-							<th>课程号</th>
-							<th style="text-align: center;">课程名称</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="i" begin="1" end="${fn:length(courseList)}"
-							step="1">
-							<tr>
-								<th width="10%"><button
-										class="am-btn am-btn-default am-btn-secondary" onclick="">修改</button></th>
-								<th width="10%">
-									<button class="am-btn am-btn-default am-btn-danger" onclick="">删除</button>
-								</th>
-								<th style="text-align: center;" width="10%"><a>${courseList[i-1].courseOrder }</a></th>
-								<th style="text-align: center;"><a
-									href="../judge/getJudgeList?courseId=${courseList[i-1].courseId}">${courseList[i-1].courseName }</a></th>
-							<tr>
-						</c:forEach>
-					</tbody>
-				</table>
 			</div>
 		</div>
+	</div>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>操作1</th>
+				<th>操作2</th>
+				<th>课程号</th>
+				<th style="text-align: center;">课程名称</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach var="i" begin="1" end="${fn:length(courseList)}" step="1">
+				<tr>
+					<th width="10%"><button
+							class="am-btn am-btn-default am-btn-secondary"
+							onclick="getChapterById(${courseList[i-1].courseId})">修改</button></th>
+					<th width="10%">
+						<button class="am-btn am-btn-default am-btn-danger"
+							onclick="deleteCourse(${courseList[i-1].courseId})">删除</button>
+					</th>
+					<th style="text-align: center;" width="10%"><a>${courseList[i-1].courseOrder }</a></th>
+					<th style="text-align: center;"><a
+						href="../judge/getJudgeList?courseId=${courseList[i-1].courseId}">${courseList[i-1].courseName }</a></th>
+				<tr>
+			</c:forEach>
+		</tbody>
+	</table>
+	</div>
+	</div>
 	</div>
 </body>
 
