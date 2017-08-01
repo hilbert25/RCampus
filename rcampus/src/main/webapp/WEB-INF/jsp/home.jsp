@@ -214,7 +214,7 @@
 								<p>
 									<!--  <a href="./courseIntro" class="btn btn-primary"
 										style="background: #FF6600" role="button">Learn More</a>-->
-									<a href="javascript:return false;" class="btn btn-primary"
+									<a href="" class="btn btn-primary"
 										style="background: #FF6600" role="button" id="continue">Continue
 										to learn</a>
 								</p>

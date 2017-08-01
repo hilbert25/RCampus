@@ -167,10 +167,10 @@
 								<c:forEach items="${chapter.courseList}" var="course"
 									varStatus="courseIndex">
 
-									<li><a href="page/courses/${course.courseId}.html">${course.courseName }</a></li>
+									<!--<li><a href="page/courses/${course.courseId}.html">${course.courseName }</a></li>-->
 									<li><c:choose>
 											<c:when test="${course.courseId le finishCourse}">
-												<a href="getCourseById?courseId=${course.courseId}"
+												<a href="page/courses/${course.courseId}.html"
 													style="color: green;">${course.courseName }</a>
 											</c:when>
 											<c:when test="${course.courseId gt finishCourse}">
@@ -437,9 +437,6 @@
 									<div data-reactid="43">
 										<div data-reactid="44">
 											<p style="color: black">${course.courseNote }</p>
-											<pre>
-											<code>我也不知道这是啥</code>
-										</pre>
 										</div>
 									</div>
 								</div>

@@ -81,9 +81,11 @@
 		var courseName = stringPredetail(document.getElementById("courseName").value);
 		var courseNote = stringPredetail(document.getElementById("courseNote").value);
 		var belongChapter = stringPredetail(document.getElementById("chapter").value);
+		var examIntro = stringPredetail(document.getElementById("examIntro").value);
+		var examPage = stringPredetail(document.getElementById("examPage").value);
 		xmlhttp.send("courseOrder=" + courseOrder + "&courseName=" + courseName
 				+ "&courseNote=" + courseNote + "&belongChapter="
-				+ belongChapter);
+				+ belongChapter+ "&examIntro=" + examIntro+ "&examPage" + examPage);
 	}
 	//设置修改模态框的数据
 	function getChapterById(courseId) {
@@ -235,7 +237,7 @@
 							<div class="am-btn-group am-btn-group-xs">
 								<button type="button"
 									class="am-btn am-btn-default am-btn-success"
-									data-toggle="modal" data-target="#myModal">
+									data-toggle="modal" data-target="#courseModal">
 									<span class="am-icon-plus"></span> 新增
 								</button>
 
@@ -265,7 +267,7 @@
 
 													</div>
 													<div class="am-form-group">
-														<label for="user-name" class="am-u-sm-3 am-form-label">标题
+														<label for="courseName" class="am-u-sm-3 am-form-label">标题
 															<span class="tpl-form-line-small-title">Title</span>
 														</label>
 														<div class="am-u-sm-9">
@@ -278,10 +280,26 @@
 
 
 													<div class="am-form-group">
-														<label for="user-intro" class="am-u-sm-3 am-form-label">CourseNote</label>
+														<label for="courseNote" class="am-u-sm-3 am-form-label">CourseNote</label>
 														<div class="am-u-sm-9">
 															<textarea class="" rows="10" id="courseNote"
 																name="courseNote" placeholder="请输入课程内容"
+																required="required"></textarea>
+														</div>
+													</div>
+													<div class="am-form-group">
+														<label for="examIntro" class="am-u-sm-3 am-form-label">examIntro</label>
+														<div class="am-u-sm-9">
+															<textarea class="" rows="10" id="examIntro"
+																name="examIntro" placeholder="请输入examIntro"
+																required="required"></textarea>
+														</div>
+													</div>
+													<div class="am-form-group">
+														<label for="examPage" class="am-u-sm-3 am-form-label">examPage</label>
+														<div class="am-u-sm-9">
+															<textarea class="" rows="10" id="examPage"
+																name="examPage" placeholder="请输入examPage"
 																required="required"></textarea>
 														</div>
 													</div>

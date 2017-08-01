@@ -109,8 +109,7 @@ public class CourseController {
 	 * @param courseId
 	 * @return
 	 */
-	@RequestMapping(value = "/getCourseById")
-	public String getCourseDetail(HttpServletRequest request,
+	public boolean getCourseDetail(HttpServletRequest request,
 			HttpServletResponse response, Long courseId) {
 		// 下边是用的静态页
 		/*
@@ -155,7 +154,8 @@ public class CourseController {
 			}
 		}
 		Course latestCourse = courseService.get(maxId);// progress表的最后一个课程
-		System.out.println("ch" + latestCourse.getChapter() + " "
+		if(latestCourse!=null){
+		  System.out.println("ch" + latestCourse.getChapter() + " "
 				+ latestCourse.getCourseId());
 		Pageable<Course> coursePageable = new Pageable<Course>();
 		coursePageable.setSearchProperty("chapter");
@@ -170,10 +170,15 @@ public class CourseController {
 		} else {// 否则就是前一章
 			request.setAttribute("finishChapter", latestCourse.getChapter() - 1);
 		}
+		}
 		request.setAttribute("chapterList", chapterList);
-		request.setAttribute("course", course);
 		request.setAttribute("finishCourse", finishCourse);
-		return "course_detail";
+		request.setAttribute("course", course);
+		String jspPath = "..\\WEB-INF\\jsp\\course_detail.jsp";
+		String target = request.getServletContext().getRealPath("\\")
+				+ "page\\courses\\" + course.getCourseId() + ".html";
+		JspToHtml.jsp2Html(jspPath, request, response, target);
+		return true;
 	}
 
 	/**
@@ -385,12 +390,14 @@ public class CourseController {
 	@ResponseBody
 	public String addCourse(HttpServletRequest request,
 			HttpServletResponse response, String courseName, String courseNote,
-			String courseOrder, String belongChapter) {
+			String courseOrder, String belongChapter,String examIntro,String examPage) {
 		Course course = new Course();
 		course.setChapter(Long.valueOf(belongChapter));
 		course.setCourseName(courseName);
 		course.setCourseNote(courseNote);
 		course.setCourseOrder(Integer.valueOf(courseOrder));
+		course.setExamIntro(examIntro);
+		course.setExamPage(examPage);
 		Pageable<Course> tempCoursePageable = new Pageable<Course>();
 		tempCoursePageable.setSearchProperty("course_order");
 		tempCoursePageable.setSearchValue(courseOrder);
@@ -418,21 +425,15 @@ public class CourseController {
 			chapter.setCourseList(courseService.findByPager(coursePageable)
 					.getRows());
 		}
-		request.setAttribute("chapterList", chapterList);
-		request.setAttribute("course", course);
-		String jspPath = "..\\WEB-INF\\jsp\\course_detail.jsp";
-		String target = request.getServletContext().getRealPath("\\")
-				+ "page\\courses\\" + course.getCourseId() + ".html";
-		JspToHtml.jsp2Html(jspPath, request, response, target);
 		// try {
 		// response.sendRedirect("../chapter/chapter_manage");
 		// } catch (IOException e) {
 		// // TODO Auto-generated catch block
 		// e.printStackTrace();
 		// }
+		getCourseDetail(request,response,course.getCourseId());
 		return JSON.toJSONString(course);
 	}
-
 	@ResponseBody
 	@RequestMapping("delete")
 	public String addCourse(HttpServletRequest request,
@@ -527,7 +528,7 @@ public class CourseController {
 		List<Progress> progressList = progressPage.getRows();
 		int complete = 0;
 		long total = 0;
-		if (progressList.get(progressList.size() - 1).getPoint() == 100) {
+		if (progressList.size()>0&&progressList.get(progressList.size() - 1).getPoint() == 100) {
 			complete = progressList.size();
 		} else {
 			complete = Math.min(progressList.size(), 0);
@@ -555,7 +556,9 @@ public class CourseController {
 		Page<Progress> progressPage = progressService
 				.findByPager(progressPageable);
 		List<Progress> progressList = progressPage.getRows();
-		return progressList.get(progressList.size() - 1).getCourseId();
+		if(progressList.size()>0)
+		 return progressList.get(progressList.size() - 1).getCourseId();
+		return (long)0;
 	}
 
 	/**
