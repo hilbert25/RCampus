@@ -1,10 +1,11 @@
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
-    String path = request.getContextPath();
-    String basePath = request.getScheme() + "://"
-            + request.getServerName() + ":" + request.getServerPort()
-            + path + "/";
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
 %>
 <!doctype html>
 <html lang="en" data-reactroot="" data-reactid="1"
@@ -30,22 +31,19 @@
 	data-reactid="11" />
 <link type="text/css" rel="stylesheet"
 	href="page/assets/css/style-41f68dcc06bbfb7a38938712996401e4.css" />
-<link rel="stylesheet"
-	href="page/assets/css/bootstrap.min.css"
+<link rel="stylesheet" href="page/assets/css/bootstrap.min.css"
 	data-reactid="27" />
-<link rel="icon" type="image/png"
-	href="page/assets/img/favicon.ico" data-reactid="24" />
-<link href="page/assets/img/apple-icon.png"
-	rel="apple-touch-icon" data-reactid="25" />
+<link rel="icon" type="image/png" href="page/assets/img/favicon.ico"
+	data-reactid="24" />
+<link href="page/assets/img/apple-icon.png" rel="apple-touch-icon"
+	data-reactid="25" />
 <link href="page/assets/img/apple-icon.png"
 	rel="apple-touch-icon-precomposed" data-reactid="26" />
 
 <link rel='stylesheet' href='page/assets/css/style.css'>
-<link rel="stylesheet"
-	href="page/assets/css/font-awesome.min.css"
+<link rel="stylesheet" href="page/assets/css/font-awesome.min.css"
 	data-reactid="28" />
-<link rel="stylesheet"
-	href="page/assets/css/codemirror/icecoder.css">
+<link rel="stylesheet" href="page/assets/css/codemirror/icecoder.css">
 <link type="text/css" rel="stylesheet"
 	href="page/assets/css/codemirror/codemirror.css" />
 
@@ -55,12 +53,9 @@
 	src="page/assets/js/codemirror/codemirror.js"></script>
 <script type="text/javascript"
 	src="page/assets/js/codemirror/show-hint.js"></script>
-<script type="text/javascript"
-	src="page/assets/js/codemirror/r.js"></script>
-<script type="text/javascript"
-	src="page/assets/js/jquery.js"></script>
-<script type="text/javascript"
-	src="page/assets/js/codemirror/r-hint.js"></script>
+<script type="text/javascript" src="page/assets/js/codemirror/r.js"></script>
+<script type="text/javascript" src="page/assets/js/jquery.js"></script>
+<script type="text/javascript" src="page/assets/js/codemirror/r-hint.js"></script>
 <script src='page/assets/js/bootstrap.min.js'></script>
 <script src="page/assets/js/string-deal.js"></script>
 <style>
@@ -147,26 +142,29 @@
 				id="sidebar-wrapper" role="navigation">
 				<ul class="nav sidebar-nav">
 					<li class="sidebar-brand"><a href="#">R</a></li>
-					<c:forEach items="${chapterList}" var="chapter"
-						varStatus="chapterIndex">
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown"> <c:choose>
-									<c:when test="${ chapter.chapterId le finishChapter}">
-										<i class="fa fa-fw fa-plus" style="color: green;"></i>Chapter ${chapter.chapterId}
+					<c:if test="${fn:length(chapterList) gt 0}">
+						<c:forEach items="${chapterList}" var="chapter"
+							varStatus="chapterIndex">
+							<li class="dropdown"><a href="#" class="dropdown-toggle"
+								data-toggle="dropdown"> <c:choose>
+										<c:when test="${ chapter.chapterId le finishChapter}">
+											<i class="fa fa-fw fa-plus" style="color: green;"></i>Chapter ${chapter.chapterId}
 									${chapter.chapterName }<span class="caret"></span>
-									</c:when>
-									<c:when test="${ chapter.chapterId gt finishChapter}">
-										<i class="fa fa-fw fa-plus"></i>Chapter ${chapter.chapterId}
+										</c:when>
+										<c:when test="${ chapter.chapterId gt finishChapter}">
+											<i class="fa fa-fw fa-plus"></i>Chapter ${chapter.chapterId}
 									${chapter.chapterName }<span class="caret"></span>
-									</c:when>
-								</c:choose>
-						</a>
-							<ul class="dropdown-menu" role="menu">
+										</c:when>
+									</c:choose>
+							</a>
+								<ul class="dropdown-menu" role="menu">
 
-								<!-- <li class="dropdown-header">这个标签是用来干蛤的？</li> -->
-								<c:forEach items="${chapter.courseList}" var="course"
-									varStatus="courseIndex">
+									<!-- <li class="dropdown-header">这个标签是用来干蛤的？</li> -->
+									<c:if test="${fn:length(chapter.courseList) gt 0}">
+										<c:forEach items="${chapter.courseList}" var="course"
+											varStatus="courseIndex">
 
+<<<<<<< HEAD
 									<!--<li><a href="page/courses/${course.courseId}.html">${course.courseName }</a></li>-->
 									<li><c:choose>
 											<c:when test="${course.courseId le finishCourse}">
@@ -180,6 +178,23 @@
 								</c:forEach>
 							</ul></li>
 					</c:forEach>
+=======
+											<li><a href="page/courses/${course.courseId}.html">${course.courseName }</a></li>
+											<li><c:choose>
+													<c:when test="${course.courseId le finishCourse}">
+														<a href="getCourseById?courseId=${course.courseId}"
+															style="color: green;">${course.courseName }</a>
+													</c:when>
+													<c:when test="${course.courseId gt finishCourse}">
+														<a href="javascript:return false;">${course.courseName }</a>
+													</c:when>
+												</c:choose></li>
+										</c:forEach>
+									</c:if>
+								</ul></li>
+						</c:forEach>
+					</c:if>
+>>>>>>> 2740202670170de0e0b1396cef21531ececb0146
 				</ul>
 			</nav>
 			<div id="page-content-wrapper">
@@ -489,7 +504,7 @@
 											var xmlhttp;
 											var courseId = getQueryString("courseId");
 											var code = editor.getValue();
-											code=stringPredetail(code);
+											code = stringPredetail(code);
 											code = code.replace(/\%/g, "%25");
 											code = code.replace(/\+/g, "%2B");
 											code = code.replace(/\&/g, "%26");
