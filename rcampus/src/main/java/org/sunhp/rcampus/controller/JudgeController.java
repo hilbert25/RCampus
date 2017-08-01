@@ -105,12 +105,15 @@ public class JudgeController {
 		judgePageable.setPageNumber(Integer.MAX_VALUE);
 		List<Judge> judgeList = judgeService.findByPager(judgePageable)
 				.getRows();
-		String[] examPageArr = courseService.get(Long.valueOf(courseId))
-				.getExamPage().split("\n");
 		List<String> examPageList = new ArrayList<String>();
-		for (String s : examPageArr) {
-			if (!s.equals(""))
-				examPageList.add(s);
+		String[] examPageArr = null;
+		if (courseService.get(Long.valueOf(courseId)).getExamPage() != null) {
+			examPageArr = courseService.get(Long.valueOf(courseId))
+					.getExamPage().split("\n");
+			for (String s : examPageArr) {
+				if (!s.equals(""))
+					examPageList.add(s);
+			}
 		}
 		Course course = courseService.get(Long.valueOf(courseId));
 		request.setAttribute("judgeList", judgeList);

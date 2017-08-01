@@ -315,25 +315,24 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="i" begin="1" end="${fn:length(courseList)}" step="1">
-				<tr>
-					<th width="10%"><button
-							class="am-btn am-btn-default am-btn-secondary"
-							onclick="getChapterById(${courseList[i-1].courseId})">修改</button></th>
-					<th width="10%">
-						<button class="am-btn am-btn-default am-btn-danger"
-							onclick="deleteCourse(${courseList[i-1].courseId})">删除</button>
-					</th>
-					<th style="text-align: center;" width="10%"><a>${courseList[i-1].courseOrder }</a></th>
-					<th style="text-align: center;"><a
-						href="../judge/getJudgeList?courseId=${courseList[i-1].courseId}">${courseList[i-1].courseName }</a></th>
-				<tr>
-			</c:forEach>
+			<c:if test="${fn:length(courseList) gt 0}">
+				<c:forEach var="i" begin="1" end="${fn:length(courseList)}" step="1">
+					<tr>
+						<th width="10%"><button
+								class="am-btn am-btn-default am-btn-secondary"
+								onclick="getChapterById(${courseList[i-1].courseId})">修改</button></th>
+						<th width="10%">
+							<button class="am-btn am-btn-default am-btn-danger"
+								onclick="deleteCourse(${courseList[i-1].courseId})">删除</button>
+						</th>
+						<th style="text-align: center;" width="10%"><a>${courseList[i-1].courseOrder }</a></th>
+						<th style="text-align: center;"><a
+							href="../judge/getJudgeList?courseId=${courseList[i-1].courseId}">${courseList[i-1].courseName }</a></th>
+					<tr>
+				</c:forEach>
+			</c:if>
 		</tbody>
 	</table>
-	</div>
-	</div>
-	</div>
 </body>
 
 </html>

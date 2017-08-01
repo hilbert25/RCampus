@@ -460,19 +460,23 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="i" begin="1" end="${fn:length(chapterList)}"
-							step="1">
-							<tr>
-								<th width="10%"><button
-										class="am-btn am-btn-default am-btn-secondary" onclick="getChapterById(${chapterList[i-1].chapterId});">修改</button></th>
-								<th width="10%">
-									<button class="am-btn am-btn-default am-btn-danger" onclick="deleteChapter(${chapterList[i-1].chapterId});">删除</button>
-								</th>
-								<th style="text-align: center;" width="10%"><a>${chapterList[i-1].chapterOrder }</a></th>
-								<th style="text-align: center;"><a
-									href="../rcampus/course/getCourseList?chapterId=${chapterList[i-1].chapterId}">${chapterList[i-1].chapterName }</a></th>
-							<tr>
-						</c:forEach>
+						<c:if test="${fn:length(chapterList) gt 0}">
+							<c:forEach var="i" begin="1" end="${fn:length(chapterList)}"
+								step="1">
+								<tr>
+									<th width="10%"><button
+											class="am-btn am-btn-default am-btn-secondary"
+											onclick="getChapterById(${chapterList[i-1].chapterId});">修改</button></th>
+									<th width="10%">
+										<button class="am-btn am-btn-default am-btn-danger"
+											onclick="deleteChapter(${chapterList[i-1].chapterId});">删除</button>
+									</th>
+									<th style="text-align: center;" width="10%"><a>${chapterList[i-1].chapterOrder }</a></th>
+									<th style="text-align: center;"><a
+										href="../rcampus/course/getCourseList?chapterId=${chapterList[i-1].chapterId}">${chapterList[i-1].chapterName }</a></th>
+								<tr>
+							</c:forEach>
+						</c:if>
 					</tbody>
 				</table>
 

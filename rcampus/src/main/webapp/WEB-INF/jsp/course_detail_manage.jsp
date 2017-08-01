@@ -304,33 +304,6 @@
 						</div>
 					</div>
 				</div>
-				<!-- <ul class="tpl-task-list tpl-task-remind" id="chapter-list">
-					<li>
-						<div class="cosa">题目</div> 
-				<div class="cosa">答案</div>
-				<div class="cosb">提示</div>
-				</li>
-				<c:forEach var="i" begin="0" end="${fn:length(judgeList)-1}"
-					step="1">
-					<c:choose>
-						<c:when test="${i%2 ne 0}">
-							<li style="background: #CDCDC1;"><button
-									class="am-btn am-btn-default am-btn-secondary" onclick="">修改</button>
-								<button class="am-btn am-btn-default am-btn-danger" onclick="">删除</button>
-								<a class="cosA">${examPageList[i]}</a><a class="cosA">${judgeList[i].judgeItem }</a>
-								<a class="cosB">${judgeList[i].judgeTips }</a></li>
-						</c:when>
-						<c:when test="${i%2 eq 0}">
-							<li><button class="am-btn am-btn-default am-btn-secondary"
-									onclick="">修改</button>
-								<button class="am-btn am-btn-default am-btn-danger" onclick="">删除</button>
-								<a class="cosA">${examPageList[i] }</a> <a class="cosA">${judgeList[i].judgeItem }</a>
-								<a class="cosB">${judgeList[i].judgeTips  }</a></li>
-						</c:when>
-					</c:choose>
-				</c:forEach>
-				</ul>
-				-->
 				<table class="table table-striped">
 					<thead>
 						<tr>
@@ -342,21 +315,23 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="i" begin="0" end="${fn:length(judgeList)-1}"
-							step="1">
-							<tr>
-								<th><button class="am-btn am-btn-default am-btn-secondary"
-										onclick="getJudgeById(${judgeList[i].judgeId})">修改</button></th>
-								<th>
-									<button class="am-btn am-btn-default am-btn-danger"
-										onclick="deleteJudge(${judgeList[i].judgeId})">删除</button>
-								</th>
-								<th><a id="judge${judgeList[i].judgeId}">${examPageList[i] }</a></th>
-								<th><a>${judgeList[i].judgeItem }</a></th>
-								<th><a>${judgeList[i].judgeTips  }</a><a
-									id="order${judgeList[i].judgeId}" style="display: none;">${i}</a></th>
-							<tr>
-						</c:forEach>
+						<c:if test="${fn:length(judgeList) gt 0}">
+							<c:forEach var="i" begin="0" end="${fn:length(judgeList)-1}"
+								step="1">
+								<tr>
+									<th><button class="am-btn am-btn-default am-btn-secondary"
+											onclick="getJudgeById(${judgeList[i].judgeId})">修改</button></th>
+									<th>
+										<button class="am-btn am-btn-default am-btn-danger"
+											onclick="deleteJudge(${judgeList[i].judgeId})">删除</button>
+									</th>
+									<th><a id="judge${judgeList[i].judgeId}">${examPageList[i] }</a></th>
+									<th><a>${judgeList[i].judgeItem }</a></th>
+									<th><a>${judgeList[i].judgeTips  }</a><a
+										id="order${judgeList[i].judgeId}" style="display: none;">${i}</a></th>
+								<tr>
+							</c:forEach>
+						</c:if>
 					</tbody>
 				</table>
 
