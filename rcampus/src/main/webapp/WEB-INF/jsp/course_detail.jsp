@@ -10,7 +10,6 @@
 <!doctype html>
 <html lang="en" data-reactroot="" data-reactid="1"
 	data-react-checksum="913391198">
-<head data-reactid="2">
 <base href="<%=basePath%>"></base>
 <title data-reactid="3">${course.courseName }</title>
 <meta charset="utf-8" data-reactid="4" />
@@ -164,25 +163,11 @@
 										<c:forEach items="${chapter.courseList}" var="course"
 											varStatus="courseIndex">
 
-<<<<<<< HEAD
-									<!--<li><a href="page/courses/${course.courseId}.html">${course.courseName }</a></li>-->
-									<li><c:choose>
-											<c:when test="${course.courseId le finishCourse}">
-												<a href="page/courses/${course.courseId}.html"
-													style="color: green;">${course.courseName }</a>
-											</c:when>
-											<c:when test="${course.courseId gt finishCourse}">
-												<a href="javascript:return false;">${course.courseName }</a>
-											</c:when>
-										</c:choose></li>
-								</c:forEach>
-							</ul></li>
-					</c:forEach>
-=======
-											<li><a href="page/courses/${course.courseId}.html">${course.courseName }</a></li>
+											<!--<li><a href="page/courses/${course.courseId}.html">${course.courseName }</a></li>-->
 											<li><c:choose>
 													<c:when test="${course.courseId le finishCourse}">
-														<a href="getCourseById?courseId=${course.courseId}"
+														<a
+															href="page/courses/getCourseById?courseId=${course.courseId}"
 															style="color: green;">${course.courseName }</a>
 													</c:when>
 													<c:when test="${course.courseId gt finishCourse}">
@@ -194,7 +179,6 @@
 								</ul></li>
 						</c:forEach>
 					</c:if>
->>>>>>> 2740202670170de0e0b1396cef21531ececb0146
 				</ul>
 			</nav>
 			<div id="page-content-wrapper">

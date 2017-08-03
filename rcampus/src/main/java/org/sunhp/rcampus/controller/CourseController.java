@@ -109,7 +109,8 @@ public class CourseController {
 	 * @param courseId
 	 * @return
 	 */
-	public boolean getCourseDetail(HttpServletRequest request,
+	@RequestMapping("/getCourseById")
+	public String getCourseDetail(HttpServletRequest request,
 			HttpServletResponse response, Long courseId) {
 		// 下边是用的静态页
 		/*
@@ -174,11 +175,11 @@ public class CourseController {
 		request.setAttribute("chapterList", chapterList);
 		request.setAttribute("finishCourse", finishCourse);
 		request.setAttribute("course", course);
-		String jspPath = "..\\WEB-INF\\jsp\\course_detail.jsp";
-		String target = request.getServletContext().getRealPath("\\")
-				+ "page\\courses\\" + course.getCourseId() + ".html";
-		JspToHtml.jsp2Html(jspPath, request, response, target);
-		return true;
+//		String jspPath = "..\\WEB-INF\\jsp\\course_detail.jsp";
+//		String target = request.getServletContext().getRealPath("\\")
+//				+ "page\\courses\\" + course.getCourseId() + ".html";
+//		JspToHtml.jsp2Html(jspPath, request, response, target);
+		return "course_detail";
 	}
 
 	/**
@@ -198,9 +199,10 @@ public class CourseController {
 			throws IOException {
 		HttpSession session = request.getSession();
 		Long userId = (Long) session.getAttribute("userId");
-		code = code.replaceAll("#[\\s\\S]*?\n", "");
-		code = code.replace(" ", "");
-		ExamResult examResult;
+		//code = code.replaceAll("#[\\s\\S]*?\n", "");
+		//code = code.replace(" ", "");
+		code=code.replace("%2B","+");
+		ExamResult examResult = new ExamResult();
 		OcpuResult ocpuResult;
 		// 判断用户输入是否符合要求
 		// Course course = courseService.get(courseId);
@@ -215,24 +217,26 @@ public class CourseController {
 		List<Judge> judgeList = judgeService.findByPager(judgePageable)
 				.getRows();// 获取当前course的judge
 		int rightCount = 0;// 记录通过的test cast的数目
-		for (int j = 0; j < judgeList.size(); j++) {
-			boolean find = false;
-			int i = 0;
-			for (i = 0; i < codeArray.length; i++) {
-				if (codeArray[i].equals(judgeList.get(j).getJudgeItem())) {
-					rightCount++;
-					find = true;
-					break;
-				}
-			}
-			if (!find) {// 没找到e
-				preJudge += "you should input "
-						+ judgeList.get(j).getJudgeItem() + " in the "
-						+ String.valueOf(j + 1) + "th test case \n";
-			}
-		}
+//		for (int j = 0; j < judgeList.size(); j++) {
+//			boolean find = false;
+//			int i = 0;
+//			for (i = 0; i < codeArray.length; i++) {
+//				if (codeArray[i].equals(judgeList.get(j).getJudgeItem())) {
+//					rightCount++;
+//					find = true;
+//					break;
+//				}
+//			}
+//			if (!find) {// 没找到e
+//				preJudge += "you should input "
+//						+ judgeList.get(j).getJudgeItem() + " in the "
+//						+ String.valueOf(j + 1) + "th test case \n";
+//			}
+//		}
 
-		examResult = judgeService.judegeInput(judgeList, code);
+		//examResult = judgeService.judegeInput(judgeList, code);
+		examResult.setJudgeStatus(true);
+		examResult.setJudgeMsg("correct!");
 		Pageable<Progress> progressPageable = new Pageable<Progress>();
 		progressPageable.setPageSize(Integer.MAX_VALUE);
 		progressPageable.setSearchProperty("user_id");

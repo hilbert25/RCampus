@@ -76,11 +76,11 @@
 		xmlhttp.setRequestHeader("Content-type",
 				"application/x-www-form-urlencoded");
 		var courseId = "${course.courseId}";
-		var examPage = stringPredetail(document.getElementById("examPage").value);
-		var judgeTips = stringPredetail(document.getElementById("judgeTips").value);
-		var judgeItem = stringPredetail(document.getElementById("judgeItem").value);
-		xmlhttp.send("courseId=" + courseId + "&&examPage=" + examPage
-				+ "&judgeTips=" + judgeTips + "&judgeItem=" + judgeItem);
+		var judgeProblem = stringPredetail(document.getElementById("judgeProblem").value);
+		var judgeAnswer = stringPredetail(document.getElementById("judgeAnswer").value);
+		var judgeTips= stringPredetail(document.getElementById("judgeTips").value);
+		xmlhttp.send("courseId=" + courseId + "&&judgeProblem=" + judgeProblem
+				+ "&judgeAnswer=" + judgeAnswer + "&judgeTips=" + judgeTips);
 	}
 
 	function deleteJudge(judgeId) {
@@ -95,11 +95,10 @@
 					window.location.reload();
 			}
 		};
-		var order=document.getElementById("order"+judgeId).innerHTML;
 		xmlhttp.open("POST", "/rcampus/judge/delete", true);
 		xmlhttp.setRequestHeader("Content-type",
 				"application/x-www-form-urlencoded");
-		xmlhttp.send("judgeId="+judgeId+"&order="+order+"&courseId="+"${course.courseId}");
+		xmlhttp.send("judgeId="+judgeId);
 	}
 	//设置修改模态框的数据
 	function getJudgeById(judgeId) {
@@ -113,9 +112,9 @@
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 				var data = JSON.parse(xmlhttp.responseText);
 				$('#judgeModal').modal('show');
-				document.getElementById("examPage").value=document.getElementById("judge"+judgeId).innerHTML;
+				document.getElementById("judgeProblem").value=data['judgeProblem'];
 				document.getElementById("judgeTips").value=data['judgeTips'];
-				document.getElementById("judgeItem").value=data['judgeItem'];
+				document.getElementById("judgeAnswer").value=data['judgeAnswer'];
 				document.getElementById("submit").setAttribute("onclick",
 						"modifyJudge(" + judgeId + ");");
 			}
@@ -137,15 +136,13 @@
 					window.location.reload();
 			}
 		};
-		var examPage=stringPredetail(document.getElementById("examPage").value);
+		var judgeProblem=stringPredetail(document.getElementById("judgeProblem").value);
+		var judgeAnswer=stringPredetail(document.getElementById("judgeAnswer").value);
 		var judgeTips=stringPredetail(document.getElementById("judgeTips").value);
-		var judgeItem=stringPredetail(document.getElementById("judgeItem").value);
-		var courseId= "${course.courseId}";
-		var order=document.getElementById("order"+judgeId).innerHTML;
 		xmlhttp.open("POST", "/rcampus/judge/modifyJudge", true);
 		xmlhttp.setRequestHeader("Content-type",
 				"application/x-www-form-urlencoded");
-		xmlhttp.send("order="+order+"&examPage="+examPage+"&judgeTips="+judgeTips+"&judgeItem="+judgeItem+"&courseId="+courseId+"&judgeId="+judgeId);
+		xmlhttp.send("judgeProblem="+judgeProblem+"&judgeAnswer="+judgeAnswer+"&judgeTips="+judgeTips+"&judgeId="+judgeId);
 	}
 	function init() {
 		getUnDealCount();
@@ -261,24 +258,24 @@
 
 													<div class="am-form-group">
 														<label for="user-name" class="am-u-sm-3 am-form-label">题目
-															<span class="tpl-form-line-small-title">Exam</span>
+															<span class="tpl-form-line-small-title">problem</span>
 														</label>
 														<div class="am-u-sm-9">
-															<textarea class="" rows="10" id="examPage"
+															<textarea class="" rows="1" id="judgeProblem"
 																name="examPage" placeholder="请输入题目" required="required"></textarea>
 														</div>
 													</div>
 													<div class="am-form-group">
 														<label for="user-intro" class="am-u-sm-3 am-form-label">答案</label>
 														<div class="am-u-sm-9">
-															<textarea class="" rows="3" id="judgeItem"
+															<textarea class="" rows="1" id="judgeAnswer"
 																name="judgeItem" placeholder="请输入答案" required="required"></textarea>
 														</div>
 													</div>
 													<div class="am-form-group">
 														<label for="user-intro" class="am-u-sm-3 am-form-label">提示</label>
 														<div class="am-u-sm-9">
-															<textarea class="" rows="3" id="judgeTips"
+															<textarea class="" rows="1" id="judgeTips"
 																name="judgeTips" placeholder="请输入提示" required="required"></textarea>
 														</div>
 													</div>
@@ -325,10 +322,9 @@
 										<button class="am-btn am-btn-default am-btn-danger"
 											onclick="deleteJudge(${judgeList[i].judgeId})">删除</button>
 									</th>
-									<th><a id="judge${judgeList[i].judgeId}">${examPageList[i] }</a></th>
-									<th><a>${judgeList[i].judgeItem }</a></th>
-									<th><a>${judgeList[i].judgeTips  }</a><a
-										id="order${judgeList[i].judgeId}" style="display: none;">${i}</a></th>
+									<th><a>${judgeList[i].judgeProblem}</a></th>
+									<th><a>${judgeList[i].judgeAnswer }</a></th>
+									<th><a>${judgeList[i].judgeTips  }</a></th>
 								<tr>
 							</c:forEach>
 						</c:if>

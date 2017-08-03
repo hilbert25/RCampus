@@ -36,6 +36,7 @@ public class JudgeServiceImpl extends BaseServiceImpl<Judge>implements JudgeServ
 					sourceClean.append(str);
 				}
 			}
+			/*
 			//目前只匹配用户输入与要求的是否一致
 			if("equal".equals(jud.getJudgeType())){
 				if(!sourceClean.toString().contains(jud.getJudgeItem())){
@@ -49,7 +50,7 @@ public class JudgeServiceImpl extends BaseServiceImpl<Judge>implements JudgeServ
 			else{
 				examResult.setJudgeStatus(false);
 				examResult.setJudgeMsg("未定义的匹配方式");
-			}
+			}*/
 		}
 		return examResult;
 	}
