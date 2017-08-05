@@ -1,8 +1,10 @@
 package org.sunhp.rcampus.controller;
 
 import java.util.List;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -84,8 +86,8 @@ public class JudgeController {
 	}
 
 	/**
-	 * 获取一节课的全部judge
-	 * 用在courseDeatil 页面
+	 * 获取一节课的全部judge 用在courseDeatil 页面
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
@@ -144,6 +146,22 @@ public class JudgeController {
 		judge.setJudgeTips(judgeTips);
 		judgeService.update(judge);
 		return JSON.toJSONString(null);
+	}
+
+	/**
+	 * 删除一节下的全部judge
+	 * 
+	 * @param courseId
+	 */
+	public void deleteJudgeList(Long courseId) {
+		Pageable<Judge> judgePageable = new Pageable<Judge>();
+		judgePageable.setSearchProperty("course_id");
+		judgePageable.setSearchValue(String.valueOf(courseId));
+		List<Judge> judgeList = judgeService.findByPager(judgePageable)
+				.getRows();
+		for (Judge judge : judgeList) {
+			judgeService.delete(judge.getJudgeId());
+		}
 	}
 
 }

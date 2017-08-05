@@ -81,11 +81,9 @@
 		var courseName = stringPredetail(document.getElementById("courseName").value);
 		var courseNote = stringPredetail(document.getElementById("courseNote").value);
 		var belongChapter = stringPredetail(document.getElementById("chapter").value);
-		var examIntro = stringPredetail(document.getElementById("examIntro").value);
-		var examPage = stringPredetail(document.getElementById("examPage").value);
 		xmlhttp.send("courseOrder=" + courseOrder + "&courseName=" + courseName
 				+ "&courseNote=" + courseNote + "&belongChapter="
-				+ belongChapter+ "&examIntro=" + examIntro+ "&examPage" + examPage);
+				+ belongChapter);
 	}
 	//设置修改模态框的数据
 	function getChapterById(courseId) {
@@ -129,12 +127,14 @@
 			};
 		var courseOrder=document.getElementById("courseOrder").value ;
 		var courseName= stringPredetail(document.getElementById("courseName").value) ;
-		var courseNote=stringPredetail(document.getElementById("courseNote").innerHTML) ;
+		var courseNote=stringPredetail(document.getElementById("courseNote").value) ;
+		var belongChapter = stringPredetail(document.getElementById("chapter").value);
 		xmlhttp.open("POST", "/rcampus/course/modifyCourseInfo", true);
 		xmlhttp.setRequestHeader("Content-type",
 				"application/x-www-form-urlencoded");
-		xmlhttp.send("courseOrder=" +courseOrder+"&courseName="+courseName+"&courseNote="+courseNote+"&courseId="+courseId);
+		xmlhttp.send("courseOrder=" +courseOrder+"&courseName="+courseName+"&courseNote="+courseNote+"&courseId="+courseId+"&chapterId="+belongChapter);
 	}
+	/*删除课程*/
 	function deleteCourse(courseId) {
 		var xmlhttp;
 		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -143,7 +143,9 @@
 			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 		}
 		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 					window.location.reload();
+				}
 			};
 		xmlhttp.open("POST", "/rcampus/course/delete", true);
 		xmlhttp.setRequestHeader("Content-type",
@@ -284,22 +286,6 @@
 														<div class="am-u-sm-9">
 															<textarea class="" rows="10" id="courseNote"
 																name="courseNote" placeholder="请输入课程内容"
-																required="required"></textarea>
-														</div>
-													</div>
-													<div class="am-form-group">
-														<label for="examIntro" class="am-u-sm-3 am-form-label">examIntro</label>
-														<div class="am-u-sm-9">
-															<textarea class="" rows="10" id="examIntro"
-																name="examIntro" placeholder="请输入examIntro"
-																required="required"></textarea>
-														</div>
-													</div>
-													<div class="am-form-group">
-														<label for="examPage" class="am-u-sm-3 am-form-label">examPage</label>
-														<div class="am-u-sm-9">
-															<textarea class="" rows="10" id="examPage"
-																name="examPage" placeholder="请输入examPage"
 																required="required"></textarea>
 														</div>
 													</div>

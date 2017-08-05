@@ -9,7 +9,8 @@ import org.sunhp.rcampus.service.CourseService;
 import java.util.List;
 
 @Service("courseService")
-public class CourseServiceImpl extends BaseServiceImpl<Course>implements CourseService {
+public class CourseServiceImpl extends BaseServiceImpl<Course> implements
+		CourseService {
 	@Autowired
 	public CourseServiceImpl(CourseDao courseDao) {
 		super.baseDao = courseDao;
@@ -17,9 +18,11 @@ public class CourseServiceImpl extends BaseServiceImpl<Course>implements CourseS
 
 	@Autowired
 	CourseDao courseDao;
+
 	public String test() {
 		List<Course> list = courseDao.find(new Course());
-		return list.size()+"";
+		return list.size() + "";
 	}
+
 
 }

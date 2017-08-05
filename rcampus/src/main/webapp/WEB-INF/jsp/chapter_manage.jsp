@@ -132,7 +132,7 @@
 		xmlhttp.send("chapterId=" + chapterId);
 	}
 	//修改章节信息
-	function modifyChapter(courseId) {
+	function modifyChapter(chapterId) {
 		document.getElementById("submit").setAttribute("onclick",
 				"addChapter();");
 		var xmlhttp;
@@ -162,7 +162,7 @@
 				.getElementById("chapterDescribe").value);
 		xmlhttp.send("chapterId=" + chapterId + "&chapterOrder=" + chapterOrder
 				+ "&chapterName=" + chapterName + "&chapterDescribe="
-				+ chapterDescribe+"&courseId="+courseId);
+				+ chapterDescribe);
 	}
 	//删除章节
 	function deleteChapter(chapterId) {

@@ -32,6 +32,8 @@ public class ChapterController {
 	CourseService courseService;
 	@Autowired
 	ProgressService progressService;
+	@Autowired
+	CourseController courseController;
 
 	@ResponseBody
 	@RequestMapping("add.do")
@@ -64,6 +66,7 @@ public class ChapterController {
 	public String deleteChapter(HttpServletRequest request,
 			HttpServletResponse response, Long chapterId) {
 		chapterService.delete(chapterId);
+		courseController.deleteCourseList(chapterId);
 		return JSON.toJSONString("deleted");
 	}
 
@@ -159,7 +162,6 @@ public class ChapterController {
 	public String modifyChapter(HttpServletRequest request,
 			HttpServletResponse response, String chapterId,
 			String chapterOrder, String chapterName, String chapterDescribe) {
-		System.out.println(chapterDescribe);
 		Chapter chapter = chapterService.get(Long.valueOf(chapterId));
 		chapter.setChapterDescrbe(chapterDescribe);
 		chapter.setChapterName(chapterName);
