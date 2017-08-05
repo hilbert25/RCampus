@@ -157,6 +157,7 @@ public class JudgeController {
 		Pageable<Judge> judgePageable = new Pageable<Judge>();
 		judgePageable.setSearchProperty("course_id");
 		judgePageable.setSearchValue(String.valueOf(courseId));
+		judgePageable.setPageSize(Integer.MAX_VALUE);
 		List<Judge> judgeList = judgeService.findByPager(judgePageable)
 				.getRows();
 		for (Judge judge : judgeList) {

@@ -158,8 +158,6 @@ public class CourseController {
 		}
 		Course latestCourse = courseService.get(maxId);// progress表的最后一个课程
 		if (latestCourse != null) {
-			System.out.println("ch" + latestCourse.getChapter() + " "
-					+ latestCourse.getCourseId());
 			Pageable<Course> coursePageable = new Pageable<Course>();
 			coursePageable.setSearchProperty("chapter");
 			coursePageable.setSearchValue(String.valueOf(latestCourse
@@ -175,6 +173,17 @@ public class CourseController {
 						latestCourse.getChapter() - 1);
 			}
 		}
+		Pageable<Judge> judgePageable = new Pageable<Judge>();
+		judgePageable.setSearchProperty("course_id");
+		judgePageable.setSearchValue(String.valueOf(courseId));
+		judgePageable.setPageSize(Integer.MAX_VALUE);
+		List<Judge> judgeList = judgeService.findByPager(judgePageable)
+				.getRows();
+		String exam = "";
+		for (Judge judge : judgeList) {
+			exam = exam + judge.getJudgeProblem() + "\n\n";
+		}
+		course.setExamPage(exam);
 		request.setAttribute("chapterList", chapterList);
 		request.setAttribute("finishCourse", finishCourse);
 		request.setAttribute("course", course);
@@ -202,78 +211,13 @@ public class CourseController {
 			throws IOException {
 		HttpSession session = request.getSession();
 		Long userId = (Long) session.getAttribute("userId");
-		// code = code.replaceAll("#[\\s\\S]*?\n", "");
-		// code = code.replace(" ", "");
-		code = code.replace("%2B", "+");
+		code = code.replaceAll("%2B", "+");
+		code = code.replaceAll("%25", "%");
+		code = code.replaceAll("%26", "&");
 		ExamResult examResult = new ExamResult();
 		OcpuResult ocpuResult;
-		// 判断用户输入是否符合要求
-		// Course course = courseService.get(courseId);
-		// Judge judge = new Judge();
-		// judge.setExamId(courseId);
-		String preJudge = "";
-		String[] codeArray = code.split("\n");
-		Pageable<Judge> judgePageable = new Pageable<Judge>();
-		judgePageable.setSearchProperty("exam_id");
-		judgePageable.setSearchValue(String.valueOf(courseId));
-		judgePageable.setPageSize(Integer.MAX_VALUE);
-		List<Judge> judgeList = judgeService.findByPager(judgePageable)
-				.getRows();// 获取当前course的judge
-		int rightCount = 0;// 记录通过的test cast的数目
-		// for (int j = 0; j < judgeList.size(); j++) {
-		// boolean find = false;
-		// int i = 0;
-		// for (i = 0; i < codeArray.length; i++) {
-		// if (codeArray[i].equals(judgeList.get(j).getJudgeItem())) {
-		// rightCount++;
-		// find = true;
-		// break;
-		// }
-		// }
-		// if (!find) {// 没找到e
-		// preJudge += "you should input "
-		// + judgeList.get(j).getJudgeItem() + " in the "
-		// + String.valueOf(j + 1) + "th test case \n";
-		// }
-		// }
-
-		// examResult = judgeService.judegeInput(judgeList, code);
 		examResult.setJudgeStatus(true);
 		examResult.setJudgeMsg("correct!");
-		Pageable<Progress> progressPageable = new Pageable<Progress>();
-		progressPageable.setPageSize(Integer.MAX_VALUE);
-		progressPageable.setSearchProperty("user_id");
-		progressPageable.setSearchValue(String.valueOf(userId));
-		Page<Progress> progressPage = progressService
-				.findByPager(progressPageable);
-		List<Progress> progressList = progressPage.getRows();
-		int i = 0;
-		int caseCount = judgeList.size();
-		for (i = 0; i < progressList.size(); i++) {
-			if (progressList.get(i).getCourseId() == courseId) {// 找到记录
-				Progress progress = progressList.get(i);
-				progress.setPoint(100 * (double) rightCount / caseCount);
-				progress.setUpdateTime(new Date());
-				progressService.update(progress);
-				break;
-			}
-		}
-		if (i == progressList.size()) {// 没找到记录
-			Progress progress = new Progress();
-			progress.setCourseId(courseId);
-			progress.setPoint(100 * (double) rightCount / caseCount);
-			progress.setUserId(userId);
-			progress.setCreateTime(new Date());
-			progress.setUpdateTime(new Date());
-			progressService.save(progress);
-		}
-		if (!preJudge.equals("")) {
-			ocpuResult = new OcpuResult(code, preJudge);
-			examResult.setStatus(false);
-			// examResult.setOcpuResult(ocpuResult);
-			examResult.setOcpuJSON(JSON.toJSONString(ocpuResult));
-			return JSON.toJSONString(examResult);
-		}
 		// 将用户输入存入temp.R文件中
 		String excuteFilePath = FileUtils
 				.saveStrToFile(request, "temp.R", code);
@@ -302,9 +246,14 @@ public class CourseController {
 		result = apiService.doPost(url2);
 		// 编译出错
 		if (result.getCode() == 400) {
-			ocpuResult = new OcpuResult(code, result.getData());
+			String resultData = result.getData();
+			resultData = resultData.replace("In call:", "");
+			resultData = resultData.replace("eval(expr, envir, enclos)", "");
+			resultData = resultData.replace("parse(text = x, srcfile = src)",
+					"");
+			resultData = "编译错误: \n" + resultData;
+			ocpuResult = new OcpuResult(code, resultData);
 			examResult.setStatus(false);
-			// examResult.setOcpuResult(ocpuResult);
 			examResult.setOcpuJSON(JSON.toJSONString(ocpuResult));
 			return JSON.toJSONString(examResult);
 		}
@@ -331,12 +280,37 @@ public class CourseController {
 				+ ocpuResult.getSessionID() + "/console");
 		String info = apiService.doGet(Constants.OPENCPU_HOST + "/ocpu/tmp/"
 				+ ocpuResult.getSessionID() + "/info");
+		String[] consoleArr = console.split("\n");
+		List<String> out = new ArrayList<String>();// 需要的代码输出
+		for (String str : consoleArr) {
+			if (str.length() > 0) {
+				if (str.charAt(0) != '>') {
+					int start = str.indexOf(']');
+					out.add(str.substring(start + 2, str.length()));
+				}
+			}
+		}
+		Pageable<Judge> judgePageable = new Pageable<Judge>();
+		judgePageable.setSearchProperty("course_id");
+		judgePageable.setSearchValue(String.valueOf(courseId));
+		judgePageable.setPageNumber(Integer.MAX_VALUE);
+		List<Judge> judgeList = judgeService.findByPager(judgePageable)
+				.getRows();
+		boolean pass = true;
+		for (int i = 0; i < judgeList.size(); i++) {
+			if (i >= out.size()
+					|| (!out.get(i).equals(judgeList.get(i).getJudgeAnswer()))) {// 答案错误
+				System.out.println(out.get(i)+" "+judgeList.get(i).getJudgeAnswer());
+				console = console + "\n" + "未通过第" + String.valueOf(i + 1)
+						+ "个题目,期望输出为：" + judgeList.get(i).getJudgeAnswer();
+				pass = false;
+			}
+		}
 		ocpuResult.setSource(source);
 		ocpuResult.setInfo(info);
 		ocpuResult.setConsole(console);
 		examResult.setOcpuJSON(JSON.toJSONString(ocpuResult));
-		// examResult.setOcpuResult(ocpuResult);
-		examResult.setStatus(true);
+		examResult.setStatus(pass);
 		return JSON.toJSONString(examResult);
 	}
 
@@ -356,7 +330,6 @@ public class CourseController {
 	@ResponseBody
 	public String generateCourseContent(HttpServletRequest request,
 			HttpServletResponse response) {
-		System.out.println("generate");
 		Pageable<Course> pageable = new Pageable<Course>();
 		pageable.setOrderProperty("course_order");
 		Page<Course> page = courseService.findByPager(pageable);
@@ -417,27 +390,6 @@ public class CourseController {
 			return JSON.toJSONString(jsonObject);
 		}
 		courseService.save(course);
-		// Pageable<Chapter> chapterPageable = new Pageable<Chapter>();
-		// chapterPageable.setPageSize(Integer.MAX_VALUE);
-		// Page<Chapter> chapterPage =
-		// chapterService.findByPager(chapterPageable);
-		// List<Chapter> chapterList = chapterPage.getRows();
-		// for (Chapter chapter : chapterList) {
-		// Long chapterId = chapter.getChapterId();
-		// Pageable<Course> coursePageable = new Pageable<Course>();
-		// coursePageable.setPageSize(Integer.MAX_VALUE);
-		// coursePageable.setSearchProperty("chapter");
-		// coursePageable.setSearchValue(String.valueOf(chapterId));
-		// chapter.setCourseList(courseService.findByPager(coursePageable)
-		// .getRows());
-		// }
-		// try {
-		// response.sendRedirect("../chapter/chapter_manage");
-		// } catch (IOException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// getCourseDetail(request,response,course.getCourseId());
 		return JSON.toJSONString(course);
 	}
 
@@ -567,7 +519,8 @@ public class CourseController {
 		List<Progress> progressList = progressPage.getRows();
 		if (progressList.size() > 0)
 			return progressList.get(progressList.size() - 1).getCourseId();
-		return (long) 0;
+		List<Course> courseList = courseService.getAll(new Course());
+		return (long) courseList.get(0).getCourseId();
 	}
 
 	/**
@@ -582,7 +535,6 @@ public class CourseController {
 		Pageable<Course> coursePageable = new Pageable<Course>();
 		coursePageable.setPageNumber(Integer.MAX_VALUE);
 		JSONObject jsonObject = new JSONObject();
-		System.out.println(courseService.count(coursePageable));
 		jsonObject.put("courseCount", courseService.count(coursePageable));
 		return JSON.toJSONString(jsonObject);
 	}
@@ -655,13 +607,16 @@ public class CourseController {
 		return JSON.toJSONString(course);
 	}
 
-	/**级联删除，把下边的judge也删了
+	/**
+	 * 级联删除，把下边的judge也删了
+	 * 
 	 * @param chapterId
 	 */
 	public void deleteCourseList(Long chapterId) {
 		Pageable<Course> coursePageable = new Pageable<Course>();
 		coursePageable.setSearchProperty("chapter");
 		coursePageable.setSearchValue(String.valueOf(chapterId));
+		coursePageable.setPageSize(Integer.MAX_VALUE);
 		List<Course> courseList = courseService.findByPager(coursePageable)
 				.getRows();
 		for (Course course : courseList) {

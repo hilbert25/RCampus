@@ -115,7 +115,12 @@
 				"application/x-www-form-urlencoded");
 		xmlhttp.send();
 	}
-
+	function pass() {
+		var nextA = document.getElementById("next");
+		nextA.setAttribute("style", "float: right;");
+		document.getElementById("finish_area").setAttribute("style",
+				"width:100%; height: 100%;");
+	}
 	function getQueryString(name) {
 		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
 		var r = window.location.search.substr(1).match(reg);
@@ -387,8 +392,7 @@
 												</div>
 											</div>
 											<div class="sidebar-overlay">
-												<a class="modal--close" href="#"
-													onclick="closeFinishArea();"><i
+												<a class="modal--close" href="javascript:void(0);" onclick="closeFinishArea();"><i
 													class="fa fa-times-thin"></i></a>
 												<div class="sidebar-overlay--content text-center">
 													<h4>
@@ -511,29 +515,23 @@
 															.split("\n");
 													var codeout = document
 															.getElementById("codeout");
-													codeout.innerHTML = "";
-													/*for (var i = 0; i < spilt_data.length; i++) {
-														var p = document
-																.createElement("p");
-														if (spilt_data[i]
-																.charAt(0) == '>') {
-															p
-																	.setAttribute(
-																			"style",
-																			"color:#000000;width: 700px;");
-
-														} else {
-															p
-																	.setAttribute(
-																			"style",
-																			"color:#3a00ca;width: 700px;");
-														}
-														p.innerHTML = spilt_data[i];
-														codeout.appendChild(p);
-														codeout.scrollTop=codeout.scrollHeight;
-													}*/
+													codeout.innerHTML = "  ";
 													document
 															.getElementById("codeout").innerHTML = resultData['console'];
+													if (data['status']) {
+														var nextA = document
+																.getElementById("next");
+														nextA
+																.setAttribute(
+																		"style",
+																		"float: right;");
+														document
+																.getElementById(
+																		"finish_area")
+																.setAttribute(
+																		"style",
+																		"width:100%; height: 100%;");
+													}
 												}
 											};
 											xmlhttp
@@ -552,6 +550,7 @@
 								</article>
 								<button id="submit" name="submit" value="submit"
 									onclick="postCode()" class="btn btn-primary btn-round">Submit</button>
+								<p style="color: #3aaaca;">请做完全部题目再提交，不要有空缺，否则会造成误判。</p>
 								<a id="next" name="next" value="Next"
 									class="btn btn-primary btn-round"
 									style="float: right; display: none;">Next Course</a>
@@ -560,7 +559,8 @@
 
 
 								</div> -->
-								<textarea name="codeout" id="codeout" style="height: 200px"> </textarea>
+
+								<textarea name="codeout" id="codeout" style="height: 200px"></textarea>
 							</div>
 						</section>
 					</div>
