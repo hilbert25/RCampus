@@ -114,6 +114,12 @@ public class CourseController {
 	@RequestMapping("/getCourseById")
 	public String getCourseDetail(HttpServletRequest request,
 			HttpServletResponse response, Long courseId) {
+		Course course0 = new Course();
+		course0.setChapter(18L);
+		course0.setCourseOrder(1);
+		List<Course> courseList0 = courseService.find(course0);
+		for (Course c : courseList0)
+			System.out.println("courseName:" + c.getCourseName());
 		// 下边是用的静态页
 		/*
 		 * String page = courseId + ".html"; try { response.sendRedirect(page);
@@ -300,7 +306,8 @@ public class CourseController {
 		for (int i = 0; i < judgeList.size(); i++) {
 			if (i >= out.size()
 					|| (!out.get(i).equals(judgeList.get(i).getJudgeAnswer()))) {// 答案错误
-				System.out.println(out.get(i)+" "+judgeList.get(i).getJudgeAnswer());
+				System.out.println(out.get(i) + " "
+						+ judgeList.get(i).getJudgeAnswer());
 				console = console + "\n" + "未通过第" + String.valueOf(i + 1)
 						+ "个题目,期望输出为：" + judgeList.get(i).getJudgeAnswer();
 				pass = false;

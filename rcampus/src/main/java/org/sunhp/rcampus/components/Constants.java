@@ -44,6 +44,10 @@ public final class Constants {
 	 * 分页查询
 	 */
 	public static final String FIND_PAGE = "findPage";
+	/**
+	 * mult-condition find
+	 */
+	public static final String FIND = "find";
 
 	/**
 	 * 记录条数

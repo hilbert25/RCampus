@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.transaction.annotation.Transactional;
-
+import org.sunhp.rcampus.bean.Course;
 import org.sunhp.rcampus.components.Page;
 import org.sunhp.rcampus.components.Pageable;
 import org.sunhp.rcampus.dao.BaseDao;
@@ -167,5 +167,14 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	public long count(Pageable<T> pageable) {
 		// TODO Auto-generated method stub
 		return this.baseDao.count(pageable);
+	}
+
+	/* (啊哈？)
+	 * @see org.sunhp.rcampus.service.BaseService#find(java.lang.Object)
+	 */
+	@Transactional
+	public List<T> find(T t) {
+		// TODO Auto-generated method stub
+		return this.baseDao.find(t);
 	}
 }

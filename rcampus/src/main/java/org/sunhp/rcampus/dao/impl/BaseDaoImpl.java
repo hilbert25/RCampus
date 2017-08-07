@@ -1,6 +1,7 @@
 package org.sunhp.rcampus.dao.impl;
 
 import org.mybatis.spring.SqlSessionTemplate;
+import org.sunhp.rcampus.bean.Course;
 import org.sunhp.rcampus.components.Constants;
 import org.sunhp.rcampus.components.Order.Direction;
 import org.sunhp.rcampus.components.Page;
@@ -10,6 +11,7 @@ import org.sunhp.rcampus.exception.DaoException;
 import org.sunhp.rcampus.util.EntityReflectionUtils;
 
 import javax.annotation.Resource;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,7 +67,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 	@Override
 	public List<T> find(T t) {
 		return this.getSqlSessionTemplate().selectList(
-				this.getSqlId(Constants.SELECT_ALL), t);
+				this.getSqlId(Constants.FIND), t);
 	}
 
 	@Override
@@ -150,32 +152,32 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 		String searchValue = pageable.getSearchValue();
 		if (pageable != null) {
 			searchProperty = pageable.getSearchProperty();
-			searchValue = pageable.getSearchValue();}
-			queryMap.put("searchProperty", searchProperty);
-			queryMap.put("searchValue", searchValue);
-			String orderProperty = pageable.getOrderProperty();
-			Direction direction = pageable.getOrderDirection();
-			if (orderProperty != null) {
-				queryMap.put("orderProperty", orderProperty);
-				queryMap.put("orderDirection", direction.toString());
-			}
-			if (pageable.getStartDate() != null) {
-				queryMap.put("startDate", pageable.getStartDate());
-			}
-			if (pageable.getEndDate() != null) {
-				queryMap.put("endDate", pageable.getEndDate());
-			}
-			T entity = pageable.getEntity();
-			Map<String, Object> entityFields = EntityReflectionUtils
-					.fields(entity);
-			if (entityFields != null) {
-				for (String key : entityFields.keySet()) {
-					Object value = entityFields.get(key);
-					if (key != null && value != null) {
-						queryMap.put(key, value);
-					}
+			searchValue = pageable.getSearchValue();
+		}
+		queryMap.put("searchProperty", searchProperty);
+		queryMap.put("searchValue", searchValue);
+		String orderProperty = pageable.getOrderProperty();
+		Direction direction = pageable.getOrderDirection();
+		if (orderProperty != null) {
+			queryMap.put("orderProperty", orderProperty);
+			queryMap.put("orderDirection", direction.toString());
+		}
+		if (pageable.getStartDate() != null) {
+			queryMap.put("startDate", pageable.getStartDate());
+		}
+		if (pageable.getEndDate() != null) {
+			queryMap.put("endDate", pageable.getEndDate());
+		}
+		T entity = pageable.getEntity();
+		Map<String, Object> entityFields = EntityReflectionUtils.fields(entity);
+		if (entityFields != null) {
+			for (String key : entityFields.keySet()) {
+				Object value = entityFields.get(key);
+				if (key != null && value != null) {
+					queryMap.put(key, value);
 				}
 			}
+		}
 		return queryMap;
 	}
 }
