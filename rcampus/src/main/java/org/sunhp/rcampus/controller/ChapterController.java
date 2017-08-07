@@ -197,8 +197,27 @@ public class ChapterController {
 	@RequestMapping("getChapterList")
 	public String getChapterList(HttpServletRequest request,
 			HttpServletResponse response) {
-		request.setAttribute("chapterList",
-				chapterService.getAll(new Chapter()));
+		request.setAttribute("chapterList", getAllChapter());
 		return "chapter_manage";
+	}
+
+	/**
+	 * @return
+	 */
+	public List<Chapter> getAllChapter() {
+		Pageable<Chapter> chapterPageable = new Pageable<Chapter>();
+		chapterPageable.setPageSize(Integer.MAX_VALUE);
+		Page<Chapter> chapterPage = chapterService.findByPager(chapterPageable);
+		List<Chapter> chapterList = chapterPage.getRows();
+		for (Chapter chapter : chapterList) {
+			Long chapterId = chapter.getChapterId();
+			Pageable<Course> coursePageable = new Pageable<Course>();
+			coursePageable.setPageSize(Integer.MAX_VALUE);
+			coursePageable.setSearchProperty("chapter");
+			coursePageable.setSearchValue(String.valueOf(chapterId));
+			chapter.setCourseList(courseService.findByPager(coursePageable)
+					.getRows());
+		}
+		return chapterList;
 	}
 }

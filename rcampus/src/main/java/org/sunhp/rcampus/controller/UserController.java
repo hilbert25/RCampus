@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.sunhp.rcampus.bean.Chapter;
 import org.sunhp.rcampus.bean.Course;
 import org.sunhp.rcampus.bean.Progress;
 import org.sunhp.rcampus.bean.User;
 import org.sunhp.rcampus.components.Page;
 import org.sunhp.rcampus.components.Pageable;
+import org.sunhp.rcampus.service.ChapterService;
 import org.sunhp.rcampus.service.CourseService;
 import org.sunhp.rcampus.service.ProgressService;
 import org.sunhp.rcampus.service.UserService;
@@ -37,6 +40,8 @@ public class UserController {
 	private ProgressService progressService;
 	@Autowired
 	private CourseService courseService;
+	@Autowired
+	private ChapterService chapterService;
 
 	/**
 	 * 获得user
@@ -186,4 +191,36 @@ public class UserController {
 		}
 	}
 
+	/**
+	 * 计算已经完成了百分之多少，可以优化
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public int getFinishRate(Long userId) {
+		Progress progress = new Progress();
+		progress.setUserId(userId);
+		List<Progress> progressList = progressService.find(progress);
+		if (progressList.size() == 0)
+			return 0;
+		else {
+			Course course = new Course();
+			course.setCourseId(progressList.get(0).getCourseId());
+			course = courseService.find(course).get(0);
+			Chapter chapter = new Chapter();
+			chapter.setChapterId(course.getChapter());
+			chapter = chapterService.find(chapter).get(0);
+			int total = 0;// 记录通过的总数
+			List<Chapter> chapterList = chapterService.getAll(new Chapter());
+			for (int i = 0; i < chapterList.size()
+					&& chapter.getChapterId() < chapterList.get(i)
+							.getChapterId(); i++) {// 遍历已完成的chapter
+				Course tempCourse = new Course();
+				tempCourse.setChapter(chapterList.get(i).getChapterId());
+				total += courseService.find(tempCourse).size();
+			}
+			total += course.getCourseOrder();
+			return 100*total / courseService.getAll(new Course()).size();
+		}
+	}
 }

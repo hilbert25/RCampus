@@ -63,58 +63,6 @@
 }
 </style>
 <script type="text/javascript">
-	function getNextCourse() {
-		var xmlhttp;
-		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-			xmlhttp = new XMLHttpRequest();
-		} else {// code for IE6, IE5
-			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.onreadystatechange = function() {
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				var data = JSON.parse(xmlhttp.responseText);
-				var nextA = document.getElementById("next");
-				var nextCourse = document.getElementById("next_course");
-				nextA.setAttribute("href",
-						"/rcampus/course/getCourseById?courseId="
-								+ data["courseId"]);
-				nextCourse.setAttribute("href",
-						"/rcampus/course/getCourseById?courseId="
-								+ data["courseId"]);
-			}
-		};
-		xmlhttp.open("POST", "/rcampus/course/getNextCourse?courseId="
-				+ getQueryString("courseId"), true);
-		xmlhttp.setRequestHeader("Content-type",
-				"application/x-www-form-urlencoded");
-		xmlhttp.send();
-	}
-	function isCourseFinish() {
-		var xmlhttp;
-		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-			xmlhttp = new XMLHttpRequest();
-		} else {// code for IE6, IE5
-			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.onreadystatechange = function() {
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				var data = JSON.parse(xmlhttp.responseText);
-				var nextA = document.getElementById("next");
-				if (data['result']) {//如果这节课完成了
-					nextA.setAttribute("style", "float: right;");
-					document.getElementById("finish_area").setAttribute(
-							"style", "width:100%; height: 100%;");
-				} else {
-					nextA.setAttribute("style", "float: right; display: none;");
-				}
-			}
-		};
-		xmlhttp.open("POST", "/rcampus/course/isFinish?courseId="
-				+ getQueryString("courseId"), true);
-		xmlhttp.setRequestHeader("Content-type",
-				"application/x-www-form-urlencoded");
-		xmlhttp.send();
-	}
 	function pass() {
 		var nextA = document.getElementById("next");
 		nextA.setAttribute("style", "float: right;");
@@ -134,7 +82,6 @@
 	}
 	function init() {
 		getNextCourse();
-		isCourseFinish();
 	}
 </script>
 </head>
@@ -150,16 +97,9 @@
 						<c:forEach items="${chapterList}" var="chapter"
 							varStatus="chapterIndex">
 							<li class="dropdown"><a href="#" class="dropdown-toggle"
-								data-toggle="dropdown"> <c:choose>
-										<c:when test="${ chapter.chapterId le finishChapter}">
-											<i class="fa fa-fw fa-plus" style="color: green;"></i>Chapter ${chapter.chapterId}
+								data-toggle="dropdown"> <i class="fa fa-fw fa-plus"
+									style="color: green;"></i>Chapter ${chapter.chapterOrder}
 									${chapter.chapterName }<span class="caret"></span>
-										</c:when>
-										<c:when test="${ chapter.chapterId gt finishChapter}">
-											<i class="fa fa-fw fa-plus"></i>Chapter ${chapter.chapterId}
-									${chapter.chapterName }<span class="caret"></span>
-										</c:when>
-									</c:choose>
 							</a>
 								<ul class="dropdown-menu" role="menu">
 
@@ -170,12 +110,12 @@
 
 											<!--<li><a href="page/courses/${course.courseId}.html">${course.courseName }</a></li>-->
 											<li><c:choose>
-													<c:when test="${course.courseId le finishCourse}">
+													<c:when test="${course.courseId le nextCourse.courseId}">
 														<a
 															href="page/courses/getCourseById?courseId=${course.courseId}"
 															style="color: green;">${course.courseName }</a>
 													</c:when>
-													<c:when test="${course.courseId gt finishCourse}">
+													<c:when test="${course.courseId gt nextCourse.courseId}">
 														<a href="javascript:return false;">${course.courseName }</a>
 													</c:when>
 												</c:choose></li>
@@ -392,8 +332,8 @@
 												</div>
 											</div>
 											<div class="sidebar-overlay">
-												<a class="modal--close" href="javascript:void(0);" onclick="closeFinishArea();"><i
-													class="fa fa-times-thin"></i></a>
+												<a class="modal--close" href="javascript:void(0);"
+													onclick="closeFinishArea();">点击关闭</a>
 												<div class="sidebar-overlay--content text-center">
 													<h4>
 														<!-- react-text: 38 -->
@@ -410,14 +350,15 @@
 															the R code you submitted? Now that you're familiar with
 															the interface, let's get down to R business!</p>
 													</div>
+
 													<div class="sidebar-overlay__continue">
 														<span>PRESS ENTER TO </span>
 														<div tabindex="-1">
 															<a
 																class="btn btn-small btn-primary next-exercise animation--shake"
 																id="next_course"
-																href="https://campus.datacamp.com/courses/free-introduction-to-r/chapter-1-intro-to-basics-1?ex=2">Next
-																Course</a>
+																href="/rcampus/course/getCourseById?courseId=${nextCourse.courseId }">
+																下节课</a>
 														</div>
 													</div>
 												</div>
@@ -505,7 +446,6 @@
 											xmlhttp.onreadystatechange = function() {
 												if (xmlhttp.readyState == 4
 														&& xmlhttp.status == 200) {
-													isCourseFinish();
 													var data = JSON
 															.parse(xmlhttp.responseText);
 													var result = data['ocpuJSON'];
@@ -548,12 +488,18 @@
 										}
 									</script>
 								</article>
-								<button id="submit" name="submit" value="submit"
-									onclick="postCode()" class="btn btn-primary btn-round">Submit</button>
+								<div>
+									<button id="submit" name="submit" value="submit"
+										onclick="postCode()" class="btn btn-primary btn-round">提交</button>
+									<a id="next" class="btn btn-primary btn-round"
+										style="float: right; display: none;"
+										href="/getCourseById?courseId=${nextCourse.courseId}">你通过了这节课，点击开始下节课</a>
+									<c:if test="${isFinish && next.courseId ne course.courseId}">
+										<a class="btn btn-primary btn-round" style="float: right;"
+											href="/rcampus/course/getCourseById?courseId=${nextCourse.courseId}">下一节课</a>
+									</c:if>
+								</div>
 								<p style="color: #3aaaca;">请做完全部题目再提交，不要有空缺，否则会造成误判。</p>
-								<a id="next" name="next" value="Next"
-									class="btn btn-primary btn-round"
-									style="float: right; display: none;">Next Course</a>
 								<!-- <div id="codeout"
 									style="overflow: auto; width: 750px; height: 400px; float: right;">
 
