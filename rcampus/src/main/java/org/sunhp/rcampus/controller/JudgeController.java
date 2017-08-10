@@ -165,4 +165,21 @@ public class JudgeController {
 		}
 	}
 
+	/**获取一门课的全部题目，并以String形式返回
+	 * @param courseId
+	 * @return
+	 */
+	public String getExam(long courseId) {
+		Pageable<Judge> judgePageable = new Pageable<Judge>();
+		judgePageable.setSearchProperty("course_id");
+		judgePageable.setSearchValue(String.valueOf(courseId));
+		judgePageable.setPageSize(Integer.MAX_VALUE);
+		List<Judge> judgeList = judgeService.findByPager(judgePageable)
+				.getRows();
+		String exam = "";
+		for (Judge judge : judgeList) {
+			exam = exam + judge.getJudgeProblem() + "\n\n";
+		}
+		return exam;
+	}
 }

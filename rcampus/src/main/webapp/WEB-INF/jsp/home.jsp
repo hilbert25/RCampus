@@ -48,50 +48,6 @@
 							}
 						})
 			});
-	function getContinue() {
-		var xmlhttp;
-		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-			xmlhttp = new XMLHttpRequest();
-		} else {// code for IE6, IE5
-			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.onreadystatechange = function() {
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				var data = JSON.parse(xmlhttp.responseText);
-				var continueCourse = document.getElementById("continue");
-				continueCourse.setAttribute("href",
-						"course/getCourseById?courseId=" + data['courseId']);
-			}
-		};
-		xmlhttp.open("POST", "/rcampus/course/getContinue", true);
-		xmlhttp.setRequestHeader("Content-type",
-				"application/x-www-form-urlencoded");
-		xmlhttp.send();
-	}
-	function getCompleteRate() {
-		var xmlhttp;
-		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-			xmlhttp = new XMLHttpRequest();
-		} else {// code for IE6, IE5
-			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.onreadystatechange = function() {
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				data = JSON.parse(xmlhttp.responseText);
-				document.getElementById("complete_rate").innerHTML = "you have complete "
-						+ data['rate'] + "%";
-			}
-		};
-		xmlhttp.open("POST", "/rcampus/course/getCompleteRate", true);
-		xmlhttp.setRequestHeader("Content-type",
-				"application/x-www-form-urlencoded");
-		xmlhttp.send();
-	}
-
-	function init() {
-		getContinue();
-		getCompleteRate();
-	}
 </script>
 <body onload="init();">
 	<nav class="navbar navbar-default" role="navigation">
@@ -107,39 +63,56 @@
 					<li><a style="font-size: 150%; color: #FFFFFF"
 						href="./course/">Courses</a></li>
 					<c:choose>
-            <c:when test="${user!=null}">
-            <li>
-  <div class="dropdown">
-  <a class="btn btn-default dropdown-toggle" style="color:#FFFFFF;margin-top:5px;font-size:150%;border:0px;background:#3366CC" 
-  type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <c:out value="${user.getEmail()}"/>
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" style="width:250px" aria-labelledby="dropdownMenu1">
-    <li><div class="row">
-    <div class="col-xs-6"><img class="img-circle" style="margin-left:30px" src="./page/assets/img/placeholder.png"></div>
-    <div class="col-xs-6"><span style="margin-left:-10px">ayahui3@126.com</span></div>
-    </div></li>
-    <li><a href="user/toSetUserInfo/?userId=${user.getUserId()}" class="btn btn-primary btn-lg" role="button">Update Profile</a></li>
-    <li>
-    <div class="row">
-    <div class="col-xs-6"><span style="margin-left:50px"><a href="user/getUserById/?userId=${user.getUserId()}">myProfile</a></span></div>
-    <div class="col-xs-6"><span style="margin-left:30px"><a href="logout">logout</a></span></div>
-    </div>
-    </li>
-  </ul>
-</div>
-</li>
-</c:when>
-<c:otherwise>
-<li><button type="button" class="btn btn-primary btn-lg navbar-btn" style="background:FF9900" data-toggle="modal" data-target="#myModal">
-  sign in
-</button></li>
-<li><button type="button" class="btn btn-primary btn-lg navbar-btn" style="background:FF9900" data-toggle="modal" data-target="#myModal">
-  create free account
-</button></li>
-  </c:otherwise>
-</c:choose>
+						<c:when test="${user!=null}">
+							<li>
+								<div class="dropdown">
+									<a class="btn btn-default dropdown-toggle"
+										style="color: #FFFFFF; margin-top: 5px; font-size: 150%; border: 0px; background: #3366CC"
+										type="button" id="dropdownMenu1" data-toggle="dropdown"
+										aria-haspopup="true" aria-expanded="false"> <c:out
+											value="${user.getEmail()}" /> <span class="caret"></span>
+									</a>
+									<ul class="dropdown-menu" style="width: 250px"
+										aria-labelledby="dropdownMenu1">
+										<li><div class="row">
+												<div class="col-xs-6">
+													<img class="img-circle" style="margin-left: 30px"
+														src="./page/assets/img/placeholder.png">
+												</div>
+												<div class="col-xs-6">
+													<span style="margin-left: -10px">ayahui3@126.com</span>
+												</div>
+											</div></li>
+										<li><a
+											href="user/toSetUserInfo/?userId=${user.getUserId()}"
+											class="btn btn-primary btn-lg" role="button">Update
+												Profile</a></li>
+										<li>
+											<div class="row">
+												<div class="col-xs-6">
+													<span style="margin-left: 50px"><a
+														href="user/getUserById/?userId=${user.getUserId()}">myProfile</a></span>
+												</div>
+												<div class="col-xs-6">
+													<span style="margin-left: 30px"><a href="logout">logout</a></span>
+												</div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li><button type="button"
+									class="btn btn-primary btn-lg navbar-btn"
+									style="background: FF9900" data-toggle="modal"
+									data-target="#myModal">sign in</button></li>
+							<li><button type="button"
+									class="btn btn-primary btn-lg navbar-btn"
+									style="background: FF9900" data-toggle="modal"
+									data-target="#myModal">create free account</button></li>
+						</c:otherwise>
+					</c:choose>
 				</ul>
 			</div>
 		</div>
@@ -206,7 +179,7 @@
 							<div class="caption">
 								<div style="margin-bottom: 50px">
 									<h3>Introduction to R</h3>
-									<h4 id="complete_rate" style="color: #3366CC;">0%</h4>
+									<h4 id="complete_rate" style="color: #3366CC;">${ finishrate}</h4>
 								</div>
 								<p>Master the basis of data analysis by manipulating common
 									data structures such as vectors,matrics and data frames</p>
@@ -214,9 +187,10 @@
 								<p>
 									<!--  <a href="./courseIntro" class="btn btn-primary"
 										style="background: #FF6600" role="button">Learn More</a>-->
-									<a href="" class="btn btn-primary"
-										style="background: #FF6600" role="button" id="continue">Continue
-										to learn</a>
+									<a
+										href="/rcampus/course/getCourseById?courseId=${nextCourse.courseId }"
+										class="btn btn-primary" style="background: #FF6600"
+										role="button" id="continue">Continue to learn</a>
 								</p>
 							</div>
 						</div>

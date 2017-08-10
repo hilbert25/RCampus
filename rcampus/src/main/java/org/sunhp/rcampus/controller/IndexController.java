@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.sunhp.rcampus.bean.Course;
+import org.sunhp.rcampus.bean.Progress;
 import org.sunhp.rcampus.bean.User;
 import org.sunhp.rcampus.components.Page;
 import org.sunhp.rcampus.components.Pageable;
@@ -34,6 +36,14 @@ public class IndexController {
 	UserDaoImpl userDao;
 	@Autowired
 	UserService userService;
+	@Autowired
+	ProgressService progressService;
+	@Autowired
+	CourseService courseService;
+	@Autowired
+	UserController userController;
+	@Autowired
+	CourseController courseController;
 
 	/*
 	 * @RequestMapping("/") public ModelAndView index() { return new
@@ -49,7 +59,22 @@ public class IndexController {
 	}
 
 	@RequestMapping("/home")
-	public String home() {
+	public String home(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		Long userId = (Long) session.getAttribute("userId");
+		Progress progress = new Progress();
+		progress.setUserId(userId);
+		List<Progress> progressList = progressService.find(progress);
+		if (progressList.size() > 0)
+			request.setAttribute("nextCourse", courseController
+					.getNextCourse(progressList.get(0).getCourseId()));
+		else {
+			request.setAttribute("nextCourse",
+					courseService.getAll(new Course()).get(0));// 没记录就定位到第一节课
+		}
+		request.setAttribute("finishrate",
+				String.valueOf(userController.getFinishRate(userId)) + "%");
+
 		return "home";
 	}
 
