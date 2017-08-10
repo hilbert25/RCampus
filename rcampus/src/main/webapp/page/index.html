@@ -10,6 +10,8 @@
 <link rel="stylesheet"
 	href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="./page/assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="./page/assets/css/docs.css">
+<link rel="stylesheet" href="./page/assets/css/index.css">
 <link rel="stylesheet" media="all"
 	href="https://cdn.datacamp.com/main-app/assets/application-764c6b8f001bf0f157eebd5c442f20839378fdd8b59b04968c6b9210b7168d07.css" />
 <script src="./page/assets/js/jquery-2.1.1.min.js"></script>
@@ -38,7 +40,6 @@
 										} else if (json.flag == 2) {
 											location.href = "./adminhome";
 										} else {
-											console.log("failure");
 											$("#errorMessage")
 													.html("用户名或密码错误").show();
 										}
@@ -77,8 +78,19 @@
 								})
 							}
 						});
+				$("#resetPsw").click(function(){
+					$.get("./forgetPsw",function(data,status){
+						alert(status);
+					});
+				});
 			});
 </script>
+<style type="text/css">
+a{
+text-decoration:none;
+float:right
+}
+</style>
 </head>
 <body class="">
 	<ul class="offscreen-nav">
@@ -88,6 +100,9 @@
 		<li class="offscreen-nav-li"><button type="button"
 				class="btn btn-primary btn-lg" data-toggle="modal"
 				data-target="#myModal">sign in</button></li>
+				<li class="offscreen-nav-li"><button type="button"
+				class="btn btn-primary btn-lg" data-toggle="modal"
+				data-target="#signupModal">sign up</button></li>
 	</ul>
 	<div class="site-wrap">
 		<div id="flash_messages"></div>
@@ -104,9 +119,11 @@
 							<div class="logo-title" style="font-size:200%">Rcampus</div>
 						</a> 
 					</div>
-					<ul class="nav hidden-xs hidden-sm">
+					<ul class="nav">
 						<li><button type="button" class="btn btn-primary btn-lg"
 								data-toggle="modal" data-target="#myModal">sign in</button></li>
+								<li><button type="button" class="btn btn-primary btn-lg"
+								data-toggle="modal" data-target="#signupModal">sign up</button></li>
 						<li class="spacer"></li>
 						<li><a data-dc-track="" data-dc-referrer="main"
 							href="./course/">Courses</a></li>
@@ -154,12 +171,61 @@
 											<input type="submit" name="commit" value="Sign In"
 												class="btn btn-primary home-get-started ml0 mr0 mb0"
 												data-disable-with="Get Started" />
+											<a href="./page/resetPsw.html">忘记密码</a>
 											<div class="form-group">
 												<div class="alert alert-danger" role="alert"
 													id="errorMessage"></div>
 											</div>
 										</form>
 									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- !Modal -->
+				<!-- Modal -->
+				<div class="modal fade" id="signupModal" tabindex="-1" role="dialog"
+					aria-labelledby="myModalLabel">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<div role="tabpanel" class="tab-pane active" id="signin-form">
+									<div class="home--sign-up card">
+							<h4>Create Your Free Account</h4>
+							<form class="new_user" id="signup" action="/users"
+								accept-charset="UTF-8" method="post">
+								<input name="utf8" type="hidden" value="&#x2713;" /> <input
+									type="hidden" name="authenticity_token"
+									value="K3U1qm2Zw3un3xg2/1fLJkd/kVIDM3PP4h1pUkqGysKQTvBM5c6pUTcKp/IcY/Iqqxs5axxUHVnSKAIqqVyJFg==" />
+								<input type="hidden" name="how" id="how"
+									value="inline_form_home_page" />
+								<fieldset>
+									<i class="fa fa-envelope-o fa-lg inline-icon"></i> <input
+										required="required" placeholder="Email"
+										class="has-inline-icon" type="email" value=""
+										name="user[email]" id="email0" />
+								</fieldset>
+								<fieldset>
+									<i class="fa fa-lock fa-lg inline-icon"></i> <input
+										required="required" placeholder="Password"
+										class="has-inline-icon" type="password" name="user[password]"
+										id="password0" />
+								</fieldset>
+								<input type="submit" name="commit" value="Get Started"
+									class="btn btn-primary home-get-started ml0 mr0 mb0"
+									data-disable-with="Get Started" />
+								<div class="form-group">
+									<div class="alert alert-danger" role="alert" id="message"></div>
+								</div>
+							</form>
+						</div>
 								</div>
 							</div>
 						</div>
@@ -177,7 +243,7 @@
 								want to learn R, Python or Data Visualization, we want to help!</p>
 						</div>
 					</div>
-					<div class="col-sm-5">
+					<!--<div class="col-sm-5">
 						<div class="home--sign-up card">
 							<h4>Create Your Free Account</h4>
 							<form class="new_user" id="signup" action="/users"
@@ -207,52 +273,72 @@
 								</div>
 							</form>
 						</div>
-					</div>
+					</div>-->
 				</div>
-
-				<div class="row home--header-icons">
-					<div class="hidden-xs col-sm-3">
-						<img
-							src="https://cdn.datacamp.com/main-app/assets/home_logged_out/home_1-c66e2d9a6a9a29f2e6b028f67f01b30cd907d3673357b8cf9cabf78f10d65400.png"
-							alt="Home 1" />
-					</div>
-					<div class="hidden-xs col-sm-3">
-						<img
-							src="https://cdn.datacamp.com/main-app/assets/home_logged_out/home_2-7a41ab899acfc1e73fd391137ee7183de57eed4e27fdfe2c43171dd7d32f3e59.png"
-							alt="Home 2" />
-					</div>
-					<div class="hidden-xs col-sm-3">
-						<img
-							src="https://cdn.datacamp.com/main-app/assets/home_logged_out/home_3-8fcc69106e9c6e2dab72595934db9f407ba2965b7ae568d0a55e821693407838.png"
-							alt="Home 3" />
-					</div>
-					<div class="hidden-xs col-sm-3">
-						<img
-							src="https://cdn.datacamp.com/main-app/assets/home_logged_out/home_4-772f427e12522647a5a1c325b6d123bb0deb1dff2e3a5f76ca371f8808f8d563.png"
-							alt="Home 4" />
-					</div>
-				</div>
-
-			</div>
-		</section>
-		<section class="home--data-science">
-			<div class="container text-center">
-				<h2>Improve your skills - and your career</h2>
-				<div class="row">
-					<div class="col-sm-6 col-sm-offset-3">
-						<p>No matter what industry youâre in, learning how to
-							analyze and understand your data is critical. Thatâs why
-							DataCamp provides you with the tools to learn the data science
-							skills you need to start your own data projects.</p>
-					</div>
-				</div>
-			</div>
-			<div class="data-science-picture">
-				<span class="gradient"></span> <img
-					src="https://cdn.datacamp.com/main-app/assets/home_logged_out/home_data_science-555c6fd4d8790b9674c43168a9bf0c043f4be0f3da3e90923d0411c11fcfea73.svg"
-					alt="Home data science" />
 			</div>
 		</section>
 	</div>
+<div class="thumbnailbody">
+<div>
+<span class="thumbnailtitle"><b>入门</b><span>|</span></span> <span class="">从基础开始，是学习之道</span>
+            <a href="" class="seemore">更多&gt;</a>
+        </div>	
+<div class="row">
+  <div class="col-sm-6 col-md-3">
+    <div class="thumbnail">
+    <a href="">
+      <img src="./page/assets/img/apple-icon.png" alt="...">
+      <div class="caption">
+        <h4>基本语法</h4>
+      </div>
+      </a>
+    </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+    <div class="thumbnail">
+    <a>
+      <img src="./page/assets/img/apple-icon.png" alt="...">
+      <div class="caption">
+        <h4>Thumbnail label</h4>
+        <p></p>
+      </div>
+      </a>
+    </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+    <div class="thumbnail">
+    <a>
+      <img src="./page/assets/img/apple-icon.png" alt="...">
+      <div class="caption">
+        <h4>Thumbnail label</h4>
+        <p></p>
+      </div>
+      </a>
+    </div>
+    </div>
+  </div>
+  </div> 
+  <footer class="bs-docs-footer">
+  <div class="container">
+    <ul class="bs-docs-footer-links">
+      <li><a href="https://github.com/twbs/bootstrap">GitHub 仓库</a></li>
+      <li><a href="../getting-started/#examples">实例</a></li>
+      <li><a href="http://www.youzhan.org">优站精选</a></li>
+      <li><a href="../about/">关于</a></li>
+    </ul>
+  </div>
+  <div class="footerdesc">
+  <p style="font-size:200%"><b>上Rcampus 轻松学习R语言</b></p>
+  <p>©2017 rcampus.com, All Rights Reserved.<br/>
+     北京大学信息安全实验室<br/>
+    地址：北京市海淀区颐和园路5号理科一号楼<br/>
+  Contact: Tel： +86 xxxxxxxx Email: xxx@163.com </p>
+  </div>
+</footer>
+<script>
+$(function (){
+	$(function () { $("[data-toggle='tooltip']").tooltip(); });
+});
+</script>
 </body>
 </html>
