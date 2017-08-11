@@ -1,0 +1,17 @@
+.thumbnailbody{
+	width:80%;
+	margin:auto;
+}
+.seemore{
+	float:right;
+}
+a{
+	text-decoration:none;
+}
+.thumbnailtitle{
+	font-size:200%
+}
+.footerdesc{
+	width:75%;
+	margin:auto;
+}
