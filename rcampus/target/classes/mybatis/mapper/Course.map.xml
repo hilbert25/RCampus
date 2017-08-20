@@ -123,7 +123,7 @@
 			</if>
 		</where>
 		<if test="orderProperty != null">
-			order by ${orderProperty} #{orderDirection}
+			order by ${orderProperty} ${orderDirection}
 		</if>
 		<if test="start != null ">
 			<if test="start >= 0">

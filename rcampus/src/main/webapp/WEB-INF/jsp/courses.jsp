@@ -17,6 +17,12 @@
     <link rel="stylesheet" href="page/assets/css/bootstrap.min.css"> 
 	<link href="page/assets/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
 	<link href="page/assets/css/font-awesome.css" rel="stylesheet" type="text/css"/>
+	<style type="text/css">
+	.icon-size{
+      width:70px;
+      height:70px;
+    }
+	</style>
 	<script src="page/assets/js/jquery-2.1.1.min.js"></script>
 	<script src="page/assets/js/bootstrap.min.js"></script>
 	<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
@@ -104,13 +110,19 @@
   </a>
   <ul class="dropdown-menu" style="width:250px" aria-labelledby="dropdownMenu1">
     <li><div class="row">
-    <div class="col-xs-6"><img class="img-circle" style="margin-left:30px" src="./page/assets/img/placeholder.png"></div>
-    <div class="col-xs-6"><span style="margin-left:-10px">ayahui3@126.com</span></div>
+<c:choose>
+    <c:when test="${icon!=null}">
+    <div class="col-xs-6"><img class="img-circle icon-size" style="margin-left:30px" src="./page/assets/img/icons/${icon}"></div>
+    </c:when>
+    <c:otherwise>
+    <div class="col-xs-6"><img class="img-circle icon-size" style="margin-left:30px" src="./page/assets/img/placeholder.png"></div>
+    </c:otherwise>
+    </c:choose>    <div class="col-xs-6"><span style="margin-left:-10px">${user.getUserName()}</span></div>
     </div></li>
-    <li><a href="../user/toSetUserInfo/userId=${user.getUserId()}" class="btn btn-primary btn-lg" role="button">Update Profile</a></li>
+    <li><a href="user/toSetUserInfo/userId=${user.getUserId()}" class="btn btn-primary btn-lg" role="button">Update Profile</a></li>
     <li>
     <div class="row">
-    <div class="col-xs-6"><span style="margin-left:50px"><a href="../user/getUserById/userId=${user.getUserId()}">myProfile</a></span></div>
+    <div class="col-xs-6"><span style="margin-left:50px"><a href="user/getUserById/userId=${user.getUserId()}">myProfile</a></span></div>
     <div class="col-xs-6"><span style="margin-left:30px"><a href="./logout">logout</a></span></div>
     </div>
     </li>

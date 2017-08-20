@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>Learn R, Python &amp; Data Science Online | DataCamp</title>
+<title>index</title>
 <meta name="description"
 	content="Learn Data Science from the comfort of your browser, at your own pace with DataCamp's video tutorials &amp; coding challenges on R, Python, Statistics &amp; more." />
 <link rel="shortcut icon" type="image/x-icon"

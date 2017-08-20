@@ -78,10 +78,15 @@
 								})
 							}
 						});
-				$("#resetPsw").click(function(){
-					$.get("./forgetPsw",function(data,status){
-						alert(status);
-					});
+				$("#forgetPsw").click(function(){
+					var reg=/^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
+					if(!reg.test($("#email").val()))
+						alert("请输入正确邮箱后重新点击")
+					else{
+					  $.get("forgetPsw?email="+$("#email").val(),function(data,status){
+					    alert("数据: " + data + "\n状态: " + status);
+					  });
+					}
 				});
 			});
 </script>
@@ -89,6 +94,9 @@
 a{
 text-decoration:none;
 float:right
+}
+h4{
+text-align:center;
 }
 </style>
 </head>
@@ -171,7 +179,7 @@ float:right
 											<input type="submit" name="commit" value="Sign In"
 												class="btn btn-primary home-get-started ml0 mr0 mb0"
 												data-disable-with="Get Started" />
-											<a href="./page/resetPsw.html">忘记密码</a>
+											<a id="forgetPsw" type="button">忘记密码</a>
 											<div class="form-group">
 												<div class="alert alert-danger" role="alert"
 													id="errorMessage"></div>
@@ -233,14 +241,14 @@ float:right
 				</div>
 				<!-- !Modal -->
 				<div class="row">
-					<div class="col-sm-7">
+				<div style="width:60%;margin:auto">
 						<div class="home--header">
 							<hr>
 							<h4 class="subhead">THE EASIEST WAY TO</h4>
 							<h1>Learn Data Science Online</h1>
 							<p>Master data analysis from the comfort of your browser, at
 								your own pace, tailored to your needs and expertise. Whether you
-								want to learn R, Python or Data Visualization, we want to help!</p>
+								want to learn R or Data Visualization, we want to help!</p>
 						</div>
 					</div>
 					<!--<div class="col-sm-5">
@@ -281,25 +289,25 @@ float:right
 <div class="thumbnailbody">
 <div>
 <span class="thumbnailtitle"><b>入门</b><span>|</span></span> <span class="">从基础开始，是学习之道</span>
-            <a href="" class="seemore">更多&gt;</a>
+            <a href="./course/courseIntro" class="seemore">更多&gt;</a>
         </div>	
 <div class="row">
   <div class="col-sm-6 col-md-3">
     <div class="thumbnail">
-    <a href="">
+    <a href="#">
       <img src="./page/assets/img/apple-icon.png" alt="...">
       <div class="caption">
-        <h4>基本语法</h4>
+        <h4>Intro to basics </h4>
       </div>
       </a>
     </div>
     </div>
     <div class="col-sm-6 col-md-3">
     <div class="thumbnail">
-    <a>
+    <a href="#">
       <img src="./page/assets/img/apple-icon.png" alt="...">
       <div class="caption">
-        <h4>Thumbnail label</h4>
+        <h4>Vectors</h4>
         <p></p>
       </div>
       </a>
@@ -307,10 +315,21 @@ float:right
     </div>
     <div class="col-sm-6 col-md-3">
     <div class="thumbnail">
-    <a>
+    <a href="#">
       <img src="./page/assets/img/apple-icon.png" alt="...">
       <div class="caption">
-        <h4>Thumbnail label</h4>
+        <h4>Matrices</h4>
+        <p></p>
+      </div>
+      </a>
+    </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+    <div class="thumbnail">
+    <a href="#">
+      <img src="./page/assets/img/apple-icon.png" alt="...">
+      <div class="caption">
+        <h4>Factors</h4>
         <p></p>
       </div>
       </a>
@@ -319,14 +338,14 @@ float:right
   </div>
   </div> 
   <footer class="bs-docs-footer">
-  <div class="container">
+  <!--<div class="container">
     <ul class="bs-docs-footer-links">
       <li><a href="https://github.com/twbs/bootstrap">GitHub 仓库</a></li>
       <li><a href="../getting-started/#examples">实例</a></li>
       <li><a href="http://www.youzhan.org">优站精选</a></li>
       <li><a href="../about/">关于</a></li>
     </ul>
-  </div>
+  </div>-->
   <div class="footerdesc">
   <p style="font-size:200%"><b>上Rcampus 轻松学习R语言</b></p>
   <p>©2017 rcampus.com, All Rights Reserved.<br/>

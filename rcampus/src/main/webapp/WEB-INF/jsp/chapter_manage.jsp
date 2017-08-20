@@ -227,7 +227,7 @@
 		<div class="tpl-left-nav tpl-left-nav-hover">
 			<div class="tpl-left-nav-list">
 				<ul class="tpl-left-nav-menu">
-					<li class="tpl-left-nav-item"><a href="rcampus/adminhome"
+					<li class="tpl-left-nav-item"><a href="/rcampus/adminhome"
 						class="nav-link active"> <i class="am-icon-home"></i> <span>用户管理</span>
 
 					</a></li>

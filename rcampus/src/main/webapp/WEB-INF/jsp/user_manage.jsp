@@ -16,7 +16,13 @@
 <link rel="stylesheet" href="./page/assets/css/amazeui.min.css" />
 <link rel="stylesheet" href="./page/assets/css/admin.css">
 <link rel="stylesheet" href="./page/assets/css/app.css">
+<link rel="stylesheet" href="page/assets/css/bootstrap.min.css">
 <script src="./page/assets/js/echarts.min.js"></script>
+<script src="page/assets/js/jquery.min.js"></script>
+<script src="page/assets/js/amazeui.min.js"></script>
+<script src="page/assets/js/app.js"></script>
+<script src="page/assets/js/bootstrap.min.js"></script>
+<script src="page/assets/js/string-deal.js"></script>
 <script type="text/javascript">
 	//获取用户数量
 	function getUserCount() {
@@ -105,6 +111,21 @@
 		tr.appendChild(typetd);
 		div.appendChild(tr);//插入到div内
 	};
+	function addAdmin() {
+		$.post("/rcampus/user/addAdmin",
+			    {
+			        email:$("#email").val(),
+			        passwd:$("#passwd").val(),
+			        userType:$("#userType").val(),
+			        userName:$("#userName").val()
+			    },
+			        function(data,status){
+			    	if(data["result"])
+			           alert(data["result"]);
+			    	else
+			    		alert("添加成功");
+			    });
+	}
 	//获取未处理消息
 	function getUnDealCount() {
 		var xmlhttp;
@@ -327,20 +348,13 @@ ul {
 		</ul>
 	</div>
 	</header>
-
-
-
-
-
-
-
 	<div class="tpl-page-container tpl-page-header-fixed">
 
 
 		<div class="tpl-left-nav tpl-left-nav-hover">
 			<div class="tpl-left-nav-list">
 				<ul class="tpl-left-nav-menu">
-					<li class="tpl-left-nav-item"><a href="/adminhome"
+					<li class="tpl-left-nav-item"><a href="adminhome"
 						class="nav-link active"> <i class="am-icon-home"></i> <span>用户管理</span>
 							<i
 							class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
@@ -349,7 +363,7 @@ ul {
 						class="nav-link active"> <i class="am-icon-home"></i> <span>课程管理</span>
 					</a></li>
 
-					<li class="tpl-left-nav-item"><a href="login.html"
+					<li class="tpl-left-nav-item"><a href="#"
 						class="nav-link tpl-left-nav-link-list"> <i
 							class="am-icon-key"></i> <span>其余</span>
 
@@ -420,7 +434,76 @@ ul {
 					<div class="tpl-portlet-title">
 						<div class="tpl-caption font-red ">
 							<i class="am-icon-bar-chart"></i> <span>管理员列表</span>
+							<button type="button"
+									class="am-btn am-btn-default am-btn-success" style="margin-left:10px"
+									data-toggle="modal" data-target="#userModal">
+									<span class="am-icon-plus"></span> 新增管理员
+								</button>
 						</div>
+						<!-- admin模态框（Modal） -->
+								<div class="modal fade" id="userModal" tabindex="-1"
+									role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal"></button>
+												<h4 class="modal-title" id="myModalLabel">添加管理员</h4>
+											</div>
+											<div class="modal-body">添加管理员</div>
+											<div class="modal-footer">
+												<form class="am-form tpl-form-line-form"
+													action="user/addAdmin" method="post" id="adminForm"
+													name="adminForm">
+													<div class="am-form-group">
+														<label for="userType" class="am-u-sm-3 am-form-label">用户类型
+															<span class="tpl-form-line-small-title">userType</span>
+														</label>
+														<div class="am-u-sm-9" >
+															<select id="userType" name="userType">
+																<c:forEach varStatus="i" begin="0" end="1">
+																	<option value="${i.count-1}">${i.count-1}</option>
+																</c:forEach>
+															</select>
+														</div>
+													</div>
+													<div class="am-form-group">
+														<label for="userName" class="am-u-sm-3 am-form-label">昵称
+															<span class="tpl-form-line-small-title">userName</span>
+														</label>
+														<div class="am-u-sm-9">
+															<input type="text" id="userName" name="userName" class="am-form-field tpl-form-no-bg"
+																placeholder="userName"/>
+														</div>
+													</div>												
+													<div class="am-form-group">
+														<label for="email" class="am-u-sm-3 am-form-label">邮箱地址
+															<span class="tpl-form-line-small-title">email</span>
+														</label>
+														<div class="am-u-sm-9">
+															<input type="text" id="email" name="email" class="am-form-field tpl-form-no-bg"
+																placeholder="email"/> <small>email为必填</small>
+														</div>
+													</div>
+													<div class="am-form-group">
+														<label for="passwd" class="am-u-sm-3 am-form-label">密码
+															<span class="tpl-form-line-small-title">password</span>
+														</label>
+														<div class="am-u-sm-9">
+															<input type="password" id="passwd" name="passwd" class="am-form-field tpl-form-no-bg"
+																placeholder="password"/> <small>password为必填</small>
+														</div>
+													</div>
+												</form>
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">关闭</button>
+												<button type="button" class="btn btn-primary" id="submit"
+													name="submit" data-dismiss="modal" onclick="addAdmin();">提交更改</button>
+											</div>
+										</div>
+										<!-- /.modal-content -->
+									</div>
+									<!-- /.modal -->
+								</div>
 					</div>
 					<div class="tpl-scrollable">
 
@@ -471,10 +554,6 @@ ul {
 			</div>
 		</div>
 	</div>
-	<script src="./page/assets/js/jquery.min.js"></script>
-	<script src="./page/assets/js/amazeui.min.js"></script>
-	<script src="./page/assets/js/app.js"></script>
-
 </body>
 
 </html>

@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>      
-<title>Learn Python for Data Science - Online Course</title>
+<title>course information</title>
 <base href="<%=basePath%>"></base>
 <meta name="description" content="DataCamp's Intro to Python course teaches you how to use Python programming for data science with interactive video tutorials. Start learning Python today!" />
 <link rel="canonical" href="https://www.datacamp.com/courses/intro-to-python-for-data-science" />
@@ -38,7 +38,17 @@
     text-decoration:none
     list-style-type:none
     }
-    </style>
+    a.disabled {
+            pointer-events: none;
+            filter: alpha(opacity=50); /*IE滤镜，透明度50%*/
+            -moz-opacity: 0.5; /*Firefox私有，透明度50%*/
+            opacity: 0.5; /*其他，透明度50%*/
+        }
+   .icon-size{
+     width:70px;
+     height:70px;
+   }
+  </style>
 	<script type="text/javascript">
 	$().ready(
 			function() {
@@ -105,10 +115,16 @@
 		 $(".btn-more").children('.fa-angle-down').toggleClass('hidden');
 		 $(".btn-more").children('.fa-angle-up').toggleClass('hidden');
 		})
+		function adjustImg(img){
+		  if (img.width>200 || this.height>300) 
+			if((img.width/img.height)>(200/300)) 
+				  img.width=200; 
+			  else
+				  img.height=300;
+	}
 </script>
   </head>
   <body>
-  <div>
   <div style="background:#3366CC;margin-bottom:-25px">
   <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid" style="height:100px;background:#3366CC">
@@ -130,8 +146,15 @@
   </a>
   <ul class="dropdown-menu" style="width:250px" aria-labelledby="dropdownMenu1">
     <li><div class="row">
-    <div class="col-xs-6"><img class="img-circle" style="margin-left:30px" src="./page/assets/img/placeholder.png"></div>
-    <div class="col-xs-6"><span style="margin-left:-10px">ayahui3@126.com</span></div>
+    <c:choose>
+    <c:when test="${icon!=null}">
+    <div class="col-xs-6"><img class="img-circle icon-size" style="margin-left:30px" src="./page/assets/img/icons/${icon}"></div>
+    </c:when>
+    <c:otherwise>
+    <div class="col-xs-6"><img class="img-circle icon-size" style="margin-left:30px" src="./page/assets/img/placeholder.png"></div>
+    </c:otherwise>
+    </c:choose>
+    <div class="col-xs-6"><span style="margin-left:-10px">${user.getUserName()}</span></div>
     </div></li>
     <li><a href="../user/toSetUserInfo/userId=${user.getUserId()}" class="btn btn-primary btn-lg" role="button">Update Profile</a></li>
     <li>
@@ -223,8 +246,72 @@
        </div>
 <!-- !Modal -->
 </nav>
+ </div>
+  <div style="background:#3366CC">
+  <div>
+  <div style="width:70%;margin:0px auto ">
+  <div class="row">
+  <div class="col-sm-9 col-lg-9 col-md-9" style="color:#FFFFFF">
+  <h6>Free Course</h6>
+  <h1>Intro to Pyhton for Data Science</h1>
+  <a class="btn btn-primary btn-lg">Start Course For Free</a>
   </div>
-  <%@ include file="/page/courseContent.html"%>
+  <div class="col-sm-3 col-lg-3 col-md-3">
+  <img src="page/assets/img/r.jpg" onload="adjustImg(this)" style="margin:auto">
   </div>
+  </div>
+  </div>
+  </div>
+  </div>
+   <!--content begin-->
+  <div style="width:60%;margin:auto">
+  <h2>Course Description</h2>
+  <p>Python is a general-purpose programming language that is becoming more and more popular for doing data science.
+   Companies worldwide are using Python to harvest insights from their data and get a competitive edge.
+    Unlike any other Python tutorial, this course focuses on Python specifically for data science. 
+    In our Intro to Python class, you will learn about powerful ways to store and manipulate data as well as cool data science tools to start your own analyses. 
+    Enter DataCamp’s online Python curriculum.</p>
+    <c:forEach items="${chapterList}" var="chapter">
+    <div style="border:1px solid #ccc;border-radius:10px">
+    <div style="margin:20px">
+    <div style="margin:10px">
+    <span class="badge" style="background:#3366CC">${chapter.getChapterOrder()}</span><span style="font-size:24px"><b>${chapter.getChapterName()}</b></span> 
+    </div>
+    <p>${chapter.getChapterDescrbe()}</p>
+     <a class="collapsed firstMenu" role="button" data-toggle="collapse" href="#${chapter.getChapterId()}" aria-expanded="false" aria-controls="collapseExample">
+  <span><b>View Chapter Detail</b></span>
+</a>
+<span class="btn btn-more">
+ <i class="fa fa-angle-down"></i>
+ <i class="fa fa-angle-up hidden"></i>
+</span>
+<div id="${chapter.getChapterId()}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+      <div class="list-group">
+      <ul>
+      <c:forEach items="${ccMap.get(chapter)}" var="course">
+      <c:choose>
+      <c:when test="${course.getCourseOrder()<courseOrder}">
+      <li class="secondMenu"><div><a href="getCourseById?courseId=${course.getCourseId()}">${course.getCourseName()}</a>
+      <span class="glyphicon glyphicon-ok" style="color: rgb(212, 106, 64);"></span>  
+      </div></li>
+      </c:when>
+      <c:when test="${course.getCourseOrder()==courseOrder}">
+      <li class="secondMenu"><div><a href="getCourseById?courseId=${course.getCourseId()}">${course.getCourseName()}</a>  
+      </div></li>
+      </c:when>
+      <c:otherwise>
+      <li class="secondMenu"><div><a class="disabled" href="getCourseById?courseId=${course.getCourseId()}">${course.getCourseName()}</a>  
+      </div></li>
+      </c:otherwise>
+      </c:choose>
+      </c:forEach>
+      </ul>
+      </div>
+      </div>
+    </div>
+    </div>
+    </c:forEach>
+    </div>
+     <!--content end-->
   </body>
 </html>

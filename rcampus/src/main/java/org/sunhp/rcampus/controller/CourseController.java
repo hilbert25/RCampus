@@ -15,8 +15,10 @@ import org.sunhp.rcampus.bean.Judge;
 import org.sunhp.rcampus.bean.Progress;
 import org.sunhp.rcampus.bean.User;
 import org.sunhp.rcampus.components.Constants;
+import org.sunhp.rcampus.components.Order.Direction;
 import org.sunhp.rcampus.components.Page;
 import org.sunhp.rcampus.components.Pageable;
+import org.sunhp.rcampus.dao.CourseDao;
 import org.sunhp.rcampus.service.ApiService;
 import org.sunhp.rcampus.service.ChapterService;
 import org.sunhp.rcampus.service.CourseService;
@@ -46,7 +48,8 @@ public class CourseController {
 
 	@Autowired
 	CourseService courseService;
-
+    @Autowired
+    CourseDao courseDao;
 	@Autowired
 	ApiService apiService;
 
@@ -75,6 +78,18 @@ public class CourseController {
 	@RequestMapping("/")
 	public String getCourseList(HttpServletRequest request,
 			HttpServletResponse response, Long chapterId) {
+		User user=(User) request.getSession().getAttribute("user");
+		String icon=null;
+		if(user!=null){
+		String photo=user.getPhoto();
+		if(photo!=null&&photo.length()>0){
+            int pos=photo.lastIndexOf('.');
+			if(pos!=-1&&pos<photo.length()-1)
+				icon=String.valueOf(user.getUserId()) + "_head"+photo.substring(pos);
+		}
+		}
+		System.out.println(icon);
+		request.setAttribute("icon",icon);
 		Course course = new Course();
 		course.setChapter(chapterId);
 		List<Course> list = courseService.getAll(course);
@@ -84,7 +99,7 @@ public class CourseController {
 			sList.add(sc);
 		}
 		// return JSON.toJSONString(sList);
-		return "courses";
+		  return "courses";
 	}
 
 	@RequestMapping("/test")
@@ -101,7 +116,61 @@ public class CourseController {
 	}
 
 	@RequestMapping("/courseIntro")
-	public String courseIntro(ModelMap map) {
+	public String courseIntro(HttpServletRequest request,
+			HttpServletResponse response) {
+		User user=(User) request.getSession().getAttribute("user");
+		String photo=user.getPhoto();
+		String icon=null;
+		if(photo!=null&&photo.length()>0){
+            int pos=photo.lastIndexOf('.');
+			if(pos!=-1&&pos<photo.length()-1)
+				icon=String.valueOf(user.getUserId()) + "_head"+photo.substring(pos);
+		}
+		request.setAttribute("icon",icon);
+		long userId=user.getUserId();
+		Pageable<Progress> progressPg=new Pageable<Progress>();
+		progressPg.setSearchProperty("user_id");
+		progressPg.setSearchValue(String.valueOf(userId));
+		List<Progress> userProgress=progressService.findByPager(progressPg).getRows();
+		Progress progress=null;
+		int courseOrder=0;
+		if(userProgress!=null&&userProgress.size()>0){
+			progress=userProgress.get(0);
+			Long courseId=progress.getCourseId();
+			Course course=courseDao.find(courseId);
+			courseOrder=course.getCourseOrder();
+		}
+		request.setAttribute("courseOrder",courseOrder);
+		Pageable<Course> pageable = new Pageable<Course>();
+		pageable.setOrderProperty("course_order");
+		pageable.setOrderDirection(Direction.asc);
+		Page<Course> page = courseService.findByPager(pageable);
+		List<Course> courseList = page.getRows();
+		Pageable<Chapter> chapterPg = new Pageable<Chapter>();
+		chapterPg.setOrderProperty("chapter_order");
+		Page<Chapter> chapterPage = chapterService.findByPager(chapterPg);
+		List<Chapter> chapterList = chapterPage.getRows();
+		Map<Chapter, List<Course>> ccMap = new HashMap<Chapter, List<Course>>();
+		int loop1 = 0;
+		int loop2 = 0;
+		while (loop1 < chapterList.size()) {
+			loop1++;
+			List<Course> cList = new ArrayList<Course>();
+			while (loop2 < courseList.size()) {
+				if (loop2 < (courseList.size() - 1)
+						&& courseList.get(loop2).getChapter() != courseList
+								.get(loop2 + 1).getChapter()) {
+					cList.add(courseList.get(loop2));
+					loop2++;
+					break;
+				}
+				cList.add(courseList.get(loop2));
+				loop2++;
+			}
+			ccMap.put(chapterList.get(loop1 - 1), cList);
+		}
+		request.setAttribute("chapterList", chapterList);
+		request.setAttribute("ccMap", ccMap);
 		return "courseIntro";
 	}
 
@@ -130,8 +199,15 @@ public class CourseController {
 		course.setExamPage(judgeController.getExam(courseId));
 		request.setAttribute("chapterList", chapterController.getAllChapter());
 		request.setAttribute("course", course);
+		/*
+		String jspPath = "../WEB-INF/jsp/exercise.jsp";
+		String target = request.getServletContext().getRealPath("\\")
+				+ "WEB-INF\\courses\\"+course.getCourseId()+".html";
+		JspToHtml.jsp2Html(jspPath, request, response, target);
+		*/
 		// 下边这段是获取当前课程的下一节课程
 		request.setAttribute("nextCourse", nextCourse);
+		request.setAttribute("staticPage","../courses/"+course.getCourseId()+".html");
 		// 更新记录
 		Progress progress = new Progress();
 		progress.setUserId(userId);
@@ -148,10 +224,6 @@ public class CourseController {
 			}
 			request.setAttribute("latestCourseId", nextCourse.getCourseId());
 		}
-		// String jspPath = "..\\WEB-INF\\jsp\\course_detail.jsp";
-		// String target = request.getServletContext().getRealPath("\\")
-		// + "page\\courses\\" + course.getCourseId() + ".html";
-		// JspToHtml.jsp2Html(jspPath, request, response, target);
 		return "course_detail";
 	}
 
@@ -314,6 +386,7 @@ public class CourseController {
 			HttpServletResponse response) {
 		Pageable<Course> pageable = new Pageable<Course>();
 		pageable.setOrderProperty("course_order");
+		pageable.setOrderDirection(Direction.asc);
 		Page<Course> page = courseService.findByPager(pageable);
 		List<Course> courseList = page.getRows();
 		Pageable<Chapter> chapterPg = new Pageable<Chapter>();
@@ -539,7 +612,7 @@ public class CourseController {
 	public Course getNextCourse(long courseId) {
 		Course course = new Course();
 		course.setCourseId(courseId);
-		course = courseService.find(course).get(0);
+		course=courseService.find(course).get(0);
 		long chapterId = course.getChapter();
 		Chapter chapter = new Chapter();
 		chapter.setChapterId(chapterId);

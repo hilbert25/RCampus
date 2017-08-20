@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +24,6 @@ import org.sunhp.rcampus.service.UserService;
 import org.sunhp.rcampus.vo.FileUpload;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import java.io.IOException;
@@ -109,8 +106,12 @@ public class UserController {
 			@RequestParam(value = "user_head", required = false) MultipartFile file)
 			throws IOException {
 		User user = userService.get(userId);
-		String filePath = file.getOriginalFilename().equals("") ? user
-				.getPhoto() : FileUpload.uploadFile(file, userId, request);
+		String filePath=null;
+		if(file!=null){
+			String path=request.getSession().getServletContext().getRealPath("/")+"page/assets/img/icons/";
+		    filePath = file.getOriginalFilename().equals("") ? user
+				.getPhoto() : FileUpload.uploadIcon(file, userId,path);
+		}
 		user.setUserName(request.getParameter("user_name"));
 		user.setEmail(request.getParameter("user_email"));
 		user.setPhoto(filePath);
@@ -222,5 +223,25 @@ public class UserController {
 			total += course.getCourseOrder();
 			return 100*total / courseService.getAll(new Course()).size();
 		}
+	}
+	@RequestMapping("/addAdmin")
+	@ResponseBody
+	public String addAdmin(User user){
+		Pageable<User> pageable = new Pageable<User>();
+		pageable.setSearchProperty("user_type");
+		pageable.setPageSize(Integer.MAX_VALUE);
+		pageable.setSearchValue(String.valueOf(user.getUserType()));
+		List<User> admins=userService.findByPager(pageable).getRows();
+		if(admins.size()>0){
+			for(User admin:admins){
+			if(admin.getEmail().equals(user.getEmail())){
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("result", "已经存在,请勿重复添加");
+			return JSON.toJSONString(jsonObject);
+			}
+		}
+	  }
+        userService.save(user);
+	    return JSON.toJSONString("添加成功:"+user);
 	}
 }

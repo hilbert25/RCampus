@@ -211,7 +211,7 @@
 						</div>
 					</div>
 				</section>
-				<div class="modal fade" class="modal fade" id="report" tabindex="-1"
+				<div class="modal fade"  id="report" tabindex="-1"
 					role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-backdrop fade in"></div>
 					<div role="dialog" class="modal modal-window in modal-dialog">

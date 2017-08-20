@@ -49,6 +49,12 @@
 						})
 			});
 </script>
+<style type="text/css">
+.icon-size{
+  width:70px;
+  height:70px;
+}
+</style>
 <body onload="init();">
 	<nav class="navbar navbar-default" role="navigation">
 		<div class="container-fluid"
@@ -75,12 +81,16 @@
 									<ul class="dropdown-menu" style="width: 250px"
 										aria-labelledby="dropdownMenu1">
 										<li><div class="row">
+	<c:choose>
+             <c:when test="${icon!=null}">
+                   <div class="col-xs-6"><img class="img-circle icon-size" style="margin-left:30px" src='./page/assets/img/icons/${icon}'></div>
+              </c:when>
+    <c:otherwise>
+    <div class="col-xs-6"><img class="img-circle icon-size" style="margin-left:30px" src="./page/assets/img/placeholder.png"></div>
+    </c:otherwise>
+    </c:choose>
 												<div class="col-xs-6">
-													<img class="img-circle" style="margin-left: 30px"
-														src="./page/assets/img/placeholder.png">
-												</div>
-												<div class="col-xs-6">
-													<span style="margin-left: -10px">ayahui3@126.com</span>
+													<span style="margin-left: -10px">${user.getUserName()}</span>
 												</div>
 											</div></li>
 										<li><a

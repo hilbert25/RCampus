@@ -13,13 +13,11 @@ import org.springframework.web.multipart.MultipartFile;
  * @version 创建时间：2017年7月3日 下午4:54:21 上传文件
  */
 public class FileUpload {
-	public static final String FILE_PATH = "/home/hht/code/web/RCampus/rcampus/src/main/webapp/page/assets/img/user_head";
-
-	public static String uploadFile(MultipartFile file, Long userId,
-			HttpServletRequest request) throws IOException {
+	public static String uploadIcon(MultipartFile file, Long userId,
+			String path) throws IOException {
 		String fileName = String.valueOf(userId) + "_head"
 				+ getFileType(file.getOriginalFilename());
-		File tempFile = new File(FILE_PATH, fileName);
+		File tempFile = new File(path, fileName);
 		if (!tempFile.getParentFile().exists()) {
 			tempFile.getParentFile().mkdir();
 		}
@@ -27,11 +25,11 @@ public class FileUpload {
 			tempFile.createNewFile();
 		}
 		file.transferTo(tempFile);
-		return "../../rcampus/page/assets/img/user_head/" + fileName;
+		return path + fileName;
 	}
 
-	public static File getFile(String fileName) {
-		return new File(FILE_PATH, fileName);
+	public static File getFile(String fileName,String path) {
+		return new File(path, fileName);
 	}
 
 	/**
